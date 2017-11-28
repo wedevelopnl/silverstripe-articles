@@ -1,0 +1,15 @@
+---
+Name: articles
+---
+
+SilverStripe\Security\Member:
+  extensions:
+    - TheWebmen\Articles\Extensions\MemberExtension
+
+TheWebmen\Articles\Pages\ArticlesPage:
+  defaults:
+    PageLength: 10
+
+TheWebmen\Articles\Pages\AuthorsPage:
+  defaults:
+    PageLength: 10
