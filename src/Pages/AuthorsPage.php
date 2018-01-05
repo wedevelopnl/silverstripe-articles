@@ -7,6 +7,8 @@ use SilverStripe\Lumberjack\Model\Lumberjack;
 
 class AuthorsPage extends \Page {
 
+    private static $table_name = 'TheWebmen_AuthorsPage';
+    
     private static $extensions = [
         Lumberjack::class,
     ];
