@@ -7,6 +7,8 @@ use SilverStripe\Forms\DropdownField;
 
 class AuthorPage extends \Page {
 
+    private static $table_name = 'TheWebmen_AuthorPage';
+    
     private static $singular_name = 'Author';
     private static $plural_name = 'Authors';
 
