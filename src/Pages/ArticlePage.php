@@ -10,6 +10,8 @@ use SilverStripe\Security\Member;
 
 class ArticlePage extends \Page
 {
+    
+    private static $table_name = 'TheWebmen_ArticlePage';
 
     private static $singular_name = 'Article';
     private static $plural_name = 'Articles';
