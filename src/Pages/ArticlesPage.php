@@ -7,6 +7,8 @@ use SilverStripe\Forms\NumericField;
 
 class ArticlesPage extends \Page {
 
+    private static $table_name = 'TheWebmen_ArticlesPage';
+    
     /**
      * @var array
      */
