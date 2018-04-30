@@ -7,6 +7,7 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Security\Member;
+use SilverStripe\Forms\DateField;
 
 class ArticlePage extends \Page
 {
