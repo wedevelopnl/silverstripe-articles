@@ -50,7 +50,7 @@ class ArticlePage extends \Page
 
         $allMembers = Member::get()->map()->toArray();
         $fields->addFieldToTab('Root.Main', DropdownField::create('AuthorID', 'Author', $allMembers)->setHasEmptyDefault(true), 'Content');
-        $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'));
+        $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'), 'Content');
         
         if ($this->exists()) {
             $relatedConfig = GridFieldConfig_RelationEditor::create();
