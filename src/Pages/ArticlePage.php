@@ -22,6 +22,13 @@ class ArticlePage extends \Page
     /**
      * @var array
      */
+    private static $db = [
+        'Date' => 'DBDatetime'
+    ];
+    
+    /**
+     * @var array
+     */
     private static $has_one = array(
         'Author' => Member::class
     );
@@ -42,7 +49,8 @@ class ArticlePage extends \Page
 
         $allMembers = Member::get()->map()->toArray();
         $fields->addFieldToTab('Root.Main', DropdownField::create('AuthorID', 'Author', $allMembers)->setHasEmptyDefault(true), 'Content');
-
+        $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'));
+        
         if ($this->exists()) {
             $relatedConfig = GridFieldConfig_RelationEditor::create();
             $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
