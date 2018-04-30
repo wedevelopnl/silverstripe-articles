@@ -7,6 +7,7 @@ SilverStripe\Security\Member:
     - TheWebmen\Articles\Extensions\MemberExtension
 
 TheWebmen\Articles\Pages\ArticlesPage:
+  hide_from_cms_tree: false
   defaults:
     PageLength: 10
 
