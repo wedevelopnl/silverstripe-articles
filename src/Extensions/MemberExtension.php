@@ -6,6 +6,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\ORM\DataExtension;
 use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\AuthorPage;
 
 class MemberExtension extends DataExtension {
 
