@@ -9,11 +9,12 @@ use TheWebmen\Articles\Pages\ArticlePage;
 
 class MemberExtension extends DataExtension {
 
-    /**
-     * @var array
-     */
     private static $has_many = array(
         'Articles' => ArticlePage::class
+    );
+    
+    private static $belongs_to = array(
+        'AuthorPage' => AuthorPage::class
     );
 
     /**
