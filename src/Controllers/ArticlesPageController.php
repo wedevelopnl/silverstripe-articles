@@ -3,7 +3,10 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Control\RSS\RSSFeed;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\SS_List;
 
 class ArticlesPageController extends \PageController {
 
@@ -51,11 +54,21 @@ class ArticlesPageController extends \PageController {
     }
 
     /**
+     * @return SS_List
+     */
+    public function Articles()
+    {
+        $list = ArticlePage::get()->filter('ParentID', $this->ID);
+        $this->extend('updateArticles', $list);
+        return $list;
+    }
+
+    /**
      * @return PaginatedList
      */
     public function PaginatedArticles()
     {
-        $list = ArticlePage::get()->filter('ParentID', $this->ID);
+        $list = $this->Articles();
         $pagination = PaginatedList::create($list, $this->getRequest());
         $pagination->setPageLength($this->PageLength);
         return $pagination;
