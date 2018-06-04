@@ -8,7 +8,8 @@ use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
 
-class ArticlesPageController extends \PageController {
+class ArticlesPageController extends \PageController
+{
 
     /**
      * @var array
@@ -59,7 +60,9 @@ class ArticlesPageController extends \PageController {
     public function Articles()
     {
         $list = ArticlePage::get()->filter('ParentID', $this->ID);
-        $this->extend('updateArticles', $list);
+        if ($this->hasMethod('updateArticles')) {
+            $list = $this->updateArticles($list);
+        }
         return $list;
     }
 
