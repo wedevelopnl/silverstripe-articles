@@ -74,6 +74,9 @@ class ArticlesPageController extends \PageController
         $list = $this->Articles();
         $pagination = PaginatedList::create($list, $this->getRequest());
         $pagination->setPageLength($this->PageLength);
+        if ($this->hasMethod('updatePaginatedArticles')) {
+            $pagination = $this->updatePaginatedArticles($pagination);
+        }
         return $pagination;
     }
 
