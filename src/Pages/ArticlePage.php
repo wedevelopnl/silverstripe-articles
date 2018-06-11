@@ -40,6 +40,8 @@ class ArticlePage extends \Page
     private static $many_many = array(
         'RelatedArticles' => ArticlePage::class
     );
+    
+    private static $default_sort = 'Date';
 
     /**
      * @return \SilverStripe\Forms\FieldList
