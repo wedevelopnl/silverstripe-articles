@@ -1,10 +1,10 @@
 nl:
   TheWebmen\Articles\Pages\ArticlePage:
-    PLURALNAME: 'Artikel'
+    PLURALNAME: 'Artikelen'
     PLURALS:
       one: 'Een artikel'
       other: '{count} artikelen'
-    SINGULARNAME: 'Artikelen'
+    SINGULARNAME: 'Artikel'
     has_one_Author: 'Auteur'
     many_many_RelatedArticles: 'Gerelateerde artikelen'
     RELATED: 'Gerelateerd'
