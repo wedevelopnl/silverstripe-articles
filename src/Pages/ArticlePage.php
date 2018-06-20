@@ -41,7 +41,7 @@ class ArticlePage extends \Page
         'RelatedArticles' => ArticlePage::class
     );
     
-    private static $default_sort = 'Date';
+    private static $default_sort = 'Date DESC';
 
     /**
      * @return \SilverStripe\Forms\FieldList
