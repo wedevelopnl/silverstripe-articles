@@ -5,6 +5,12 @@ Article
     $Author.Name
 <% end_if %>
 
+<ul>
+    <% loop $Categories %>
+        <li><a href="$Link">$Title</a></li>
+    <% end_loop %>
+</ul>
+
 <% if $RelatedArticles %>
     <% loop $RelatedArticles %>
         <h2>$Title</h2>

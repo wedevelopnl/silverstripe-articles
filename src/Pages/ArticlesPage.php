@@ -5,6 +5,12 @@ namespace TheWebmen\Articles\Pages;
 use SilverStripe\Lumberjack\Model\Lumberjack;
 use SilverStripe\Forms\NumericField;
 
+/**
+ * Class ArticlesPage
+ * @package TheWebmen\Articles\Pages
+ *
+ * @property int $PageLength
+ */
 class ArticlesPage extends \Page {
 
     private static $table_name = 'TheWebmen_ArticlesPage';
@@ -20,7 +26,8 @@ class ArticlesPage extends \Page {
      * @var array
      */
     private static $allowed_children = [
-        ArticlePage::class
+        ArticlePage::class,
+        CategoryPage::class
     ];
     private static $default_child = ArticlePage::class;
 

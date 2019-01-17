@@ -80,4 +80,12 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
+    /**
+     * @return SS_List
+     */
+    public function Categories()
+    {
+        $list = CategoryPage::get()->filter('ParentID', $this->ID);
+        return $list;
+    }
 }

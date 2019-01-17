@@ -1,10 +1,4 @@
 <ul>
-    <% loop $Categories %>
-        <li><a href="$Link">$Title</a></li>
-    <% end_loop %>
-</ul>
-
-<ul>
     <% loop $PaginatedArticles %>
         <li><a href="$Link">$Title</a></li>
     <% end_loop %>
