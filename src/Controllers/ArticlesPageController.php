@@ -24,7 +24,7 @@ class ArticlesPageController extends \PageController
     public function init()
     {
         parent::init();
-        RSSFeed::linkToFeed($this->Link() . 'rss', _t(self::class . '.RSS_TITLE', '10 Most Recently Updated Articles'));
+        RSSFeed::linkToFeed($this->Link('rss'), _t(self::class . '.RSS_TITLE', '10 Most Recently Updated Articles'));
     }
 
     /**
