@@ -10,6 +10,7 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Security\Member;
 use SilverStripe\Forms\DateField;
+use SilverStripe\Versioned\GridFieldArchiveAction;
 
 /**
  * Class ArticlePage
@@ -75,6 +76,7 @@ class ArticlePage extends \Page
         
         if ($this->exists()) {
             $relatedConfig = GridFieldConfig_RelationEditor::create();
+            $relatedConfig->removeComponentsByType(GridFieldArchiveAction::class);
             $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
             $relatedConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
             $fields->findOrMakeTab('Root.Related', _t(self::class . '.RELATED', 'Related'));
