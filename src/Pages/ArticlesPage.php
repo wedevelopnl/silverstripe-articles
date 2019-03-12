@@ -2,6 +2,7 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Lumberjack\Model\Lumberjack;
 use SilverStripe\Forms\NumericField;
 
@@ -14,7 +15,7 @@ use SilverStripe\Forms\NumericField;
 class ArticlesPage extends \Page {
 
     private static $table_name = 'TheWebmen_ArticlesPage';
-    
+
     /**
      * @var array
      */
@@ -42,15 +43,15 @@ class ArticlesPage extends \Page {
      * @return \SilverStripe\Forms\FieldList
      */
     public function getCMSFields(){
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $childPagesField = $fields->dataFieldByName('ChildPages');
+            if($childPagesField){
+                $childPagesField->setTitle('');
+                $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
+            }
+        });
 
-        $childPagesField = $fields->dataFieldByName('ChildPages');
-        if($childPagesField){
-            $childPagesField->setTitle('');
-            $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
-        }
-
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**

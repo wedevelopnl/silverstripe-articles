@@ -3,6 +3,7 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
@@ -24,7 +25,7 @@ use SilverStripe\Versioned\GridFieldArchiveAction;
  */
 class ArticlePage extends \Page
 {
-    
+
     private static $table_name = 'TheWebmen_ArticlePage';
 
     private static $singular_name = 'Article';
@@ -39,7 +40,7 @@ class ArticlePage extends \Page
     private static $db = [
         'Date' => 'DBDatetime'
     ];
-    
+
     /**
      * @var array
      */
@@ -68,28 +69,28 @@ class ArticlePage extends \Page
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $allMembers = Member::get()->map()->toArray();
+            $fields->addFieldToTab('Root.Main', DropdownField::create('AuthorID', 'Author', $allMembers)->setHasEmptyDefault(true), 'Content');
+            $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'), 'Content');
 
-        $allMembers = Member::get()->map()->toArray();
-        $fields->addFieldToTab('Root.Main', DropdownField::create('AuthorID', 'Author', $allMembers)->setHasEmptyDefault(true), 'Content');
-        $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'), 'Content');
-        
-        if ($this->exists()) {
-            $relatedConfig = GridFieldConfig_RelationEditor::create();
-            $relatedConfig->removeComponentsByType(GridFieldArchiveAction::class);
-            $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
-            $relatedConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
-            $fields->findOrMakeTab('Root.Related', _t(self::class . '.RELATED', 'Related'));
-            $fields->addFieldToTab('Root.Related', GridField::create('RelatedArticles', _t(self::class . '.RELATED', 'Related'), $this->RelatedArticles(), $relatedConfig));
+            if ($this->exists()) {
+                $relatedConfig = GridFieldConfig_RelationEditor::create();
+                $relatedConfig->removeComponentsByType(GridFieldArchiveAction::class);
+                $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
+                $relatedConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
+                $fields->findOrMakeTab('Root.Related', _t(self::class . '.RELATED', 'Related'));
+                $fields->addFieldToTab('Root.Related', GridField::create('RelatedArticles', _t(self::class . '.RELATED', 'Related'), $this->RelatedArticles(), $relatedConfig));
 
-            $categoriesConfig = GridFieldConfig_RelationEditor::create();
-            $categoriesSearchList = CategoryPage::get()->filter('ParentID', $this->ParentID);
-            $categoriesConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($categoriesSearchList);
-            $fields->findOrMakeTab('Root.Categories', _t(self::class . '.CATEGORIES', 'Categories'));
-            $fields->addFieldToTab('Root.Categories', GridField::create('Categories', _t(self::class . '.CATEGORIES', 'Categories'), $this->Categories(), $categoriesConfig));
-        }
+                $categoriesConfig = GridFieldConfig_RelationEditor::create();
+                $categoriesSearchList = CategoryPage::get()->filter('ParentID', $this->ParentID);
+                $categoriesConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($categoriesSearchList);
+                $fields->findOrMakeTab('Root.Categories', _t(self::class . '.CATEGORIES', 'Categories'));
+                $fields->addFieldToTab('Root.Categories', GridField::create('Categories', _t(self::class . '.CATEGORIES', 'Categories'), $this->Categories(), $categoriesConfig));
+            }
+        });
 
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**

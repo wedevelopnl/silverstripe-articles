@@ -3,6 +3,7 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
@@ -49,18 +50,18 @@ class CategoryPage extends \Page
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            if ($this->exists()) {
+                $fields->addFieldToTab('Root.Articles', NumericField::create('PageLength'));
+                $articlesConfig = GridFieldConfig_RelationEditor::create();
+                $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID);
+                $articlesConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
+                $fields->findOrMakeTab('Root.Articles', _t(self::class . '.ARTICLES', 'Articles'));
+                $fields->addFieldToTab('Root.Articles', GridField::create('Articles', _t(self::class . '.ARTICLES', 'Articles'), $this->Articles(), $articlesConfig));
+            }
+        });
 
-        if ($this->exists()) {
-            $fields->addFieldToTab('Root.Articles', NumericField::create('PageLength'));
-            $articlesConfig = GridFieldConfig_RelationEditor::create();
-            $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID);
-            $articlesConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
-            $fields->findOrMakeTab('Root.Articles', _t(self::class . '.ARTICLES', 'Articles'));
-            $fields->addFieldToTab('Root.Articles', GridField::create('Articles', _t(self::class . '.ARTICLES', 'Articles'), $this->Articles(), $articlesConfig));
-        }
-
-        return $fields;
+        return parent::getCMSFields();
     }
 
 }
