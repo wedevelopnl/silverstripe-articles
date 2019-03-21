@@ -43,15 +43,13 @@ class ArticlesPage extends \Page {
      * @return \SilverStripe\Forms\FieldList
      */
     public function getCMSFields(){
-        $this->beforeUpdateCMSFields(function (FieldList $fields) {
-            $childPagesField = $fields->dataFieldByName('ChildPages');
-            if($childPagesField){
-                $childPagesField->setTitle('');
-                $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
-            }
-        });
-
-        return parent::getCMSFields();
+        $fields = parent::getCMSFields();
+        $childPagesField = $fields->dataFieldByName('ChildPages');
+        if($childPagesField){
+            $childPagesField->setTitle('');
+            $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
+        }
+        return $fields;
     }
 
     /**
