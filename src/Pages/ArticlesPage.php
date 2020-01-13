@@ -14,6 +14,7 @@ use SilverStripe\Forms\NumericField;
  */
 class ArticlesPage extends \Page {
 
+    private static $icon_class = 'font-icon-p-articles';
     private static $table_name = 'TheWebmen_ArticlesPage';
 
     /**
