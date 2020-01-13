@@ -8,6 +8,7 @@ use SilverStripe\Lumberjack\Model\Lumberjack;
 
 class AuthorsPage extends \Page {
 
+    private static $icon_class = 'font-icon-torsos-all';
     private static $table_name = 'TheWebmen_AuthorsPage';
 
     private static $extensions = [
