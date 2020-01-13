@@ -30,6 +30,7 @@ class ArticlePage extends \Page
 
     private static $singular_name = 'Article';
     private static $plural_name = 'Articles';
+    private static $icon_class = 'font-icon-p-article';
 
     private static $show_in_sitetree = false;
     private static $allowed_children = [];
