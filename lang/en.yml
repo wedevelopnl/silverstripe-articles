@@ -1,10 +1,10 @@
 en:
   TheWebmen\Articles\Pages\ArticlePage:
-    PLURALNAME: 'Article'
+    PLURALNAME: 'Articles'
     PLURALS:
       one: 'A article'
       other: '{count} articles'
-    SINGULARNAME: 'Articles'
+    SINGULARNAME: 'Article'
     has_one_Author: 'Author'
     many_many_RelatedArticles: 'Related articles'
     RELATED: 'Related'
