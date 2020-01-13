@@ -12,6 +12,7 @@ class AuthorPage extends \Page {
 
     private static $singular_name = 'Author';
     private static $plural_name = 'Authors';
+    private static $icon_class = 'font-icon-torso';
 
     private static $show_in_sitetree = false;
     private static $allowed_children = [];
