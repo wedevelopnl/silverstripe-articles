@@ -23,6 +23,7 @@ use SilverStripe\Forms\NumericField;
 class CategoryPage extends \Page
 {
 
+    private static $icon_class = 'font-icon-p-articles';
     private static $table_name = 'TheWebmen_CategoryPage';
 
     private static $singular_name = 'Category';
