@@ -5,7 +5,6 @@ nl:
       one: 'Een artikel'
       other: '{count} artikelen'
     SINGULARNAME: 'Artikel'
-    has_one_Author: 'Auteur'
     many_many_RelatedArticles: 'Gerelateerde artikelen'
     RELATED: 'Gerelateerd'
   Webmen\Articles\Pages\ArticlesPage:
@@ -15,21 +14,6 @@ nl:
       other: '{count} artiekelen overzicht paginas'
     SINGULARNAME: 'Artikelen overzicht pagina'
     ARTICLES: 'Artikelen'
-    db_PageLength: 'Pagina lengte'
-  Webmen\Articles\Pages\AuthorPage:
-    PLURALNAME: 'Auteur'
-    PLURALS:
-      one: 'Een auteur'
-      other: '{count} auteurs'
-    SINGULARNAME: 'Auteurs'
-    has_one_Author: 'Auteur'
-  Webmen\Articles\Pages\AuthorsPage:
-    PLURALNAME: 'Auteur overzicht paginas'
-    PLURALS:
-      one: 'Een auteur overzicht pagina'
-      other: '{count} auteur overzicht paginas'
-    SINGULARNAME: 'Auteur overzicht pagina'
-    AUTHORS: 'Auteurs'
     db_PageLength: 'Pagina lengte'
   Webmen\Articles\Pages\ArticlesPageController:
     RSS_TITLE: '10 meest recent geupdate artikelen'

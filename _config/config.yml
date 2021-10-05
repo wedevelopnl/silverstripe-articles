@@ -1,7 +1,10 @@
 ---
 Name: articles
+After:
+  - 'elementalgrid'
 ---
 Webmen\Articles\Pages\ArticlesPage:
-  hide_from_cms_tree: false
   defaults:
     PageLength: 10
+  extensions:
+    - SilverStripe\Lumberjack\Model\LumberJack

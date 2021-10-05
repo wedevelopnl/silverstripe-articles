@@ -2,34 +2,16 @@ en:
   Webmen\Articles\Pages\ArticlePage:
     PLURALNAME: 'Articles'
     PLURALS:
-      one: 'A article'
+      one: 'An article'
       other: '{count} articles'
     SINGULARNAME: 'Article'
-    has_one_Author: 'Author'
-    many_many_RelatedArticles: 'Related articles'
-    RELATED: 'Related'
   Webmen\Articles\Pages\ArticlesPage:
-    PLURALNAME: 'Article listing pages'
+    PLURALNAME: 'Article overview pages'
     PLURALS:
-      one: 'A article listing page'
-      other: '{count} article listing pages'
-    SINGULARNAME: 'Article listing page'
+      one: 'An article overview page'
+      other: '{count} article overview pages'
+    SINGULARNAME: 'Article overview page'
     ARTICLES: 'Articles'
-    db_PageLength: 'Page length'
-  Webmen\Articles\Pages\AuthorPage:
-    PLURALNAME: 'Author'
-    PLURALS:
-      one: 'A author'
-      other: '{count} authors'
-    SINGULARNAME: 'Authors'
-    has_one_Author: 'Author'
-  Webmen\Articles\Pages\AuthorsPage:
-    PLURALNAME: 'Author listing pages'
-    PLURALS:
-      one: 'A author listing page'
-      other: '{count} author listing pages'
-    SINGULARNAME: 'Author listing page'
-    AUTHORS: 'Authors'
     db_PageLength: 'Page length'
   Webmen\Articles\Pages\ArticlesPageController:
     RSS_TITLE: '10 Most Recently Updated Articles'

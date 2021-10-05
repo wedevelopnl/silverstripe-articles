@@ -15,7 +15,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Forms\DateField;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 
-class ArticlePage extends SiteTree
+class ArticlePage extends \Page
 {
     /***
      * @var string
@@ -50,7 +50,9 @@ class ArticlePage extends SiteTree
     /**
      * @var array
      */
-    private static $db = [];
+    private static $db = [
+        'Date' => 'Date'
+    ];
 
     /***
      * @var string
@@ -62,23 +64,8 @@ class ArticlePage extends SiteTree
      */
     public function getCMSFields()
     {
-//        $this->beforeUpdateCMSFields(
-//            function (FieldList $fields) {
-//            }
-//        );
-
         $fields = parent::getCMSFields();
-
-        $fields->addFieldsToTab('Root.Main', new LiteralField('Test', 'Test'));
 
         return $fields;
     }
-
-    /**
-     * @return string
-     */
-    public function getLumberjackTitle(){
-        return _t(self::class . '.Article', 'Article');
-    }
-
 }

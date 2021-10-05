@@ -13,14 +13,10 @@ use SilverStripe\Forms\NumericField;
  */
 class ArticlesPage extends \Page {
 
-    private static $table_name = 'Webmen_ArticlesPage';
-    
-    /**
-     * @var array
+    /***
+     * @var string
      */
-    private static $extensions = [
-        Lumberjack::class,
-    ];
+    private static $table_name = 'Webmen_ArticlesPage';
 
     /**
      * @var array
@@ -29,6 +25,7 @@ class ArticlesPage extends \Page {
         ArticlePage::class,
         CategoryPage::class
     ];
+
     private static $default_child = ArticlePage::class;
 
     /**
@@ -57,7 +54,7 @@ class ArticlesPage extends \Page {
      * @return string
      */
     public function getLumberjackTitle(){
-        return _t(self::class . '.ARTICLES', 'Articles');
+        return _t(self::class . '.ARTICLES', 'Articlesf');
     }
 
 }
