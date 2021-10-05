@@ -1,22 +1,20 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace Webmen\Articles\Pages;
 
-use SilverStripe\Forms\FieldList;
 use SilverStripe\Lumberjack\Model\Lumberjack;
 use SilverStripe\Forms\NumericField;
 
 /**
  * Class ArticlesPage
- * @package TheWebmen\Articles\Pages
+ * @package Webmen\Articles\Pages
  *
  * @property int $PageLength
  */
 class ArticlesPage extends \Page {
 
-    private static $icon_class = 'font-icon-p-articles';
-    private static $table_name = 'TheWebmen_ArticlesPage';
-
+    private static $table_name = 'Webmen_ArticlesPage';
+    
     /**
      * @var array
      */
@@ -45,11 +43,13 @@ class ArticlesPage extends \Page {
      */
     public function getCMSFields(){
         $fields = parent::getCMSFields();
+
         $childPagesField = $fields->dataFieldByName('ChildPages');
         if($childPagesField){
             $childPagesField->setTitle('');
             $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
         }
+
         return $fields;
     }
 

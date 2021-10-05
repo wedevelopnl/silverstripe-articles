@@ -1,5 +1,5 @@
 nl:
-  TheWebmen\Articles\Pages\ArticlePage:
+  Webmen\Articles\Pages\ArticlePage:
     PLURALNAME: 'Artikelen'
     PLURALS:
       one: 'Een artikel'
@@ -8,7 +8,7 @@ nl:
     has_one_Author: 'Auteur'
     many_many_RelatedArticles: 'Gerelateerde artikelen'
     RELATED: 'Gerelateerd'
-  TheWebmen\Articles\Pages\ArticlesPage:
+  Webmen\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Artikelen overzicht paginas'
     PLURALS:
       one: 'een artikelen overzicht pagina'
@@ -16,14 +16,14 @@ nl:
     SINGULARNAME: 'Artikelen overzicht pagina'
     ARTICLES: 'Artikelen'
     db_PageLength: 'Pagina lengte'
-  TheWebmen\Articles\Pages\AuthorPage:
+  Webmen\Articles\Pages\AuthorPage:
     PLURALNAME: 'Auteur'
     PLURALS:
       one: 'Een auteur'
       other: '{count} auteurs'
     SINGULARNAME: 'Auteurs'
     has_one_Author: 'Auteur'
-  TheWebmen\Articles\Pages\AuthorsPage:
+  Webmen\Articles\Pages\AuthorsPage:
     PLURALNAME: 'Auteur overzicht paginas'
     PLURALS:
       one: 'Een auteur overzicht pagina'
@@ -31,8 +31,8 @@ nl:
     SINGULARNAME: 'Auteur overzicht pagina'
     AUTHORS: 'Auteurs'
     db_PageLength: 'Pagina lengte'
-  TheWebmen\Articles\Pages\ArticlesPageController:
+  Webmen\Articles\Pages\ArticlesPageController:
     RSS_TITLE: '10 meest recent geupdate artikelen'
     RSS_DESCRIPTION: 'Toon een lijst van de 10 meest recent geupdate artikelen'
-  TheWebmen\Articles\Extensions:
+  Webmen\Articles\Extensions:
     has_many_Articles: 'Artikelen'

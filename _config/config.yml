@@ -1,16 +1,7 @@
 ---
 Name: articles
 ---
-
-SilverStripe\Security\Member:
-  extensions:
-    - TheWebmen\Articles\Extensions\MemberExtension
-
-TheWebmen\Articles\Pages\ArticlesPage:
+Webmen\Articles\Pages\ArticlesPage:
   hide_from_cms_tree: false
-  defaults:
-    PageLength: 10
-
-TheWebmen\Articles\Pages\AuthorsPage:
   defaults:
     PageLength: 10

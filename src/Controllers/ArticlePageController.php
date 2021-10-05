@@ -1,7 +1,8 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace Webmen\Articles\Pages;
 
-class ArticlePageController extends \PageController {
+class ArticlePageController extends \PageController
+{
 
 }
