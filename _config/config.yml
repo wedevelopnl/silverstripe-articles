@@ -1,7 +1,5 @@
 ---
 Name: articles
-After:
-  - 'elementalgrid'
 ---
 Webmen\Articles\Pages\ArticlesPage:
   defaults:

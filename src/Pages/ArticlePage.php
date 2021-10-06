@@ -2,18 +2,15 @@
 
 namespace Webmen\Articles\Pages;
 
+use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Forms\DropdownField;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\DatetimeField;
+use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
-use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\ORM\FieldType\DBDatetime;
-use SilverStripe\ORM\ManyManyList;
-use SilverStripe\Security\Member;
-use SilverStripe\Forms\DateField;
-use SilverStripe\Versioned\GridFieldArchiveAction;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
 
 class ArticlePage extends \Page
 {
@@ -51,13 +48,36 @@ class ArticlePage extends \Page
      * @var array
      */
     private static $db = [
-        'Date' => 'Date'
+        'AuthorName' => 'Varchar(255)',
+        'Subtitle' => 'Varchar(255)',
+        'PublicationDate' => 'Datetime',
+        'UpdatedDate' => 'Datetime',
+        'ReadingTime' => 'Int(3)',
+        'TeaserText' => 'HTMLText',
+    ];
+
+    /***
+     * @var array
+     */
+    private static $has_one = [
+        'Thumbnail' => Image::class
     ];
 
     /***
      * @var string
      */
-    private static $default_sort = 'Date DESC';
+    private static $default_sort = 'PublicationDate DESC';
+
+    private function getInsertBeforeFieldname()
+    {
+        $gridInstalled = Config::inst()->exists('DNADesign\\Elemental\\Models\\ElementalArea');
+
+        if ($gridInstalled && $this->owner->UseElementalGrid) {
+            return 'ElementalArea';
+        }
+
+        return 'Content';
+    }
 
     /***
      * @return FieldList
@@ -65,6 +85,36 @@ class ArticlePage extends \Page
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
+
+        $fields->removeByName('MenuTitle');
+        $fields->renameField('Title', 'Title');
+
+        $fields->insertAfter(
+            'Title',
+            TextField::create('Subtitle', 'Subtitle')
+        );
+
+        if ($fields->dataFieldByName('ElementalArea')) {
+            $insertBefore = 'ElementalArea';
+        } else {
+            $insertBefore = 'Content';
+        }
+
+        $fields->addFieldsToTab(
+            'Root.Main',
+            [
+                FieldGroup::create(
+                    [
+                        TextField::create('ReadingTime', 'Reading time (min.)'),
+                        DatetimeField::create('PublicationDate', 'Publication date'),
+                        DatetimeField::create('UpdatedDate', 'Updated date'),
+                    ]
+                )->setName('Configuration'),
+                TextField::create('AuthorName', 'Author name'),
+                HTMLEditorField::create('TeaserText', 'Teaser text')
+                    ->setRows(5)
+            ]
+        , $insertBefore);
 
         return $fields;
     }

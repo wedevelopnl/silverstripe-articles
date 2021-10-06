@@ -18,12 +18,27 @@ class ArticlesPage extends \Page {
      */
     private static $table_name = 'Webmen_ArticlesPage';
 
+    /***
+     * @var string
+     */
+    private static $singular_name = 'Articles overview page';
+
+    /***
+     * @var string
+     */
+    private static $plural_name = 'Articles overview pages';
+
+    /***
+     * @var string
+     */
+    private static $icon_class = 'font-icon-p-article';
+
     /**
      * @var array
      */
     private static $allowed_children = [
         ArticlePage::class,
-        CategoryPage::class
+        ThemePage::class
     ];
 
     private static $default_child = ArticlePage::class;

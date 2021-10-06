@@ -5,18 +5,13 @@ nl:
       one: 'Een artikel'
       other: '{count} artikelen'
     SINGULARNAME: 'Artikel'
-    many_many_RelatedArticles: 'Gerelateerde artikelen'
-    RELATED: 'Gerelateerd'
   Webmen\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Artikelen overzicht paginas'
     PLURALS:
-      one: 'een artikelen overzicht pagina'
-      other: '{count} artiekelen overzicht paginas'
+      one: 'Een artikelen overzicht pagina'
+      other: '{count} artikelen overzicht paginas'
     SINGULARNAME: 'Artikelen overzicht pagina'
     ARTICLES: 'Artikelen'
     db_PageLength: 'Pagina lengte'
-  Webmen\Articles\Pages\ArticlesPageController:
-    RSS_TITLE: '10 meest recent geupdate artikelen'
-    RSS_DESCRIPTION: 'Toon een lijst van de 10 meest recent geupdate artikelen'
   Webmen\Articles\Extensions:
     has_many_Articles: 'Artikelen'

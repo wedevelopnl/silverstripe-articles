@@ -13,8 +13,5 @@ en:
     SINGULARNAME: 'Article overview page'
     ARTICLES: 'Articles'
     db_PageLength: 'Page length'
-  Webmen\Articles\Pages\ArticlesPageController:
-    RSS_TITLE: '10 Most Recently Updated Articles'
-    RSS_DESCRIPTION: 'Shows a list of the 10 most recently updated articles.'
   Webmen\Articles\Extensions:
     has_many_Articles: 'Articles'
