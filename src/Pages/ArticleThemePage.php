@@ -9,7 +9,7 @@ class ArticleThemePage extends \Page
     /***
      * @var string
      */
-    private static $table_name = 'Webmen_ThemePage';
+    private static $table_name = 'TheWebmen_ArticleThemePage';
 
     /***
      * @var string
@@ -35,6 +35,13 @@ class ArticleThemePage extends \Page
      * @var array
      */
     private static $db = [];
+
+    /***
+     * @var array
+     */
+    private static $many_many = [
+        'ArticlePages' => ArticlePage::class,
+    ];
 
     /***
      * @return FieldList

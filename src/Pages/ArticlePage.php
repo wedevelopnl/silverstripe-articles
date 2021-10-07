@@ -2,28 +2,14 @@
 
 namespace TheWebmen\Articles\Pages;
 
-use App\Pages\ArticleTagPage;
-use App\Pages\ArticleThemePage;
-use App\Pages\ArticleTypePage;
 use SilverStripe\Assets\Image;
-use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Control\Controller;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Forms\CompositeField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
-use SilverStripe\Forms\ListboxField;
-use SilverStripe\Forms\MultiSelectField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\TagField\TagField;
-use Symbiote\MultiValueField\Fields\MultiValueDropdownField;
-use Symbiote\MultiValueField\Fields\MultiValueListField;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 
@@ -32,7 +18,7 @@ class ArticlePage extends \Page
     /***
      * @var string
      */
-    private static $table_name = 'Webmen_ArticlePage';
+    private static $table_name = 'TheWebmen_ArticlePage';
 
     /***
      * @var string
@@ -84,6 +70,7 @@ class ArticlePage extends \Page
      */
     private static $belongs_many_many = [
         'Tags' => Tag::class,
+        'Themes' => ArticleThemePage::class,
     ];
 
     /***
@@ -130,6 +117,16 @@ class ArticlePage extends \Page
         $fields->insertAfter(
             'ArticleMetadata',
             TagField::create(
+                'Themes',
+                'Themes',
+                ArticleThemePage::get()->filter('ParentID', $this->owner->Parent()->ID),
+                $this->Themes()
+            )->setCanCreate(false)
+        );
+
+        $fields->insertAfter(
+            'Themes',
+            TagField::create(
                 'Tags',
                 'Tags',
                 Tag::get()->filter(
@@ -155,7 +152,7 @@ class ArticlePage extends \Page
         );
 
         $fields->insertAfter(
-            'ArticleMetadata',
+            'TypeID',
             HTMLEditorField::create('TeaserText', 'Teaser text')
                 ->setRows(5)
         );

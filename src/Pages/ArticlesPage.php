@@ -24,7 +24,7 @@ class ArticlesPage extends \Page
     /***
      * @var string
      */
-    private static $table_name = 'Webmen_ArticlesPage';
+    private static $table_name = 'TheWebmen_ArticlesPage';
 
     /***
      * @var string
