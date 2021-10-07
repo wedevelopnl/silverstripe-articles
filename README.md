@@ -12,6 +12,9 @@ Article page type, can be used as news system or as a blog
 composer require thewebmen/silverstripe-articles
 ```
 
+# License
+See [License](LICENSE)
+
 ## Maintainers
 * [Webmen](https://www.webmen.nl/) <development@webmen.nl>
 
