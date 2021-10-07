@@ -1,12 +1,12 @@
 <?php
 
-namespace Webmen\Articles\Models;
+namespace TheWebmen\Articles\Models;
 
 use SilverStripe\ORM\DataObject;
-use Webmen\Articles\Pages\ArticlePage;
-use Webmen\Articles\Traits\ArticleRelationObjectTrait;
+use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Traits\ArticleRelationObjectTrait;
 
-class ArticleType extends DataObject
+class Type extends DataObject
 {
     use ArticleRelationObjectTrait;
 
@@ -18,12 +18,12 @@ class ArticleType extends DataObject
     /***
      * @var string
      */
-    private static $singular_name = 'Article type';
+    private static $singular_name = 'Type';
 
     /***
      * @var string
      */
-    private static $plural_name = 'Article types';
+    private static $plural_name = 'Types';
 
     /***
      * @var string

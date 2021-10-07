@@ -1,9 +1,7 @@
 ---
 Name: articles
-After:
-  'elementalgrid'
 ---
-Webmen\Articles\Pages\ArticlesPage:
+TheWebmen\Articles\Pages\ArticlesPage:
   defaults:
     PageLength: 10
   extensions:

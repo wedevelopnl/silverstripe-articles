@@ -1,11 +1,11 @@
 nl:
-  Webmen\Articles\Pages\ArticlePage:
+  TheWebmen\Articles\Pages\ArticlePage:
     PLURALNAME: 'Artikelen'
     PLURALS:
       one: 'Een artikel'
       other: '{count} artikelen'
     SINGULARNAME: 'Artikel'
-  Webmen\Articles\Pages\ArticlesPage:
+  TheWebmen\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Artikelen overzicht paginas'
     PLURALS:
       one: 'Een artikelen overzicht pagina'
@@ -13,9 +13,9 @@ nl:
     SINGULARNAME: 'Artikelen overzicht pagina'
     ARTICLES: 'Artikelen'
     db_PageLength: 'Pagina lengte'
-  Webmen\Articles\Extensions:
+  TheWebmen\Articles\Extensions:
     has_many_Articles: 'Artikelen'
-  Webmen\Articles\Pages\ArticleThemePage:
+  TheWebmen\Articles\Pages\ArticleThemePage:
     PLURALNAME: "Thema's"
     PLURALS:
       one: 'Een thema'

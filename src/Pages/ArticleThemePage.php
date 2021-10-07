@@ -1,6 +1,6 @@
 <?php
 
-namespace Webmen\Articles\Pages;
+namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\FieldList;
 

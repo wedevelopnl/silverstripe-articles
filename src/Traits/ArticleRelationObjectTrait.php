@@ -1,11 +1,11 @@
 <?php
 
-namespace Webmen\Articles\Traits;
+namespace TheWebmen\Articles\Traits;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\Forms\FieldList;
-use Webmen\Articles\Pages\ArticlePage;
-use Webmen\Articles\Pages\ArticlesPage;
+use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticlesPage;
 
 trait ArticleRelationObjectTrait
 {

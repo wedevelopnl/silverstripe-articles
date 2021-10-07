@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Webmen\\Articles\\": "src/"
+            "TheWebmen\\Articles\\": "src/"
         }
     }
 }

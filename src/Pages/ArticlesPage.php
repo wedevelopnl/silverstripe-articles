@@ -1,6 +1,6 @@
 <?php
 
-namespace Webmen\Articles\Pages;
+namespace TheWebmen\Articles\Pages;
 
 
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
@@ -10,18 +10,17 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
-use Webmen\Articles\Models\ArticleTag;
-use Webmen\Articles\Models\ArticleType;
+use TheWebmen\Articles\Models\Tag;
+use TheWebmen\Articles\Models\Type;
 
 /**
  * Class ArticlesPage
- * @package Webmen\Articles\Pages
+ * @package TheWebmen\Articles\Pages
  *
  * @property int $PageLength
  */
 class ArticlesPage extends \Page
 {
-
     /***
      * @var string
      */
@@ -63,8 +62,8 @@ class ArticlesPage extends \Page
      * @var array
      */
     private static $has_many = [
-        'Types' => ArticleType::class,
-        'Tags' => ArticleTag::class,
+        'Types' => Type::class,
+        'Tags' => Tag::class,
     ];
 
     /**
@@ -104,8 +103,6 @@ class ArticlesPage extends \Page
         );
 
         $fields->insertBefore('Articles', NumericField::create('PageLength'));
-
-
 
         return $fields;
     }

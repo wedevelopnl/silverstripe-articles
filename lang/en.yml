@@ -1,11 +1,11 @@
 en:
-  Webmen\Articles\Pages\ArticlePage:
+  TheWebmen\Articles\Pages\ArticlePage:
     PLURALNAME: 'Articles'
     PLURALS:
       one: 'An article'
       other: '{count} articles'
     SINGULARNAME: 'Article'
-  Webmen\Articles\Pages\ArticlesPage:
+  TheWebmen\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Article overview pages'
     PLURALS:
       one: 'An article overview page'
@@ -13,7 +13,7 @@ en:
     SINGULARNAME: 'Article overview page'
     ARTICLES: 'Articles'
     db_PageLength: 'Page length'
-  Webmen\Articles\Pages\ArticleThemePage:
+  TheWebmen\Articles\Pages\ArticleThemePage:
     PLURALNAME: 'Themes'
     PLURALS:
       one: 'A theme'

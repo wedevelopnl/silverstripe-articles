@@ -1,13 +1,13 @@
 <?php
 
-namespace Webmen\Articles\Models;
+namespace TheWebmen\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\ORM\DataObject;
-use Webmen\Articles\Pages\ArticlePage;
-use Webmen\Articles\Traits\ArticleRelationObjectTrait;
+use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Traits\ArticleRelationObjectTrait;
 
-class ArticleTag extends DataObject
+class Tag extends DataObject
 {
     use ArticleRelationObjectTrait;
 
@@ -46,7 +46,7 @@ class ArticleTag extends DataObject
     ];
 
     /***
-     * This sets the ArticlesPageID in case the ArticleTag is created within
+     * This sets the ArticlesPageID in case the Tag is created within
      * an article {@see ArticlePage}, in stead of via the article overview page {@see ArticlesPage}
      */
     protected function onBeforeWrite()
