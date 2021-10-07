@@ -15,3 +15,9 @@ nl:
     db_PageLength: 'Pagina lengte'
   Webmen\Articles\Extensions:
     has_many_Articles: 'Artikelen'
+  Webmen\Articles\Pages\ArticleThemePage:
+    PLURALNAME: "Thema's"
+    PLURALS:
+      one: 'Een thema'
+      other: "{count} thema's"
+    SINGULARNAME: 'Thema'

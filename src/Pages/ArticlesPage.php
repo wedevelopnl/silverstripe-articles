@@ -2,8 +2,16 @@
 
 namespace Webmen\Articles\Pages;
 
-use SilverStripe\Lumberjack\Model\Lumberjack;
+
+use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\NumericField;
+use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
+use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
+use SilverStripe\ORM\DataList;
+use Webmen\Articles\Models\ArticleTag;
+use Webmen\Articles\Models\ArticleType;
 
 /**
  * Class ArticlesPage
@@ -11,7 +19,8 @@ use SilverStripe\Forms\NumericField;
  *
  * @property int $PageLength
  */
-class ArticlesPage extends \Page {
+class ArticlesPage extends \Page
+{
 
     /***
      * @var string
@@ -38,7 +47,7 @@ class ArticlesPage extends \Page {
      */
     private static $allowed_children = [
         ArticlePage::class,
-        ThemePage::class
+        ArticleThemePage::class,
     ];
 
     private static $default_child = ArticlePage::class;
@@ -46,21 +55,57 @@ class ArticlesPage extends \Page {
     /**
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'PageLength' => 'Int'
-    );
+    ];
+
+    /**
+     * @var array
+     */
+    private static $has_many = [
+        'Types' => ArticleType::class,
+        'Tags' => ArticleTag::class,
+    ];
 
     /**
      * @return \SilverStripe\Forms\FieldList
      */
-    public function getCMSFields(){
+    public function getCMSFields()
+    {
         $fields = parent::getCMSFields();
 
-        $childPagesField = $fields->dataFieldByName('ChildPages');
-        if($childPagesField){
-            $childPagesField->setTitle('');
-            $fields->addFieldToTab('Root.ChildPages', NumericField::create('PageLength'));
-        }
+        $fields->addFieldToTab(
+            'Root.Themes',
+            $this->createGridField(
+                'Themes',
+                ArticleThemePage::get()->filter('ParentID', $this->owner->ID)
+            )
+        );
+
+        $fields->addFieldsToTab(
+            'Root.Types',
+            [
+                GridField::create('Types', 'Types', $this->Types(), new GridFieldConfig_RecordEditor()),
+            ]
+        );
+        $fields->addFieldsToTab(
+            'Root.Tags',
+            [
+                GridField::create('Tags', 'Tags', $this->Tags(), new GridFieldConfig_RecordEditor())
+            ]
+        );
+
+        $fields->replaceField(
+            'ChildPages',
+            $this->createGridField(
+                'Articles',
+                ArticlePage::get()->filter('ParentID', $this->owner->ID)
+            )
+        );
+
+        $fields->insertBefore('Articles', NumericField::create('PageLength'));
+
+
 
         return $fields;
     }
@@ -68,8 +113,23 @@ class ArticlesPage extends \Page {
     /**
      * @return string
      */
-    public function getLumberjackTitle(){
-        return _t(self::class . '.ARTICLES', 'Articlesf');
+    public function getLumberjackTitle()
+    {
+        return _t(self::class . '.ARTICLES', 'Articles');
     }
 
+
+    /***
+     * @param string $type
+     * @param DataList $list
+     * @return GridField
+     */
+    private function createGridField($type, $list)
+    {
+        $config = GridFieldConfig_Lumberjack::create()
+            ->removeComponentsByType(GridFieldSiteTreeAddNewButton::class)
+            ->addComponent(new GridFieldAddNewSiteTreeItemButton('buttons-before-left'));
+
+        return GridField::create($type, $type, $list, $config);
+    }
 }

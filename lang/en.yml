@@ -13,5 +13,9 @@ en:
     SINGULARNAME: 'Article overview page'
     ARTICLES: 'Articles'
     db_PageLength: 'Page length'
-  Webmen\Articles\Extensions:
-    has_many_Articles: 'Articles'
+  Webmen\Articles\Pages\ArticleThemePage:
+    PLURALNAME: 'Themes'
+    PLURALS:
+      one: 'A theme'
+      other: '{count} themes'
+    SINGULARNAME: 'Theme'

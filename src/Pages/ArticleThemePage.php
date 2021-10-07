@@ -4,7 +4,7 @@ namespace Webmen\Articles\Pages;
 
 use SilverStripe\Forms\FieldList;
 
-class ThemePage extends \Page
+class ArticleThemePage extends \Page
 {
     /***
      * @var string
@@ -24,12 +24,7 @@ class ThemePage extends \Page
     /***
      * @var string
      */
-    private static $icon_class = 'font-icon-star';
-
-    /***
-     * @var bool
-     */
-    private static $show_in_sitetree = false;
+    private static $icon_class = 'font-icon-circle-star';
 
     /***
      * @var array
