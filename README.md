@@ -4,8 +4,11 @@
 Article page type, can be used as news system or as a blog
 
 ## Requirements
-* silverstripe/cms ^4.0
-* silverstripe/lumberjack ^2.0
+* silverstripe/cms: ^4@stable
+* silverstripe/vendor-plugin: ^1.0
+* silverstripe/lumberjack: ^2.0
+* micschk/silverstripe-gridfieldsitetreebuttons: ^2.0
+* silverstripe/tagfield: ^2.7
 
 ## Installation
 ```
