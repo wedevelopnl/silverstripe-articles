@@ -149,6 +149,7 @@ class ArticlePage extends \Page
                     ]
                 )
             )
+                ->setHasEmptyDefault(true)
         );
 
         $fields->insertAfter(

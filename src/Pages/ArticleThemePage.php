@@ -3,6 +3,8 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\FieldList;
+use TheWebmen\Articles\Controllers\ArticleThemePageController;
+use TheWebmen\Articles\Pages\ArticlesPageController;
 
 class ArticleThemePage extends \Page
 {
@@ -39,6 +41,13 @@ class ArticleThemePage extends \Page
     /***
      * @var array
      */
+    private static $has_one = [
+        'ArticlesPage' => ArticlesPage::class
+    ];
+
+    /***
+     * @var array
+     */
     private static $many_many = [
         'ArticlePages' => ArticlePage::class,
     ];
@@ -51,5 +60,10 @@ class ArticleThemePage extends \Page
         $fields = parent::getCMSFields();
 
         return $fields;
+    }
+
+    public function getControllerName()
+    {
+        return ArticleThemePageController::class;
     }
 }

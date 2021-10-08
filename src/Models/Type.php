@@ -3,6 +3,7 @@
 namespace TheWebmen\Articles\Models;
 
 use SilverStripe\ORM\DataObject;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
 use TheWebmen\Articles\Traits\ArticleRelationObjectTrait;
 
@@ -43,4 +44,11 @@ class Type extends DataObject
     private static $has_many = [
         'ArticlePages' => ArticlePage::class,
     ];
+
+    protected function onBeforeWrite()
+    {
+        $this->Slug = URLSegmentFilter::create()->filter($this->Title);
+
+        parent::onBeforeWrite();
+    }
 }

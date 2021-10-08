@@ -3,6 +3,8 @@
 namespace TheWebmen\Articles\Pages;
 
 
+use App\Forms\ArticleFilterForm;
+use App\Forms\SearchForm;
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
@@ -128,5 +130,19 @@ class ArticlesPage extends \Page
             ->addComponent(new GridFieldAddNewSiteTreeItemButton('buttons-before-left'));
 
         return GridField::create($type, $type, $list, $config);
+    }
+
+    public function getThemes()
+    {
+        return ArticleThemePage::get()->filter(
+            [
+                'ParentID' => $this->ID
+            ]
+        );
+    }
+    
+    public function getControllerName()
+    {
+        return ArticlesPageController::class;
     }
 }

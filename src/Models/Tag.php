@@ -4,6 +4,7 @@ namespace TheWebmen\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
 use TheWebmen\Articles\Traits\ArticleRelationObjectTrait;
 
@@ -57,6 +58,8 @@ class Tag extends DataObject
         if ($currentPage) {
             $this->ArticlesPageID = $currentPage->ParentID;
         }
+
+        $this->Slug = URLSegmentFilter::create()->filter($this->Title);
 
         parent::onBeforeWrite();
     }
