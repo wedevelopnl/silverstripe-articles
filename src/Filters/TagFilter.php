@@ -4,14 +4,19 @@ namespace TheWebmen\Articles\Filters;
 
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\DataList;
+use TheWebmen\Articles\Interfaces\FilterInterface;
 use TheWebmen\Articles\Models\Tag;
-use TheWebmen\Articles\Models\Type;
 
-final class TagFilter
+final class TagFilter implements FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList
+    /***
+     * @param HTTPRequest $request
+     * @param DataList $dataList
+     * @return DataList
+     */
+    public function apply($request, $dataList)
     {
-        $tag = $this->getActiveTag($request);
+        $tag = $this->getActiveItems($request);
 
         if (!$tag) {
             return $dataList;
@@ -22,9 +27,9 @@ final class TagFilter
 
     /***
      * @param HTTPRequest $request
-     * @return Type
+     * @return Tag
      */
-    public function getActiveTag(HTTPRequest $request)
+    public function getActiveItems($request)
     {
         $tag = $request->getVar('tag');
         return Tag::get()->filter('Slug', $tag)->first();

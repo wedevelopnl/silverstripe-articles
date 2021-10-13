@@ -4,14 +4,19 @@ namespace TheWebmen\Articles\Filters;
 
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\SS_List;
+use TheWebmen\Articles\Interfaces\FilterInterface;
 use TheWebmen\Articles\Models\Type;
 
-final class TypeFilter
+final class TypeFilter implements FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList
+    /***
+     * @param HTTPRequest $request
+     * @param DataList $dataList
+     * @return DataList
+     */
+    public function apply($request, $dataList)
     {
-        $type = $this->getActiveType($request);
+        $type = $this->getActiveItems($request);
 
         if (!$type) {
             return $dataList;
@@ -24,7 +29,7 @@ final class TypeFilter
      * @param HTTPRequest $request
      * @return Type
      */
-    public function getActiveType(HTTPRequest $request)
+    public function getActiveItems($request)
     {
         $type = $request->getVar('type');
         return Type::get()->filter('Slug', $type)->first();

@@ -2,33 +2,22 @@
 
 namespace TheWebmen\Articles\Controllers;
 
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
-use SilverStripe\Forms\FormAction;
-use SilverStripe\Forms\OptionsetField;
-use TheWebmen\Articles\Filters\ThemeFilter;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\PaginatedList;
-use SilverStripe\SiteConfig\SiteConfig;
-use TheWebmen\Articles\Filters\TypeFilter;
-use TheWebmen\Articles\Models\Type;
-use TheWebmen\Articles\Pages\ArticlePage;
+use SilverStripe\ORM\ManyManyList;
 use TheWebmen\Articles\Pages\ArticlesPageController;
-use TheWebmen\Articles\Pages\ArticleThemePage;
-use App\Forms\ArticleFilterForm;
 
 class ArticleThemePageController extends ArticlesPageController
 {
     /***
-     * @return mixed
+     * @return DataList
      */
-    protected function getTypes() {
+    public function getTypes() {
         return $this->data()->getParent()->Types();
     }
 
     /***
-     * @return ArticleFilterForm
+     * @return Form
      */
     public function ArticleFilterForm()
     {
@@ -40,7 +29,7 @@ class ArticleThemePageController extends ArticlesPageController
     }
 
     /***
-     * @return DataList
+     * @return ManyManyList
      */
     protected function getArticleList()
     {

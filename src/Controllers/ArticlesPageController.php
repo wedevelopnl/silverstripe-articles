@@ -2,6 +2,7 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use App\Forms\ArticleFilterForm;
 use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -21,46 +22,31 @@ class ArticlesPageController extends \PageController
      */
     private $articles;
 
-    protected function getThemes() {
+    /***
+     * @return ArrayList|DataList
+     */
+    public function getThemes() {
         return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : new ArrayList();
     }
 
-    protected function getTypes() {
+    /***
+     * @return DataList
+     */
+    public function getTypes() {
         return $this->data()->Types();
     }
 
     /***
-     * @return ArticleFilterForm
+     * @return Form
      */
     public function ArticleFilterForm()
     {
-        $fields = new FieldList(
-            CheckboxSetField::create(
-                'thema',
-                'Thema\'s',
-                $this->getThemes()->map('URLSegment')->toArray()
-            ),
-            DropdownField::create(
-                'type',
-                'Type',
-                $this->getTypes()->map('Slug', 'Title')->toArray()
-            )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
-        );
-
-        $actions = new FieldList(
-            FormAction::create('doArticleFilterForm', 'Filter')
-                ->setName('')
-        );
-
-        $form = new Form($this, '', $fields, $actions);
-        $form->setFormMethod('GET');
-
-        $form->disableSecurityToken();
-        $form->loadDataFrom($this->getRequest()->getVars());
-
-        return $form;
+        return new ArticleFilterForm($this);
     }
 
+    /***
+     * @return $this
+     */
     public function index()
     {
         return $this;
@@ -74,6 +60,9 @@ class ArticlesPageController extends \PageController
         return ArticlePage::get()->filter('ParentID', $this->data()->ID);
     }
 
+    /***
+     * @return DataList
+     */
     public function init()
     {
         parent::init();
@@ -85,33 +74,15 @@ class ArticlesPageController extends \PageController
         }
 
         $this->applyThemesFilter();
-        var_dump($this->articles->count());
-        $this->applyTypeFilter();        var_dump($this->articles->count());
-
-        $this->applyTagFilter();        var_dump($this->articles->count());
-
+        $this->applyTypeFilter();
+        $this->applyTagFilter();
 
         return $this->articles;
     }
 
-    private function applyThemesFilter()
-    {
-        $themeFilter = new ThemeFilter();
-        $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
-    }
-
-    private function applyTagFilter()
-    {
-        $tagsFilter = new TagFilter();
-        $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
-    }
-
-    private function applyTypeFilter()
-    {
-        $typeFilter = new TypeFilter();
-        $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);
-    }
-
+    /***
+     * @return PaginatedList
+     */
     public function PaginatedArticles()
     {
         $pagination = PaginatedList::create($this->articles, $this->getRequest());
@@ -143,8 +114,29 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
+    /***
+     * @return bool
+     */
     public function HasStartQueryParam()
     {
         return $this->getRequest()->getVar('start') !== null;
+    }
+
+    private function applyThemesFilter()
+    {
+        $themeFilter = new ThemeFilter();
+        $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
+    }
+
+    private function applyTagFilter()
+    {
+        $tagsFilter = new TagFilter();
+        $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
+    }
+
+    private function applyTypeFilter()
+    {
+        $typeFilter = new TypeFilter();
+        $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);
     }
 }

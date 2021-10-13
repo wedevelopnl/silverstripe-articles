@@ -2,17 +2,22 @@
 
 namespace TheWebmen\Articles\Filters;
 
-use TheWebmen\Articles\Pages\ArticleThemePage;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\SS_List;
+use TheWebmen\Articles\Interfaces\FilterInterface;
+use TheWebmen\Articles\Pages\ArticleThemePage;
 
-final class ThemeFilter
+final class ThemeFilter implements FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList
+    /***
+     * @param HTTPRequest $request
+     * @param DataList $dataList
+     * @return DataList
+     */
+    public function apply($request, $dataList)
     {
-        $themes = $this->getActiveThemes($request);
+        $themes = $this->getActiveItems($request);
 
         if (count($themes) === 0) {
             return $dataList;
@@ -21,7 +26,11 @@ final class ThemeFilter
         return $dataList->filter('Themes.ID', $themes->column('ID'));
     }
 
-    public function getActiveThemes(HTTPRequest $request): SS_List
+    /***
+     * @param $request
+     * @return ArrayList|DataList
+     */
+    public function getActiveItems($request)
     {
         $themes = $request->getVar('thema');
 
