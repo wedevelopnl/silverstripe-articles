@@ -4,7 +4,6 @@ namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\FieldList;
 use TheWebmen\Articles\Controllers\ArticleThemePageController;
-use TheWebmen\Articles\Pages\ArticlesPageController;
 
 class ArticleThemePage extends \Page
 {

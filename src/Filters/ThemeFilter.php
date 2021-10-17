@@ -38,6 +38,6 @@ final class ThemeFilter implements FilterInterface
             return new ArrayList();
         }
 
-        return ArticleThemePage::get()->filter('URLSegment', array_keys($themes));
+        return ArticleThemePage::get()->filter('URLSegment', array_values($themes));
     }
 }

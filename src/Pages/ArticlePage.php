@@ -10,6 +10,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\TagField\TagField;
+use TheWebmen\Articles\Controllers\ArticlePageController;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 

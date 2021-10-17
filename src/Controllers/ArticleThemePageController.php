@@ -5,7 +5,6 @@ namespace TheWebmen\Articles\Controllers;
 use SilverStripe\Forms\Form;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
-use TheWebmen\Articles\Pages\ArticlesPageController;
 
 class ArticleThemePageController extends ArticlesPageController
 {
@@ -31,7 +30,7 @@ class ArticleThemePageController extends ArticlesPageController
     /***
      * @return ManyManyList
      */
-    protected function getArticleList()
+    protected function getArticleDataList()
     {
         return $this->data()->getManyManyComponents('ArticlePages');
     }

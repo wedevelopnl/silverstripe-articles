@@ -2,9 +2,6 @@
 
 namespace TheWebmen\Articles\Pages;
 
-
-use App\Forms\ArticleFilterForm;
-use App\Forms\SearchForm;
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
@@ -12,6 +9,7 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
+use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 
@@ -140,7 +138,7 @@ class ArticlesPage extends \Page
             ]
         );
     }
-    
+
     public function getControllerName()
     {
         return ArticlesPageController::class;

@@ -2,10 +2,7 @@
 
 namespace TheWebmen\Articles\Traits;
 
-use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\View\Parsers\URLSegmentFilter;
-use TheWebmen\Articles\Pages\ArticlePage;
 use TheWebmen\Articles\Pages\ArticlesPage;
 
 trait ArticleRelationObjectTrait

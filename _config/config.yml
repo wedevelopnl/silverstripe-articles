@@ -6,3 +6,7 @@ TheWebmen\Articles\Pages\ArticlesPage:
     PageLength: 10
   extensions:
     - SilverStripe\Lumberjack\Model\LumberJack
+
+TheWebmen\Articles\Forms\ArticleCheckboxSetField:
+  extensions:
+    - TheWebmen\Articles\Extensions\ArticleCheckboxSetFieldExtension

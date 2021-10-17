@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace TheWebmen\Articles\Controllers;
 
 class ArticlePageController extends \PageController
 {
