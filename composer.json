@@ -31,7 +31,10 @@
         "installer-name": "silverstripe-articles",
         "branch-alias": {
             "dev-master": "3.x-dev"
-        }
+        },
+        "expose": [
+            "client/dist"
+        ]
     },
     "autoload": {
         "psr-4": {

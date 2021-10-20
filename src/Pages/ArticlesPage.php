@@ -77,6 +77,7 @@ class ArticlesPage extends \Page
             'Root.Themes',
             $this->createGridField(
                 'Themes',
+                _t('Theme.Plural', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->owner->ID)
             )
         );
@@ -84,13 +85,13 @@ class ArticlesPage extends \Page
         $fields->addFieldsToTab(
             'Root.Types',
             [
-                GridField::create('Types', 'Types', $this->Types(), new GridFieldConfig_RecordEditor()),
+                GridField::create('Types', _t('Type.Plural', 'Types'), $this->Types(), new GridFieldConfig_RecordEditor()),
             ]
         );
         $fields->addFieldsToTab(
             'Root.Tags',
             [
-                GridField::create('Tags', 'Tags', $this->Tags(), new GridFieldConfig_RecordEditor())
+                GridField::create('Tags', _t('Tag.Plural', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
             ]
         );
 
@@ -98,6 +99,7 @@ class ArticlesPage extends \Page
             'ChildPages',
             $this->createGridField(
                 'Articles',
+                _t(self::class.'.ARTICLES', 'Articles'),
                 ArticlePage::get()->filter('ParentID', $this->owner->ID)
             )
         );
@@ -121,13 +123,13 @@ class ArticlesPage extends \Page
      * @param DataList $list
      * @return GridField
      */
-    private function createGridField($type, $list)
+    private function createGridField($type, $title, $list)
     {
         $config = GridFieldConfig_Lumberjack::create()
             ->removeComponentsByType(GridFieldSiteTreeAddNewButton::class)
             ->addComponent(new GridFieldAddNewSiteTreeItemButton('buttons-before-left'));
 
-        return GridField::create($type, $type, $list, $config);
+        return GridField::create($type, $title, $list, $config);
     }
 
     public function getThemes()

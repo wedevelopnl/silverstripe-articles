@@ -22,11 +22,13 @@
         <% if $AuthorName %>
             <span>$AuthorName</span><br/>
         <% end_if %>
+        <hr />
         <% if $UseElementalGrid && $ElementalArea %>
             $ElementalArea
         <% else %>
             $Content
         <% end_if %>
+        <hr />
         <h3>Tags</h3>
         <ul>
             <% loop $Tags %>

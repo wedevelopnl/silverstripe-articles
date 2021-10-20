@@ -10,7 +10,6 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\TagField\TagField;
-use TheWebmen\Articles\Controllers\ArticlePageController;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 
@@ -40,6 +39,11 @@ class ArticlePage extends \Page
      * @var bool
      */
     private static $show_in_sitetree = false;
+
+    /***
+     * @var bool
+     */
+    private static $can_be_root = false;
 
     /***
      * @var array
@@ -88,16 +92,16 @@ class ArticlePage extends \Page
 
         $fields->removeByName('MenuTitle');
 
-        $title = $fields->dataFieldByName('Title')->setTitle('Article title');
+        $title = $fields->dataFieldByName('Title')->setTitle(_t('Article.Title', 'Article Title'));
 
         $fields->insertAfter(
             'URLSegment',
-            TextField::create('Subtitle', 'Article subtitle')
+            TextField::create('Subtitle', _t('Article.Subtitle', 'Article subtitle'))
         );
 
         $fields->insertAfter(
             'Subtitle',
-            TextField::create('AuthorName', 'Author name')
+            TextField::create('AuthorName', _t('Article.Author.Name', 'Author name'))
         );
 
         $fields->replaceField('Content', HTMLEditorField::create('Content'));
@@ -106,20 +110,20 @@ class ArticlePage extends \Page
             'AuthorName',
             FieldGroup::create(
                 [
-                    TextField::create('ReadingTime', 'Reading time (in min.)'),
-                    DatetimeField::create('PublicationDate', 'Publication date'),
-                    DatetimeField::create('UpdatedDate', 'Updated date'),
+                    TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
+                    DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
+                    DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
                 ]
             )
                 ->setName('ArticleMetadata')
-                ->setTitle('Article metadata')
+                ->setTitle(_t('Article.Metadata', 'Article metadata'))
         );
 
         $fields->insertAfter(
             'ArticleMetadata',
             TagField::create(
                 'Themes',
-                'Themes',
+                _t('Theme.Plural', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->owner->Parent()->ID),
                 $this->Themes()
             )->setCanCreate(false)
@@ -129,7 +133,7 @@ class ArticlePage extends \Page
             'Themes',
             TagField::create(
                 'Tags',
-                'Tags',
+                _t('Tag.Plural', 'Tags'),
                 Tag::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID
@@ -143,7 +147,7 @@ class ArticlePage extends \Page
             'Tags',
             DropdownField::create(
                 'TypeID',
-                'Type',
+                _t('Type.Singular', 'Type'),
                 Type::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID
@@ -155,18 +159,10 @@ class ArticlePage extends \Page
 
         $fields->insertAfter(
             'TypeID',
-            HTMLEditorField::create('TeaserText', 'Teaser text')
+            HTMLEditorField::create('TeaserText', _t('Article.TeaserText', 'Teaser text'))
                 ->setRows(5)
         );
 
         return $fields;
-    }
-
-    /***
-     * @return string
-     */
-    public function getControllerName()
-    {
-        return ArticlePageController::class;
     }
 }

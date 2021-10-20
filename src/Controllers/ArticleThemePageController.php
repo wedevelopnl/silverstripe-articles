@@ -11,7 +11,8 @@ class ArticleThemePageController extends ArticlesPageController
     /***
      * @return DataList
      */
-    public function getTypes() {
+    public function getTypes()
+    {
         return $this->data()->getParent()->Types();
     }
 

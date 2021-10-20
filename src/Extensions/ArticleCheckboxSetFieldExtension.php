@@ -19,3 +19,8 @@ class ArticleCheckboxSetFieldExtension extends Extension
         }
     }
 }
+
+/***
+ * https://localhost:17080/new-article-overview-page/?thema=thema-1,thema-2&type=
+ * https://localhost:17080/new-article-overview-page/?thema%5B%5D=thema-1&thema%5B%5D=thema-2&type=
+ */

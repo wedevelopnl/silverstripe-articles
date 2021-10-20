@@ -13,6 +13,8 @@ en:
     SINGULARNAME: 'Article overview page'
     ARTICLES: 'Articles'
     db_PageLength: 'Page length'
+  TheWebmen\Articles\Extensions:
+    has_many_Articles: 'Articles'
   TheWebmen\Articles\Pages\ArticleThemePage:
     PLURALNAME: 'Themes'
     PLURALS:

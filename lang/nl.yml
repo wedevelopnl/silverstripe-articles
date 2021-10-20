@@ -21,3 +21,23 @@ nl:
       one: 'Een thema'
       other: "{count} thema's"
     SINGULARNAME: 'Thema'
+  Article:
+    Title: 'Artikel titel'
+    Subtitle: 'Artikel subtitel'
+    Author:
+      Name: 'Auteur naam'
+    ReadingTime: 'Leestijd (in min.)'
+    Date:
+      Publication: 'Publicatie datum'
+      Updated: 'Publicatie datum'
+    Metadata: 'Artikel metadata'
+    TeaserText: 'Teaser tekst'
+  Theme:
+    Singular: "Thema"
+    Plural: "Thema\'s"
+  Tag:
+    Singular: "Tag"
+    Plural: "Tags"
+  Type:
+    Singular: "Type"
+    Plural: "Types"

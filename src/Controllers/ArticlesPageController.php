@@ -2,18 +2,20 @@
 
 namespace TheWebmen\Articles\Controllers;
 
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
-use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
+use TheWebmen\Articles\ArticleFilterForm;
 use TheWebmen\Articles\Filters\TagFilter;
 use TheWebmen\Articles\Filters\ThemeFilter;
 use TheWebmen\Articles\Filters\TypeFilter;
-use TheWebmen\Articles\Forms\ArticleCheckboxSetField;
+use TheWebmen\Articles\Pages\ArticlePage;
 
+/**
+ * Class ArticlesPageController
+ * @package TheWebmen\Articles\Controllers
+ */
 class ArticlesPageController extends \PageController
 {
     /***
@@ -24,47 +26,23 @@ class ArticlesPageController extends \PageController
     /***
      * @return ArrayList|DataList
      */
-    protected function getThemes() {
+    public function getThemes() {
         return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : new ArrayList();
     }
 
     /***
      * @return DataList
      */
-    protected function getTypes() {
+    public function getTypes() {
         return $this->data()->Types();
     }
 
     /***
-     * @return Form
+     * @return ArticleFilterForm
      */
     public function ArticleFilterForm()
     {
-        $fields = new FieldList(
-            ArticleCheckboxSetField::create(
-                'thema',
-                'Thema\'s',
-                $this->getThemes()->map('URLSegment', 'Title')->toArray()
-            ),
-            DropdownField::create(
-                'type',
-                'Type',
-                $this->getTypes()->map('Slug', 'Title')->toArray()
-            )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
-        );
-
-        $actions = new FieldList(
-            FormAction::create('doArticleFilterForm', 'Filter')
-                ->setName('')
-        );
-
-        $form = new Form($this, '', $fields, $actions);
-        $form->setAttribute('enctype', '');
-        $form->setFormMethod('GET');
-        $form->disableSecurityToken();
-        $form->loadDataFrom($this->getRequest()->getVars());
-
-        return $form;
+        return new ArticleFilterForm($this);
     }
 
     /***
