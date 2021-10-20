@@ -10,7 +10,6 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\Validator;
 use SilverStripe\View\Requirements;
-use TheWebmen\Articles\Forms\ArticleCheckboxSetField;
 
 class ArticleFilterForm extends Form
 {
