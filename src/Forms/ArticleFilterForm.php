@@ -44,7 +44,7 @@ class ArticleFilterForm extends Form
                 $formdata[$key] = $value;
             }
         }
-        
+
         $this->loadDataFrom($formdata);
         $this->setFormMethod('GET');
         $this->disableSecurityToken();

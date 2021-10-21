@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     let currentURL = location.protocol + '//' + location.host + location.pathname;
-    let newQueryParams = new URLSearchParams(formData).toString();
+    let newQueryParams = decodeURIComponent(new URLSearchParams(formData).toString());
 
     window.location.href = `${currentURL}?${newQueryParams}`;
 

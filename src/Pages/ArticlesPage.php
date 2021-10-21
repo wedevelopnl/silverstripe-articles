@@ -61,6 +61,13 @@ class ArticlesPage extends \Page
     /**
      * @var array
      */
+    private static $defaults = [
+        'PageLength' => 10
+    ];
+
+    /**
+     * @var array
+     */
     private static $has_many = [
         'Types' => Type::class,
         'Tags' => Tag::class,

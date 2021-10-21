@@ -2,7 +2,5 @@
 Name: articles
 ---
 TheWebmen\Articles\Pages\ArticlesPage:
-  defaults:
-    PageLength: 1
   extensions:
     - SilverStripe\Lumberjack\Model\LumberJack

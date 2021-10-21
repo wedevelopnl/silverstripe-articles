@@ -26,14 +26,16 @@ class ArticlesPageController extends \PageController
     /***
      * @return ArrayList|DataList
      */
-    public function getThemes() {
+    public function getThemes()
+    {
         return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : new ArrayList();
     }
 
     /***
      * @return DataList
      */
-    public function getTypes() {
+    public function getTypes()
+    {
         return $this->data()->Types();
     }
 
@@ -95,14 +97,6 @@ class ArticlesPageController extends \PageController
         }
 
         return $pagination;
-    }
-
-    /***
-     * @return bool
-     */
-    public function HasStartQueryParam()
-    {
-        return $this->getRequest()->getVar('start') !== null;
     }
 
     protected function applyThemesFilter()
