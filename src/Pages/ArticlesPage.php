@@ -3,6 +3,7 @@
 namespace TheWebmen\Articles\Pages;
 
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
+use SilverStripe\Control\Controller;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\NumericField;
@@ -92,7 +93,12 @@ class ArticlesPage extends \Page
         $fields->addFieldsToTab(
             'Root.Types',
             [
-                GridField::create('Types', _t('Type.Plural', 'Types'), $this->Types(), new GridFieldConfig_RecordEditor()),
+                GridField::create(
+                    'Types',
+                    _t('Type.Plural', 'Types'),
+                    $this->Types(),
+                    new GridFieldConfig_RecordEditor()
+                ),
             ]
         );
         $fields->addFieldsToTab(
@@ -106,7 +112,7 @@ class ArticlesPage extends \Page
             'ChildPages',
             $this->createGridField(
                 'Articles',
-                _t(self::class.'.ARTICLES', 'Articles'),
+                _t(self::class . '.ARTICLES', 'Articles'),
                 ArticlePage::get()->filter('ParentID', $this->owner->ID)
             )
         );
@@ -146,6 +152,18 @@ class ArticlesPage extends \Page
                 'ParentID' => $this->ID
             ]
         );
+    }
+
+    public function getTitle()
+    {
+        $controller = Controller::curr();
+        $activeTagFilter = $controller->getRequest()->getVar('tag');
+
+        if ($activeTagFilter) {
+            $tag = Tag::get()->filter('Slug', $activeTagFilter)->first();
+        }
+
+        return $tag->Title ?? $this->getField('Title');
     }
 
     public function getControllerName()

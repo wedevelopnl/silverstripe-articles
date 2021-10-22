@@ -32,7 +32,9 @@
         <h3>Tags</h3>
         <ul>
             <% loop $Tags %>
-                <li>$Title</li>
+                <li>
+                    <a href="$Up.Parent.Link?tag=$Slug">$Title</a>
+                </li>
             <% end_loop %>
         </ul>
         <h3>Themes</h3>

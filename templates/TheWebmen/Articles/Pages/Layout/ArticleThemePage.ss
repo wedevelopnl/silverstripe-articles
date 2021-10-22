@@ -16,6 +16,8 @@
                             <li><a href="$Link">$Title</a></li>
                         <% end_loop %>
                     </ul>
+                <% else %>
+                    <p>Geen resultaten gevonden</p>
                 <% end_if %>
 
                 <% if $PaginatedArticles.MoreThanOnePage %>
