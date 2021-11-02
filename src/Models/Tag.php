@@ -12,22 +12,22 @@ class Tag extends DataObject
 {
     use ArticleRelationObjectTrait;
 
-    /***
+    /**
      * @var string
      */
     private static $table_name = 'Webmen_ArticleTag';
 
-    /***
+    /**
      * @var string
      */
     private static $singular_name = 'Article tag';
 
-    /***
+    /**
      * @var string
      */
     private static $plural_name = 'Article tags';
 
-    /***
+    /**
      * @var string
      */
     private static $icon_class = 'font-icon-rocket';
@@ -46,11 +46,11 @@ class Tag extends DataObject
         'ArticlePages' => ArticlePage::class,
     ];
 
-    /***
+    /**
      * This sets the ArticlesPageID in case the Tag is created within
      * an article {@see ArticlePage}, in stead of via the article overview page {@see ArticlesPage}
      */
-    protected function onBeforeWrite()
+    protected function onBeforeWrite(): void
     {
         $currentPageID = CMSPageEditController::curr()->currentPageID();
         $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);

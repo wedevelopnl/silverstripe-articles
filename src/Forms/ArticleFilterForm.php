@@ -9,6 +9,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\Validator;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\Requirements;
 
 class ArticleFilterForm extends Form
@@ -50,6 +51,9 @@ class ArticleFilterForm extends Form
         $this->disableSecurityToken();
     }
 
+    /**
+     * @return DBHTMLText
+     */
     public function forTemplate()
     {
         Requirements::javascript('thewebmen/silverstripe-articles:client/dist/formURLHandler.js');

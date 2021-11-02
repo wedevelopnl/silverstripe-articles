@@ -9,12 +9,7 @@ use TheWebmen\Articles\Models\Type;
 
 final class TypeFilter implements FilterInterface
 {
-    /***
-     * @param HTTPRequest $request
-     * @param DataList $dataList
-     * @return DataList
-     */
-    public function apply($request, $dataList)
+    public function apply(HTTPRequest $request, DataList $dataList): DataList
     {
         $type = $this->getActiveItems($request);
 
@@ -25,14 +20,9 @@ final class TypeFilter implements FilterInterface
         return $dataList->filter('Type.ID', $type->ID);
     }
 
-    /***
-     * @param HTTPRequest $request
-     * @return Type
-     */
-    public function getActiveItems($request)
+    public function getActiveItems(HTTPRequest $request): ?Type
     {
         $type = $request->getVar('type');
         return Type::get()->filter('Slug', $type)->first();
-
     }
 }

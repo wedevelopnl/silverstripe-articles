@@ -21,6 +21,8 @@ nl:
       one: 'Een thema'
       other: "{count} thema's"
     SINGULARNAME: 'Thema'
+  Articles:
+    NoArticlesFound: 'Geen artikelen gevonden'
   Article:
     Title: 'Artikel titel'
     Subtitle: 'Artikel subtitel'
@@ -34,7 +36,7 @@ nl:
     TeaserText: 'Teaser tekst'
   Theme:
     Singular: "Thema"
-    Plural: "Thema\'s"
+    Plural: "Thema's"
   Tag:
     Singular: "Tag"
     Plural: "Tags"

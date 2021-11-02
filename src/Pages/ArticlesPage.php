@@ -22,22 +22,22 @@ use TheWebmen\Articles\Models\Type;
  */
 class ArticlesPage extends \Page
 {
-    /***
+    /**
      * @var string
      */
     private static $table_name = 'TheWebmen_ArticlesPage';
 
-    /***
+    /**
      * @var string
      */
     private static $singular_name = 'Articles overview page';
 
-    /***
+    /**
      * @var string
      */
     private static $plural_name = 'Articles overview pages';
 
-    /***
+    /**
      * @var string
      */
     private static $icon_class = 'font-icon-p-article';
@@ -122,21 +122,12 @@ class ArticlesPage extends \Page
         return $fields;
     }
 
-    /**
-     * @return string
-     */
-    public function getLumberjackTitle()
+    public function getLumberjackTitle(): string
     {
         return _t(self::class . '.ARTICLES', 'Articles');
     }
 
-
-    /***
-     * @param string $type
-     * @param DataList $list
-     * @return GridField
-     */
-    private function createGridField($type, $title, $list)
+    private function createGridField(string $type, string $title, DataList $list): GridField
     {
         $config = GridFieldConfig_Lumberjack::create()
             ->removeComponentsByType(GridFieldSiteTreeAddNewButton::class)
@@ -145,7 +136,7 @@ class ArticlesPage extends \Page
         return GridField::create($type, $title, $list, $config);
     }
 
-    public function getThemes()
+    public function getThemes(): DataList
     {
         return ArticleThemePage::get()->filter(
             [
@@ -154,7 +145,7 @@ class ArticlesPage extends \Page
         );
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         $controller = Controller::curr();
         $activeTagFilter = $controller->getRequest()->getVar('tag');
@@ -166,7 +157,7 @@ class ArticlesPage extends \Page
         return $tag->Title ?? $this->getField('Title');
     }
 
-    public function getControllerName()
+    public function getControllerName(): string
     {
         return ArticlesPageController::class;
     }

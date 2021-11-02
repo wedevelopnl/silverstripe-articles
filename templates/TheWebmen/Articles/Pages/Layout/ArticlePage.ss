@@ -16,20 +16,16 @@
                 <li>$ReadingTime min.</li>
             <% end_if %>
             <% if $Type %>
-                <li>Type: $Type.Title</li>
+                <li><%t Type.Singular "Type" %>: $Type.Title</li>
             <% end_if %>
         </ul>
         <% if $AuthorName %>
             <span>$AuthorName</span><br/>
         <% end_if %>
         <hr />
-        <% if $UseElementalGrid && $ElementalArea %>
-            $ElementalArea
-        <% else %>
-            $Content
-        <% end_if %>
+        $Content
         <hr />
-        <h3>Tags</h3>
+        <h3><%t Tag.Plural "Tags" %></h3>
         <ul>
             <% loop $Tags %>
                 <li>
@@ -37,7 +33,7 @@
                 </li>
             <% end_loop %>
         </ul>
-        <h3>Themes</h3>
+        <h3><%t Theme.Plural "Themes" %></h3>
         <ul>
             <% loop $Themes %>
                 <li>

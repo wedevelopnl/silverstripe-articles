@@ -10,12 +10,7 @@ use TheWebmen\Articles\Pages\ArticleThemePage;
 
 final class ThemeFilter implements FilterInterface
 {
-    /***
-     * @param HTTPRequest $request
-     * @param DataList $dataList
-     * @return DataList
-     */
-    public function apply($request, $dataList)
+    public function apply(HTTPRequest $request, DataList $dataList): DataList
     {
         $themes = $this->getActiveItems($request);
 
@@ -26,16 +21,12 @@ final class ThemeFilter implements FilterInterface
         return $dataList->filter('Themes.ID', $themes->column('ID'));
     }
 
-    /***
-     * @param $request
-     * @return ArrayList|DataList
-     */
-    public function getActiveItems($request)
+    public function getActiveItems(HTTPRequest $request): DataList
     {
         $themes = $request->getVar('thema');
 
         if (empty($themes)) {
-            return new ArrayList();
+            return new DataList(ArticleThemePage::class);
         }
 
         return ArticleThemePage::get()->filter('URLSegment', explode(',', $themes));

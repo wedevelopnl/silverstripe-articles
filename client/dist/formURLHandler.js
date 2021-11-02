@@ -2,11 +2,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const articleFilterForm = document.getElementById('ArticleFilterForm');
 
   articleFilterForm.addEventListener('submit', (e) => {
-    let target = e.target;
-    let formData = {};
+    const target = e.target;
+    const formData = {};
 
     for (let i = 0; i < target.length; i++) {
-      let element = target.elements[i];
+      const element = target.elements[i];
       let name = element.name;
 
       if (element.type === 'text' && element.value) {

@@ -11,62 +11,41 @@ use TheWebmen\Articles\Filters\TagFilter;
 use TheWebmen\Articles\Filters\ThemeFilter;
 use TheWebmen\Articles\Filters\TypeFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticleThemePage;
 
-/**
- * Class ArticlesPageController
- * @package TheWebmen\Articles\Controllers
- */
 class ArticlesPageController extends \PageController
 {
-    /***
+    /**
      * @var DataList
      */
     protected $articles;
 
-    /***
-     * @return ArrayList|DataList
-     */
-    public function getThemes()
+    public function getThemes(): ?DataList
     {
-        return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : new ArrayList();
+        return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : null;
     }
 
-    /***
-     * @return DataList
-     */
-    public function getTypes()
+    public function getTypes(): ?DataList
     {
         return $this->data()->Types();
     }
 
-    /***
-     * @return ArticleFilterForm
-     */
-    public function ArticleFilterForm()
+    public function ArticleFilterForm(): ArticleFilterForm
     {
         return new ArticleFilterForm($this);
     }
 
-    /***
-     * @return $this
-     */
-    public function index()
+    public function index(): self
     {
         return $this;
     }
 
-    /***
-     * @return DataList
-     */
-    protected function getArticleDataList()
+    protected function getArticleDataList(): ?DataList
     {
         return ArticlePage::get()->filter('ParentID', $this->data()->ID);
     }
 
-    /***
-     * @return DataList
-     */
-    public function init()
+    public function init(): ?DataList
     {
         parent::init();
 
@@ -83,10 +62,7 @@ class ArticlesPageController extends \PageController
         return $this->articles;
     }
 
-    /***
-     * @return PaginatedList
-     */
-    public function PaginatedArticles()
+    public function PaginatedArticles(): ?PaginatedList
     {
         $pagination = PaginatedList::create($this->articles, $this->getRequest());
         $pagination->setPageLength($this->PageLength);
@@ -99,19 +75,19 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
-    protected function applyThemesFilter()
+    protected function applyThemesFilter(): void
     {
         $themeFilter = new ThemeFilter();
         $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
     }
 
-    protected function applyTagFilter()
+    protected function applyTagFilter(): void
     {
         $tagsFilter = new TagFilter();
         $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
     }
 
-    protected function applyTypeFilter()
+    protected function applyTypeFilter(): void
     {
         $typeFilter = new TypeFilter();
         $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);

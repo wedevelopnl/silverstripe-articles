@@ -11,22 +11,22 @@ class Type extends DataObject
 {
     use ArticleRelationObjectTrait;
 
-    /***
+    /**
      * @var string
      */
     private static $table_name = 'Webmen_ArticleType';
 
-    /***
+    /**
      * @var string
      */
     private static $singular_name = 'Type';
 
-    /***
+    /**
      * @var string
      */
     private static $plural_name = 'Types';
 
-    /***
+    /**
      * @var string
      */
     private static $icon_class = 'font-icon-tag';
@@ -45,7 +45,7 @@ class Type extends DataObject
         'ArticlePages' => ArticlePage::class,
     ];
 
-    protected function onBeforeWrite()
+    protected function onBeforeWrite(): void
     {
         $this->Slug = URLSegmentFilter::create()->filter($this->Title);
 

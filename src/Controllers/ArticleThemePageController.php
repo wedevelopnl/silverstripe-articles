@@ -5,21 +5,16 @@ namespace TheWebmen\Articles\Controllers;
 use SilverStripe\Forms\Form;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
+use TheWebmen\Articles\ArticleFilterForm;
 
 class ArticleThemePageController extends ArticlesPageController
 {
-    /***
-     * @return DataList
-     */
-    public function getTypes()
+    public function getTypes(): ?DataList
     {
         return $this->data()->getParent()->Types();
     }
 
-    /***
-     * @return Form
-     */
-    public function ArticleFilterForm()
+    public function ArticleFilterForm(): ArticleFilterForm
     {
         $form = parent::ArticleFilterForm();
 
@@ -28,10 +23,7 @@ class ArticleThemePageController extends ArticlesPageController
         return $form;
     }
 
-    /***
-     * @return ManyManyList
-     */
-    protected function getArticleDataList()
+    protected function getArticleDataList(): ?DataList
     {
         return $this->data()->getManyManyComponents('ArticlePages');
     }

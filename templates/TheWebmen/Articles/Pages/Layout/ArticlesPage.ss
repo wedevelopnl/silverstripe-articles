@@ -8,8 +8,10 @@
                 </div>
             </div>
             <div class="col-md-8 column is-8-desktop">
-                <h2>Articles</h2>
-
+                <h2><%t TheWebmen\Articles\Pages\ArticlePage.PLURALNAME "Articles" %></h2>
+                <hr />
+                $Content
+                <hr />
                 <% if $PaginatedArticles %>
                     <ul>
                         <% loop $PaginatedArticles %>
@@ -17,29 +19,31 @@
                         <% end_loop %>
                     </ul>
                 <% else %>
-                    <p>Geen resultaten gevonden</p>
+                    <p>
+                        <%t Articles.NoArticlesFound "No articles found" %>
+                    </p>
                 <% end_if %>
-
-                <% if $PaginatedArticles.MoreThanOnePage %>
-                    <% if $PaginatedArticles.NotFirstPage %>
-                        <a class="prev" href="$PaginatedArticles.PrevLink">Prev</a>
-                    <% end_if %>
-                    <% loop $PaginatedArticles.Pages %>
-                        <% if $CurrentBool %>
-                            $PageNum
-                        <% else %>
-                            <% if $Link %>
-                                <a href="$Link">$PageNum</a>
-                            <% else %>
-                                ...
-                            <% end_if %>
+                <% with $PaginatedArticles %>
+                    <% if $MoreThanOnePage %>
+                        <% if $NotFirstPage %>
+                            <a class="prev" href="$PrevLink"><<</a>
                         <% end_if %>
-                    <% end_loop %>
-                    <% if $PaginatedArticles.NotLastPage %>
-                        <a class="next" href="$PaginatedArticles.NextLink">Next</a>
+                        <% loop $Pages %>
+                            <% if $CurrentBool %>
+                                $PageNum
+                            <% else %>
+                                <% if $Link %>
+                                    <a href="$Link">$PageNum</a>
+                                <% else %>
+                                    ...
+                                <% end_if %>
+                            <% end_if %>
+                        <% end_loop %>
+                        <% if $NotLastPage %>
+                            <a class="next" href="$NextLink">>></a>
+                        <% end_if %>
                     <% end_if %>
-                <% end_if %>
-
+                <% end_with %>
             </div>
         </div>
     </div>

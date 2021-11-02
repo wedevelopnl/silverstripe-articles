@@ -9,12 +9,7 @@ use TheWebmen\Articles\Models\Tag;
 
 final class TagFilter implements FilterInterface
 {
-    /***
-     * @param HTTPRequest $request
-     * @param DataList $dataList
-     * @return DataList
-     */
-    public function apply($request, $dataList)
+    public function apply(HTTPRequest $request, DataList $dataList): DataList
     {
         $tag = $this->getActiveItems($request);
 
@@ -25,11 +20,7 @@ final class TagFilter implements FilterInterface
         return $dataList->filter('Tags.ID', $tag->ID);
     }
 
-    /***
-     * @param HTTPRequest $request
-     * @return Tag
-     */
-    public function getActiveItems($request)
+    public function getActiveItems(HTTPRequest $request): ?Tag
     {
         $tag = $request->getVar('tag');
         return Tag::get()->filter('Slug', $tag)->first();

@@ -15,7 +15,9 @@ Article page type, can be used as news system or as a blog
 composer require thewebmen/silverstripe-articles
 ```
 
-# License
+After installation, run a `dev/build` with flush to complete the installation
+
+## License
 See [License](LICENSE)
 
 ## Maintainers

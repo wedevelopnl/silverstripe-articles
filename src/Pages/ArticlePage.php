@@ -15,37 +15,42 @@ use TheWebmen\Articles\Models\Type;
 
 class ArticlePage extends \Page
 {
-    /***
+    /**
      * @var string
      */
     private static $table_name = 'TheWebmen_ArticlePage';
 
-    /***
+    /**
      * @var string
      */
     private static $singular_name = 'Article page';
 
-    /***
+    /**
+     * @var string
+     */
+    private static $description = 'A page that represents an article';
+
+    /**
      * @var string
      */
     private static $plural_name = 'Articles page';
 
-    /***
+    /**
      * @var string
      */
     private static $icon_class = 'font-icon-p-article';
 
-    /***
+    /**
      * @var bool
      */
     private static $show_in_sitetree = false;
 
-    /***
+    /**
      * @var bool
      */
     private static $can_be_root = false;
 
-    /***
+    /**
      * @var array
      */
     private static $allowed_children = [];
@@ -62,7 +67,7 @@ class ArticlePage extends \Page
         'TeaserText' => 'HTMLText',
     ];
 
-    /***
+    /**
      * @var array
      */
     private static $has_one = [
@@ -70,7 +75,7 @@ class ArticlePage extends \Page
         'Type' => Type::class,
     ];
 
-    /***
+    /**
      * @var array
      */
     private static $belongs_many_many = [
@@ -78,12 +83,12 @@ class ArticlePage extends \Page
         'Themes' => ArticleThemePage::class,
     ];
 
-    /***
+    /**
      * @var string
      */
     private static $default_sort = 'PublicationDate DESC';
 
-    /***
+    /**
      * @return FieldList
      */
     public function getCMSFields()

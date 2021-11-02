@@ -22,7 +22,7 @@ trait ArticleRelationObjectTrait
         'ArticlesPage' => ArticlesPage::class,
     ];
 
-    /***
+    /**
      * @return FieldList
      */
     public function getCMSFields()
