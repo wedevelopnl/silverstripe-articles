@@ -2,107 +2,172 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
-use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
-use SilverStripe\ORM\FieldType\DBDatetime;
-use SilverStripe\ORM\ManyManyList;
-use SilverStripe\Security\Member;
-use SilverStripe\Forms\DateField;
-use SilverStripe\Versioned\GridFieldArchiveAction;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\TagField\TagField;
+use TheWebmen\Articles\Models\Tag;
+use TheWebmen\Articles\Models\Type;
 
-/**
- * Class ArticlePage
- * @package TheWebmen\Articles\Pages
- *
- * @property DBDatetime Date
- *
- * @method Member Author()
- * @method ManyManyList RelatedArticles()
- * @method ManyManyList Categories()
- */
 class ArticlePage extends \Page
 {
-
+    /**
+     * @var string
+     */
     private static $table_name = 'TheWebmen_ArticlePage';
 
-    private static $singular_name = 'Article';
-    private static $plural_name = 'Articles';
+    /**
+     * @var string
+     */
+    private static $singular_name = 'Article page';
+
+    /**
+     * @var string
+     */
+    private static $description = 'A page that represents an article';
+
+    /**
+     * @var string
+     */
+    private static $plural_name = 'Articles page';
+
+    /**
+     * @var string
+     */
     private static $icon_class = 'font-icon-p-article';
 
+    /**
+     * @var bool
+     */
     private static $show_in_sitetree = false;
+
+    /**
+     * @var bool
+     */
+    private static $can_be_root = false;
+
+    /**
+     * @var array
+     */
     private static $allowed_children = [];
 
     /**
      * @var array
      */
     private static $db = [
-        'Date' => 'DBDatetime'
+        'AuthorName' => 'Varchar(255)',
+        'Subtitle' => 'Varchar(255)',
+        'PublicationDate' => 'Datetime',
+        'UpdatedDate' => 'Datetime',
+        'ReadingTime' => 'Int(3)',
+        'TeaserText' => 'HTMLText',
     ];
 
     /**
      * @var array
      */
-    private static $has_one = array(
-        'Author' => Member::class
-    );
+    private static $has_one = [
+        'Thumbnail' => Image::class,
+        'Type' => Type::class,
+    ];
 
     /**
      * @var array
      */
-    private static $many_many = array(
-        'RelatedArticles' => ArticlePage::class
-    );
+    private static $belongs_many_many = [
+        'Tags' => Tag::class,
+        'Themes' => ArticleThemePage::class,
+    ];
 
     /**
-     * @var array
+     * @var string
      */
-    private static $belongs_many_many = array(
-        'Categories' => CategoryPage::class
-    );
-
-    private static $default_sort = 'Date DESC';
+    private static $default_sort = 'PublicationDate DESC';
 
     /**
-     * @return \SilverStripe\Forms\FieldList
+     * @return FieldList
      */
     public function getCMSFields()
     {
-        $this->beforeUpdateCMSFields(function (FieldList $fields) {
-            $allMembers = Member::get()->map()->toArray();
-            $fields->addFieldToTab('Root.Main', DropdownField::create('AuthorID', 'Author', $allMembers)->setHasEmptyDefault(true), 'Content');
-            $fields->addFieldToTab('Root.Main', DateField::create('Date', 'Date'), 'Content');
+        $fields = parent::getCMSFields();
 
-            if ($this->exists()) {
-                $relatedConfig = GridFieldConfig_RelationEditor::create();
-                $relatedConfig->removeComponentsByType(GridFieldArchiveAction::class);
-                $searchList = ArticlePage::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
-                $relatedConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($searchList);
-                $fields->findOrMakeTab('Root.Related', _t(self::class . '.RELATED', 'Related'));
-                $fields->addFieldToTab('Root.Related', GridField::create('RelatedArticles', _t(self::class . '.RELATED', 'Related'), $this->RelatedArticles(), $relatedConfig));
+        $fields->removeByName('MenuTitle');
 
-                $categoriesConfig = GridFieldConfig_RelationEditor::create();
-                $categoriesSearchList = CategoryPage::get()->filter('ParentID', $this->ParentID);
-                $categoriesConfig->getComponentByType(GridFieldAddExistingAutocompleter::class)->setSearchList($categoriesSearchList);
-                $fields->findOrMakeTab('Root.Categories', _t(self::class . '.CATEGORIES', 'Categories'));
-                $fields->addFieldToTab('Root.Categories', GridField::create('Categories', _t(self::class . '.CATEGORIES', 'Categories'), $this->Categories(), $categoriesConfig));
-            }
-        });
+        $title = $fields->dataFieldByName('Title')->setTitle(_t('Article.Title', 'Article Title'));
 
-        return parent::getCMSFields();
+        $fields->insertAfter(
+            'URLSegment',
+            TextField::create('Subtitle', _t('Article.Subtitle', 'Article subtitle'))
+        );
+
+        $fields->insertAfter(
+            'Subtitle',
+            TextField::create('AuthorName', _t('Article.Author.Name', 'Author name'))
+        );
+
+        $fields->replaceField('Content', HTMLEditorField::create('Content'));
+
+        $fields->insertAfter(
+            'AuthorName',
+            FieldGroup::create(
+                [
+                    TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
+                    DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
+                    DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
+                ]
+            )
+                ->setName('ArticleMetadata')
+                ->setTitle(_t('Article.Metadata', 'Article metadata'))
+        );
+
+        $fields->insertAfter(
+            'ArticleMetadata',
+            TagField::create(
+                'Themes',
+                _t('Theme.Plural', 'Themes'),
+                ArticleThemePage::get()->filter('ParentID', $this->owner->Parent()->ID),
+                $this->Themes()
+            )->setCanCreate(false)
+        );
+
+        $fields->insertAfter(
+            'Themes',
+            TagField::create(
+                'Tags',
+                _t('Tag.Plural', 'Tags'),
+                Tag::get()->filter(
+                    [
+                        'ArticlesPageID' => $this->ParentID
+                    ]
+                ),
+                $this->Tags()
+            )
+        );
+
+        $fields->insertAfter(
+            'Tags',
+            DropdownField::create(
+                'TypeID',
+                _t('Type.Singular', 'Type'),
+                Type::get()->filter(
+                    [
+                        'ArticlesPageID' => $this->ParentID
+                    ]
+                )
+            )
+                ->setHasEmptyDefault(true)
+        );
+
+        $fields->insertAfter(
+            'TypeID',
+            HTMLEditorField::create('TeaserText', _t('Article.TeaserText', 'Teaser text'))
+                ->setRows(5)
+        );
+
+        return $fields;
     }
-
-    /**
-     * @return string/bool
-     */
-    public function AuthorName(){
-        $author = $this->Author();
-        if($author){
-            return $author->getName();
-        }
-        return false;
-    }
-
 }

@@ -1,91 +1,95 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace TheWebmen\Articles\Controllers;
 
-use SilverStripe\Control\RSS\RSSFeed;
+use SilverStripe\Forms\Form;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\SS_List;
+use TheWebmen\Articles\ArticleFilterForm;
+use TheWebmen\Articles\Filters\TagFilter;
+use TheWebmen\Articles\Filters\ThemeFilter;
+use TheWebmen\Articles\Filters\TypeFilter;
+use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticleThemePage;
 
 class ArticlesPageController extends \PageController
 {
-
     /**
-     * @var array
+     * @var DataList
      */
-    private static $allowed_actions = [
-        'rss'
-    ];
+    protected $articles;
 
-    /**
-     * Init
-     */
-    public function init()
+    public function getThemes(): ?DataList
+    {
+        return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : null;
+    }
+
+    public function getTypes(): ?DataList
+    {
+        return $this->data()->Types();
+    }
+
+    public function ArticleFilterForm(): ArticleFilterForm
+    {
+        return new ArticleFilterForm($this);
+    }
+
+    public function index(): self
+    {
+        return $this;
+    }
+
+    protected function getArticleDataList(): ?DataList
+    {
+        return ArticlePage::get()->filter('ParentID', $this->data()->ID);
+    }
+
+    public function init(): ?DataList
     {
         parent::init();
-        RSSFeed::linkToFeed($this->Link('rss'), _t(self::class . '.RSS_TITLE', '10 Most Recently Updated Articles'));
-    }
 
-    /**
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
-     */
-    public function rss()
-    {
-        $rss = new RSSFeed(
-            $this->LatestArticles(),
-            $this->Link(),
-            _t(self::class . '.RSS_TITLE', '10 Most Recently Updated Articles'),
-            _t(self::class . '.RSS_DESCRIPTION', 'Shows a list of the 10 most recently updated articles.'),
-            'Title',
-            'Content',
-            'AuthorName'
-        );
-        return $rss->outputToBrowser();
-    }
+        $this->articles = $this->getArticleDataList();
 
-    /**
-     * @return static
-     */
-    public function LatestArticles()
-    {
-        return ArticlePage::get()->filter(array(
-            'ParentID' => $this->ID
-        ))->sort('LastEdited', 'DESC')->limit(10);
-    }
-
-    /**
-     * @return SS_List
-     */
-    public function Articles()
-    {
-        $list = ArticlePage::get()->filter('ParentID', $this->ID);
         if ($this->hasMethod('updateArticles')) {
-            $list = $this->updateArticles($list);
+            $this->articles = $this->updateArticles($articles);
         }
-        return $list;
+
+        $this->applyThemesFilter();
+        $this->applyTypeFilter();
+        $this->applyTagFilter();
+
+        return $this->articles;
     }
 
-    /**
-     * @return PaginatedList
-     */
-    public function PaginatedArticles()
+    public function PaginatedArticles(): ?PaginatedList
     {
-        $list = $this->Articles();
-        $pagination = PaginatedList::create($list, $this->getRequest());
+        $pagination = PaginatedList::create($this->articles, $this->getRequest());
         $pagination->setPageLength($this->PageLength);
+        $pagination->setPaginationGetVar('p');
+
         if ($this->hasMethod('updatePaginatedArticles')) {
             $pagination = $this->updatePaginatedArticles($pagination);
         }
+
         return $pagination;
     }
 
-    /**
-     * @return SS_List
-     */
-    public function Categories()
+    protected function applyThemesFilter(): void
     {
-        $list = CategoryPage::get()->filter('ParentID', $this->ID);
-        return $list;
+        $themeFilter = new ThemeFilter();
+        $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
+    }
+
+    protected function applyTagFilter(): void
+    {
+        $tagsFilter = new TagFilter();
+        $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
+    }
+
+    protected function applyTypeFilter(): void
+    {
+        $typeFilter = new TypeFilter();
+        $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);
     }
 }

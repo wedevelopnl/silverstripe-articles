@@ -1,6 +1,6 @@
 <section class="block section">
     <div class="container">
-        <h1>$Title</h1>
+        <h1>Theme: $Title</h1>
         <div class="columns row">
             <div class="col-md-4 column is-4-desktop">
                 <div class="card card-body">
