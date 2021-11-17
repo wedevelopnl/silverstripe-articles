@@ -11,7 +11,9 @@ use TheWebmen\Articles\Filters\TagFilter;
 use TheWebmen\Articles\Filters\ThemeFilter;
 use TheWebmen\Articles\Filters\TypeFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticlesPage;
 use TheWebmen\Articles\Pages\ArticleThemePage;
+use TheWebmen\Articles\Services\ArticleFilterService;
 
 class ArticlesPageController extends \PageController
 {
@@ -51,13 +53,7 @@ class ArticlesPageController extends \PageController
 
         $this->articles = $this->getArticleDataList();
 
-        if ($this->hasMethod('updateArticles')) {
-            $this->articles = $this->updateArticles($articles);
-        }
-
-        $this->applyThemesFilter();
-        $this->applyTypeFilter();
-        $this->applyTagFilter();
+        $this->applyFilters();
 
         return $this->articles;
     }
@@ -75,21 +71,16 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
-    protected function applyThemesFilter(): void
+    private function applyFilters(): void
     {
-        $themeFilter = new ThemeFilter();
-        $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
-    }
+        $themes = $this->getRequest()->getVar('thema');
+        $type = $this->getRequest()->getVar('type');
+        $tag = $this->getRequest()->getVar('tag');
 
-    protected function applyTagFilter(): void
-    {
-        $tagsFilter = new TagFilter();
-        $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
-    }
-
-    protected function applyTypeFilter(): void
-    {
-        $typeFilter = new TypeFilter();
-        $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);
+        $filterService = new ArticleFilterService($this->articles);
+        $filterService->applyThemesFilter(explode(',', $themes));
+        $filterService->applyTypeFilter(explode(',', $type));
+        $filterService->applyTagFilter(explode(',', $tag));
+        $this->articles = $filterService->getArticles();
     }
 }

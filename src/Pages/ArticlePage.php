@@ -3,13 +3,16 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Assets\Image;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataList;
 use SilverStripe\TagField\TagField;
+use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 
@@ -59,12 +62,13 @@ class ArticlePage extends \Page
      * @var array
      */
     private static $db = [
-        'AuthorName' => 'Varchar(255)',
         'Subtitle' => 'Varchar(255)',
         'PublicationDate' => 'Datetime',
         'UpdatedDate' => 'Datetime',
         'ReadingTime' => 'Int(3)',
         'TeaserText' => 'HTMLText',
+        'Highlighted' => 'Boolean',
+        'Pinned' => 'Boolean',
     ];
 
     /**
@@ -73,6 +77,7 @@ class ArticlePage extends \Page
     private static $has_one = [
         'Thumbnail' => Image::class,
         'Type' => Type::class,
+        'Author' => Author::class,
     ];
 
     /**
@@ -104,20 +109,17 @@ class ArticlePage extends \Page
             TextField::create('Subtitle', _t('Article.Subtitle', 'Article subtitle'))
         );
 
-        $fields->insertAfter(
-            'Subtitle',
-            TextField::create('AuthorName', _t('Article.Author.Name', 'Author name'))
-        );
-
         $fields->replaceField('Content', HTMLEditorField::create('Content'));
 
         $fields->insertAfter(
-            'AuthorName',
+            'Subtitle',
             FieldGroup::create(
                 [
                     TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
                     DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
                     DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
+                    CheckboxField::create('Highlighted', _t('Article.HighlightArticle', 'Highlight article')),
+                    CheckboxField::create('Pinned', _t('Article.PinArticle', 'Pin this article')),
                 ]
             )
                 ->setName('ArticleMetadata')
@@ -150,6 +152,20 @@ class ArticlePage extends \Page
 
         $fields->insertAfter(
             'Tags',
+            DropdownField::create(
+                'AuthorID',
+                _t('Author.Singular', 'Author'),
+                Author::get()->filter(
+                    [
+                        'ArticlesPageID' => $this->ParentID
+                    ]
+                )
+            )
+                ->setHasEmptyDefault(true)
+        );
+
+        $fields->insertAfter(
+            'AuthorID',
             DropdownField::create(
                 'TypeID',
                 _t('Type.Singular', 'Type'),

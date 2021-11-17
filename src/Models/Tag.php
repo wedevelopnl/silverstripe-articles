@@ -3,14 +3,21 @@
 namespace TheWebmen\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Traits\ArticleRelationObjectTrait;
+use TheWebmen\Articles\Pages\ArticlesPage;
 
 class Tag extends DataObject
 {
-    use ArticleRelationObjectTrait;
+    /**
+     * @var array
+     */
+    private static $db = [
+        'Title' => 'Varchar(255)',
+        'Slug' => 'Varchar(255)',
+    ];
 
     /**
      * @var string
@@ -42,9 +49,30 @@ class Tag extends DataObject
     /**
      * @var array
      */
+    private static $has_one = [
+        'ArticlesPage' => ArticlesPage::class,
+    ];
+
+    /**
+     * @var array
+     */
     private static $many_many = [
         'ArticlePages' => ArticlePage::class,
     ];
+
+    /**
+     * @return FieldList
+     */
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+
+        $fields->removeByName('ArticlesPageID');
+
+        $fields->renameField('Title', 'Name');
+
+        return $fields;
+    }
 
     /**
      * This sets the ArticlesPageID in case the Tag is created within

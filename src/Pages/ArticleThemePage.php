@@ -4,6 +4,7 @@ namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Forms\FieldList;
 use TheWebmen\Articles\Controllers\ArticleThemePageController;
+use TheWebmen\Articles\ElementalGrid\ElementArticles;
 
 class ArticleThemePage extends \Page
 {
@@ -59,6 +60,7 @@ class ArticleThemePage extends \Page
      */
     private static $many_many = [
         'ArticlePages' => ArticlePage::class,
+        'ElementArticles' => ElementArticles::class,
     ];
 
     public function getControllerName(): string

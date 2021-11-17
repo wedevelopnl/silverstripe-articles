@@ -11,6 +11,7 @@ use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
 use TheWebmen\Articles\Controllers\ArticlesPageController;
+use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
 
@@ -19,6 +20,8 @@ use TheWebmen\Articles\Models\Type;
  * @package TheWebmen\Articles\Pages
  *
  * @property int $PageLength
+ * @method Type Types()
+ * @method Author Authors()
  */
 class ArticlesPage extends \Page
 {
@@ -72,6 +75,7 @@ class ArticlesPage extends \Page
     private static $has_many = [
         'Types' => Type::class,
         'Tags' => Tag::class,
+        'Authors' => Author::class,
     ];
 
     /**
@@ -101,6 +105,19 @@ class ArticlesPage extends \Page
                 ),
             ]
         );
+
+        $fields->addFieldsToTab(
+            'Root.Authors',
+            [
+                GridField::create(
+                    'Authors',
+                    _t('Authors.Plural', 'Authors'),
+                    $this->Authors(),
+                    new GridFieldConfig_RecordEditor()
+                ),
+            ]
+        );
+
         $fields->addFieldsToTab(
             'Root.Tags',
             [

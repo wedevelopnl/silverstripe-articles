@@ -21,6 +21,12 @@ nl:
       one: 'Een thema'
       other: "{count} thema's"
     SINGULARNAME: 'Thema'
+  ElementArticles:
+    Optional: 'Optioneel'
+    ShowHighlightedArticlesOnly: 'Weergeef alleen uitgelichte artikelen'
+    ShowPinnedArticlesAtTop: 'Weergeef vastgeprikte artikelen bovenaan'
+    MaxAmount: 'Maximaal aantal weer te geven artikelen'
+    ShowMoreArticlesButton: "Weergeef 'meer artikelen' knop"
   Articles:
     NoArticlesFound: 'Geen artikelen gevonden'
   Article:
@@ -34,6 +40,8 @@ nl:
       Updated: 'Publicatie datum'
     Metadata: 'Artikel metadata'
     TeaserText: 'Teaser tekst'
+    HighlightArticle: 'Artikel uitlichten'
+    PinArticle: 'Artikel vastpinnen'
   Theme:
     Singular: "Thema"
     Plural: "Thema's"

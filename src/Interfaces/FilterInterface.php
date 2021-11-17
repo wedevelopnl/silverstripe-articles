@@ -9,10 +9,10 @@ use SilverStripe\ORM\DataObject;
 
 interface FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList;
+    public function apply(array $items, DataList $dataList): DataList;
 
     /**
      * @return DataList|DataObject
      */
-    public function getActiveItems(HTTPRequest $request);
+    public function getActiveItems(array $items);
 }

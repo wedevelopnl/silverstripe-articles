@@ -10,9 +10,9 @@ use TheWebmen\Articles\Pages\ArticleThemePage;
 
 final class ThemeFilter implements FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList
+    public function apply(array $items, DataList $dataList): DataList
     {
-        $themes = $this->getActiveItems($request);
+        $themes = $this->getActiveItems($items);
 
         if (count($themes) === 0) {
             return $dataList;
@@ -21,14 +21,12 @@ final class ThemeFilter implements FilterInterface
         return $dataList->filter('Themes.ID', $themes->column('ID'));
     }
 
-    public function getActiveItems(HTTPRequest $request): DataList
+    public function getActiveItems(array $items): DataList
     {
-        $themes = $request->getVar('thema');
-
-        if (empty($themes)) {
+        if (empty($items)) {
             return new DataList(ArticleThemePage::class);
         }
 
-        return ArticleThemePage::get()->filter('URLSegment', explode(',', $themes));
+        return ArticleThemePage::get()->filter('URLSegment', $items);
     }
 }
