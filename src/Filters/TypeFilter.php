@@ -16,15 +16,11 @@ final class TypeFilter implements FilterInterface
             return $dataList;
         }
 
-        return $dataList->filter('Type.ID', $type->ID);
+        return $dataList->filter('Type.ID', $type->column('ID'));
     }
 
     public function getActiveItems(array $items)
     {
-        if (count($items) > 1) {
-            return Type::get()->filter('Slug', $items);
-        }
-
-        return Type::get()->filter('Slug', $items[0])->first();
+        return Type::get()->filter('Slug', $items);
     }
 }

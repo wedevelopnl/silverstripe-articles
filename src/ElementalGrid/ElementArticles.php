@@ -7,6 +7,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
@@ -77,7 +78,8 @@ class ElementArticles extends BaseElement
         'ShowHighlightedArticlesOnly' => 'Boolean',
         'ShowPinnedArticlesAtTop' => 'Boolean',
         'ShowMoreArticlesButton' => 'Boolean',
-        'MaxAmount' => 'Int'
+        'MaxAmount' => 'Int(3)',
+        'ShowMoreArticlesButtonText' => 'Varchar(255)',
     ];
 
     /**
@@ -108,6 +110,7 @@ class ElementArticles extends BaseElement
                 'ShowPinnedArticlesAtTop',
                 'ShowMoreArticlesButton',
                 'MaxAmount',
+                'ShowMoreArticlesButtonText',
             ]
         );
 
@@ -161,6 +164,13 @@ class ElementArticles extends BaseElement
                         'ShowMoreArticlesButton',
                         _t('ElementArticles.ShowMoreArticlesButton', "Show 'more articles' button")
                     ),
+                    TextField::create(
+                        'ShowMoreArticlesButtonText',
+                        _t('ElementArticles.ShowMoreArticlesButtonText', "Show 'more articles' button text")
+                    )
+                        ->displayIf('ShowMoreArticlesButtonText')
+                        ->isChecked()
+                        ->end(),
                 ]
             );
         }
@@ -176,7 +186,13 @@ class ElementArticles extends BaseElement
     public function getArticles(): ?DataList
     {
         $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
+        $articles = $this->applyFilters($articles);
 
+        return $articles->limit($this->MaxAmount);
+    }
+
+    private function applyFilters(DataList $articles): DataList
+    {
         $filterService = new ArticleFilterService($articles);
 
         if ($this->Themes()->count()) {
@@ -193,14 +209,14 @@ class ElementArticles extends BaseElement
             $articles = $articles->filter('Author.Slug', $this->Authors()->column('Slug'));
         }
 
-        if ($this->ShowHighlightedArticlesOnly) {
-            $articles = $articles->filter('Highlighted', true)->sort('Highlighted', 'ASC');
-        }
-
         if ($this->ShowPinnedArticlesAtTop) {
-            $articles = $articles->sort('Pinned', 'ASC');
+            $articles = $articles->sort('Pinned', 'DESC');
         }
 
-        return $articles->limit($this->MaxAmount);
+        if ($this->ShowHighlightedArticlesOnly) {
+            $articles = $articles->filter('Highlighted', true)->sort('Highlighted', 'DESC');
+        }
+
+        return $articles;
     }
 }

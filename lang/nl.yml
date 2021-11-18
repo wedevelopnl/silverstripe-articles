@@ -27,9 +27,13 @@ nl:
     ShowPinnedArticlesAtTop: 'Weergeef vastgeprikte artikelen bovenaan'
     MaxAmount: 'Maximaal aantal weer te geven artikelen'
     ShowMoreArticlesButton: "Weergeef 'meer artikelen' knop"
+    ShowMoreArticlesButtonText: "'Meer artikelen' knop tekst"
+    Results: "Resultaten"
   Articles:
     NoArticlesFound: 'Geen artikelen gevonden'
   Article:
+    Singular: 'Artikel'
+    Plural: 'Artikelen'
     Title: 'Artikel titel'
     Subtitle: 'Artikel subtitel'
     Author:
