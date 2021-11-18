@@ -90,6 +90,12 @@ class ArticlesPageController extends \PageController
 
     private function applySorting(): void
     {
-        $this->articles->sort('PublicationDate', 'DESC');
+        $this->articles = $this->articles->sort(
+            [
+                'Pinned' => 'DESC',
+                'Highlighted' => 'DESC',
+                'PublicationDate' => 'DESC'
+            ]
+        );
     }
 }
