@@ -168,7 +168,7 @@ class ElementArticles extends BaseElement
                         'ShowMoreArticlesButtonText',
                         _t('ElementArticles.ShowMoreArticlesButtonText', "Show 'more articles' button text")
                     )
-                        ->displayIf('ShowMoreArticlesButtonText')
+                        ->displayIf('ShowMoreArticlesButton')
                         ->isChecked()
                         ->end(),
                 ]
@@ -204,19 +204,24 @@ class ElementArticles extends BaseElement
         }
 
         $articles = $filterService->getArticles();
+        $sorting = [];
 
         if ($this->Authors()->count()) {
             $articles = $articles->filter('Author.Slug', $this->Authors()->column('Slug'));
         }
 
         if ($this->ShowPinnedArticlesAtTop) {
-            $articles = $articles->sort('Pinned', 'DESC');
+            $sorting['Pinned'] = 'DESC';
         }
 
         if ($this->ShowHighlightedArticlesOnly) {
-            $articles = $articles->filter('Highlighted', true)->sort('Highlighted', 'DESC');
+            $articles = $articles->filter('Highlighted', true);
+            $sorting['Highlighted'] = 'DESC';
         }
 
-        return $articles;
+        $sorting['PublicationDate'] = 'DESC';
+
+        var_dump($sorting);
+        return $articles->sort($sorting);
     }
 }

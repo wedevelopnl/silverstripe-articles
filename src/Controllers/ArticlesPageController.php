@@ -47,6 +47,7 @@ class ArticlesPageController extends \PageController
         $this->articles = $this->getArticleDataList();
 
         $this->applyFilters();
+        $this->applySorting();
 
         return $this->articles;
     }
@@ -85,5 +86,10 @@ class ArticlesPageController extends \PageController
         }
 
         $this->articles = $filterService->getArticles();
+    }
+
+    private function applySorting(): void
+    {
+        $this->articles->sort('PublicationDate', 'DESC');
     }
 }

@@ -108,22 +108,4 @@ class Author extends DataObject
 
         return $fields;
     }
-
-    /**
-     * This sets the ArticlesPageID in case the Author is created within
-     * an article {@see ArticlePage}, in stead of via the article overview page {@see ArticlesPage}
-     */
-    protected function onBeforeWrite(): void
-    {
-        $currentPageID = CMSPageEditController::curr()->currentPageID();
-        $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);
-
-        if ($currentPage) {
-            $this->ArticlesPageID = $currentPage->ParentID;
-        }
-
-        $this->Slug = URLSegmentFilter::create()->filter($this->Title);
-
-        parent::onBeforeWrite();
-    }
 }

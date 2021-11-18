@@ -9,7 +9,8 @@ $Articles.Count <%t Article.Plural "Articles" %>
     <ul>
         <% loop $Articles %>
             <li>
-                <a href="$Link">$Title</a>
+                <% if $Pinned %><strong>Pinned:</strong> <% end_if %>
+                <a href="$Link">$Title</a> $PublicationDate.Nice
             </li>
         <% end_loop %>
     </ul>
@@ -18,6 +19,6 @@ $Articles.Count <%t Article.Plural "Articles" %>
 <% end_if %>
 <% if $ShowMoreArticlesButton %>
     <a href="$ArticlesPage.Link" class="btn button is-primary is-small btn-sm btn-primary">
-        $ArticlesPage.Title
+        $ShowMoreArticlesButtonText
     </a>
 <% end_if %>
