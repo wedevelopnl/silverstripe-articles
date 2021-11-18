@@ -221,7 +221,6 @@ class ElementArticles extends BaseElement
 
         $sorting['PublicationDate'] = 'DESC';
 
-        var_dump($sorting);
         return $articles->sort($sorting);
     }
 }
