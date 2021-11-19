@@ -143,7 +143,7 @@ class ArticlePage extends \Page
                 _t('Tag.Plural', 'Tags'),
                 Tag::get()->filter(
                     [
-                        'ArticlesPageID' => $this->ParentID
+                        'ArticlesPageID' => $this->ParentID,
                     ]
                 ),
                 $this->Tags()
@@ -157,7 +157,7 @@ class ArticlePage extends \Page
                 _t('Author.Singular', 'Author'),
                 Author::get()->filter(
                     [
-                        'ArticlesPageID' => $this->ParentID
+                        'ArticlesPageID' => $this->ParentID,
                     ]
                 )
             )

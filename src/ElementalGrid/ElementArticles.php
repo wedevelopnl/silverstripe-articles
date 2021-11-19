@@ -186,9 +186,13 @@ class ElementArticles extends BaseElement
     public function getArticles(): ?DataList
     {
         $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
-        $articles = $this->applyFilters($articles);
 
-        return $articles->limit($this->MaxAmount);
+        if ($articles) {
+            $articles = $this->applyFilters($articles);
+            return $articles->limit($this->MaxAmount);
+        }
+
+        return null;
     }
 
     private function applyFilters(DataList $articles): DataList

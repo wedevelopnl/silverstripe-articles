@@ -28,7 +28,7 @@ nl:
     MaxAmount: 'Maximaal aantal weer te geven artikelen'
     ShowMoreArticlesButton: "Weergeef 'meer artikelen' knop"
     ShowMoreArticlesButtonText: "'Meer artikelen' knop tekst"
-    Results: "Resultaten"
+    Results: 'Resultaten'
   Articles:
     NoArticlesFound: 'Geen artikelen gevonden'
   Article:

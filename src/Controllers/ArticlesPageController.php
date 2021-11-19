@@ -46,8 +46,10 @@ class ArticlesPageController extends \PageController
 
         $this->articles = $this->getArticleDataList();
 
-        $this->applyFilters();
-        $this->applySorting();
+        if ($this->articles) {
+            $this->applyFilters();
+            $this->applySorting();
+        }
 
         return $this->articles;
     }
