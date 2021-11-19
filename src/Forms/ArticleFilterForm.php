@@ -8,26 +8,29 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
-use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\Requirements;
+use TheWebmen\Articles\Pages\ArticlesPage;
 
 class ArticleFilterForm extends Form
 {
     public function __construct(RequestHandler $controller = null, $name = self::DEFAULT_NAME)
     {
         $fields = new FieldList(
-            CheckboxSetField::create(
-                'thema',
-                _t('Theme.Singular', 'Theme'),
-                $controller->getThemes()->map('URLSegment', 'Title')->toArray()
-            ),
             DropdownField::create(
                 'type',
                 _t('Type.Singular', 'Type'),
                 $controller->getTypes()->map('Slug', 'Title')->toArray()
             )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
         );
+
+        if($controller->data() instanceof ArticlesPage) {
+            $fields->insertBefore('type', CheckboxSetField::create(
+                'thema',
+                _t('Theme.Singular', 'Theme'),
+                $controller->getThemes()->map('URLSegment', 'Title')->toArray()
+            ));
+        }
 
         $actions = new FieldList(
             FormAction::create('doArticleFilterForm', 'Filter')

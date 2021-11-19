@@ -2,16 +2,11 @@
 
 namespace TheWebmen\Articles\Controllers;
 
-use SilverStripe\Forms\Form;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\Articles\ArticleFilterForm;
-use TheWebmen\Articles\Filters\TagFilter;
-use TheWebmen\Articles\Filters\ThemeFilter;
-use TheWebmen\Articles\Filters\TypeFilter;
 use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Pages\ArticleThemePage;
+use TheWebmen\Articles\Services\ArticleFilterService;
 
 class ArticlesPageController extends \PageController
 {
@@ -51,13 +46,10 @@ class ArticlesPageController extends \PageController
 
         $this->articles = $this->getArticleDataList();
 
-        if ($this->hasMethod('updateArticles')) {
-            $this->articles = $this->updateArticles($articles);
+        if ($this->articles) {
+            $this->applyFilters();
+            $this->applySorting();
         }
-
-        $this->applyThemesFilter();
-        $this->applyTypeFilter();
-        $this->applyTagFilter();
 
         return $this->articles;
     }
@@ -75,21 +67,37 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
-    protected function applyThemesFilter(): void
+    private function applyFilters(): void
     {
-        $themeFilter = new ThemeFilter();
-        $this->articles = $themeFilter->apply($this->getRequest(), $this->articles);
+        $themes = $this->getRequest()->getVar('thema');
+        $type = $this->getRequest()->getVar('type');
+        $tag = $this->getRequest()->getVar('tag');
+
+        $filterService = new ArticleFilterService($this->articles);
+
+        if ($themes) {
+            $filterService->applyThemesFilter(explode(',', $themes));
+        }
+
+        if ($type) {
+            $filterService->applyTypeFilter(explode(',', $type));
+        }
+
+        if ($tag) {
+            $filterService->applyTagFilter(explode(',', $tag));
+        }
+
+        $this->articles = $filterService->getArticles();
     }
 
-    protected function applyTagFilter(): void
+    private function applySorting(): void
     {
-        $tagsFilter = new TagFilter();
-        $this->articles = $tagsFilter->apply($this->getRequest(), $this->articles);
-    }
-
-    protected function applyTypeFilter(): void
-    {
-        $typeFilter = new TypeFilter();
-        $this->articles = $typeFilter->apply($this->getRequest(), $this->articles);
+        $this->articles = $this->articles->sort(
+            [
+                'Pinned' => 'DESC',
+                'Highlighted' => 'DESC',
+                'PublicationDate' => 'DESC'
+            ]
+        );
     }
 }

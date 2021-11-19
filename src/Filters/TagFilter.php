@@ -2,16 +2,15 @@
 
 namespace TheWebmen\Articles\Filters;
 
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\DataList;
 use TheWebmen\Articles\Interfaces\FilterInterface;
 use TheWebmen\Articles\Models\Tag;
 
 final class TagFilter implements FilterInterface
 {
-    public function apply(HTTPRequest $request, DataList $dataList): DataList
+    public function apply(array $items, DataList $dataList): DataList
     {
-        $tag = $this->getActiveItems($request);
+        $tag = $this->getActiveItems($items);
 
         if (!$tag) {
             return $dataList;
@@ -20,9 +19,12 @@ final class TagFilter implements FilterInterface
         return $dataList->filter('Tags.ID', $tag->ID);
     }
 
-    public function getActiveItems(HTTPRequest $request): ?Tag
+    public function getActiveItems(array $items)
     {
-        $tag = $request->getVar('tag');
-        return Tag::get()->filter('Slug', $tag)->first();
+        if (count($items) > 1) {
+            return Tag::get()->filter('Slug', $items);
+        }
+
+        return Tag::get()->filter('Slug', $items[0])->first();
     }
 }
