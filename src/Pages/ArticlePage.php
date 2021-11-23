@@ -67,8 +67,6 @@ class ArticlePage extends \Page
         'UpdatedDate' => 'Datetime',
         'ReadingTime' => 'Int(3)',
         'TeaserText' => 'HTMLText',
-        'Highlighted' => 'Boolean',
-        'Pinned' => 'Boolean',
     ];
 
     /**
@@ -86,6 +84,8 @@ class ArticlePage extends \Page
     private static $belongs_many_many = [
         'Tags' => Tag::class,
         'Themes' => ArticleThemePage::class,
+        'HighlightedArticles' => ArticlesPage::class . '.HighlightedArticles',
+        'PinnedArticles' => ArticlesPage::class . '.PinnedArticles',
     ];
 
     /**
@@ -93,10 +93,7 @@ class ArticlePage extends \Page
      */
     private static $default_sort = 'PublicationDate DESC';
 
-    /**
-     * @return FieldList
-     */
-    public function getCMSFields()
+    public function getCMSFields(): FieldList
     {
         $fields = parent::getCMSFields();
 
@@ -118,8 +115,6 @@ class ArticlePage extends \Page
                     TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
                     DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
                     DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
-                    CheckboxField::create('Highlighted', _t('Article.HighlightArticle', 'Highlight article')),
-                    CheckboxField::create('Pinned', _t('Article.PinArticle', 'Pin this article')),
                 ]
             )
                 ->setName('ArticleMetadata')
@@ -185,5 +180,15 @@ class ArticlePage extends \Page
         );
 
         return $fields;
+    }
+
+    public function isHighlighted(array $highlightedIDs): bool
+    {
+        return in_array($this->ID, $highlightedIDs);
+    }
+
+    public function isPinned(array $pinnedIDs): bool
+    {
+        return in_array($this->ID, $pinnedIDs);
     }
 }

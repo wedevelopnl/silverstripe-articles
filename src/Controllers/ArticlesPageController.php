@@ -3,11 +3,19 @@
 namespace TheWebmen\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\Articles\ArticleFilterForm;
 use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticlesPage;
 use TheWebmen\Articles\Services\ArticleFilterService;
 
+/**
+ * Class ArticlesPageController
+ * @package TheWebmen\Articles\Controllers
+ *
+ * @method ArticlesPage data()
+ */
 class ArticlesPageController extends \PageController
 {
     /**
@@ -30,8 +38,16 @@ class ArticlesPageController extends \PageController
         return new ArticleFilterForm($this);
     }
 
-    public function index(): self
+    public function index()
     {
+        if ($template = $this->extend('updateRenderWith')) {
+            return $this->customise(
+                [
+                    'Layout' => $this->renderWith([$template])
+                ]
+            )->renderWith(['Page']);
+        }
+
         return $this;
     }
 
@@ -60,11 +76,12 @@ class ArticlesPageController extends \PageController
         $pagination->setPageLength($this->PageLength);
         $pagination->setPaginationGetVar('p');
 
-        if ($this->hasMethod('updatePaginatedArticles')) {
-            $pagination = $this->updatePaginatedArticles($pagination);
-        }
-
         return $pagination;
+    }
+
+    public function getArticles(): ?DataList
+    {
+        return $this->articles;
     }
 
     private function applyFilters(): void
@@ -94,8 +111,6 @@ class ArticlesPageController extends \PageController
     {
         $this->articles = $this->articles->sort(
             [
-                'Pinned' => 'DESC',
-                'Highlighted' => 'DESC',
                 'PublicationDate' => 'DESC'
             ]
         );

@@ -9,6 +9,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\TagField\TagField;
@@ -185,10 +186,15 @@ class ElementArticles extends BaseElement
 
     public function getArticles(): ?DataList
     {
-        $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
+        if ($this->ShowHighlightedArticlesOnly) {
+            $articles = $this->ArticlesPage()->HighlightedArticles();
+        } else {
+            $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
+        }
 
         if ($articles) {
             $articles = $this->applyFilters($articles);
+//            $articles = $this->applySorting($articles);
             return $articles->limit($this->MaxAmount);
         }
 
@@ -208,23 +214,19 @@ class ElementArticles extends BaseElement
         }
 
         $articles = $filterService->getArticles();
-        $sorting = [];
 
         if ($this->Authors()->count()) {
             $articles = $articles->filter('Author.Slug', $this->Authors()->column('Slug'));
         }
 
-        if ($this->ShowPinnedArticlesAtTop) {
-            $sorting['Pinned'] = 'DESC';
-        }
+        return $articles;
+    }
 
-        if ($this->ShowHighlightedArticlesOnly) {
-            $articles = $articles->filter('Highlighted', true);
-            $sorting['Highlighted'] = 'DESC';
-        }
+    private function applySorting(DataList $articles)
+    {
+        $pinnedArticles = $this->ArticlesPage()->PinnedArticles();
+        $highlightedArticles = $this->ArticlesPage()->HighlightedArticles();
 
-        $sorting['PublicationDate'] = 'DESC';
-
-        return $articles->sort($sorting);
+        $articles->sort('isHighlighted', $highlightedArticles);
     }
 }

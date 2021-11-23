@@ -16,7 +16,6 @@
                     <ul>
                         <% loop $PaginatedArticles %>
                             <li>
-                                <% if $Pinned %><strong>Pinned:</strong> <% end_if %>
                                 <a href="$Link">$Title</a> <% if $PublicationDate %>($PublicationDate.Nice)<% end_if %>
                             </li>
                         <% end_loop %>

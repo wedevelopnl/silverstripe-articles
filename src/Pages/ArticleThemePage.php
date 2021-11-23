@@ -2,7 +2,6 @@
 
 namespace TheWebmen\Articles\Pages;
 
-use SilverStripe\Forms\FieldList;
 use TheWebmen\Articles\Controllers\ArticleThemePageController;
 use TheWebmen\Articles\ElementalGrid\ElementArticles;
 

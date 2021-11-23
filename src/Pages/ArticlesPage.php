@@ -2,25 +2,33 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use App\Pages\MealPage;
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\HasManyList;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
 use TheWebmen\Articles\Models\Type;
+use TheWebmen\PickerField\Controllers\PickerField;
 
 /**
  * Class ArticlesPage
  * @package TheWebmen\Articles\Pages
  *
  * @property int $PageLength
- * @method Type Types()
+ * @method Type|HasManyList Types()
  * @method Author Authors()
  */
 class ArticlesPage extends \Page
@@ -53,6 +61,9 @@ class ArticlesPage extends \Page
         ArticleThemePage::class,
     ];
 
+    /**
+     * @var string
+     */
     private static $default_child = ArticlePage::class;
 
     /**
@@ -76,6 +87,14 @@ class ArticlesPage extends \Page
         'Types' => Type::class,
         'Tags' => Tag::class,
         'Authors' => Author::class,
+    ];
+
+    /**
+     * @var array
+     */
+    private static $many_many = [
+        'HighlightedArticles' => ArticlePage::class,
+        'PinnedArticles' => ArticlePage::class,
     ];
 
     /**
@@ -134,11 +153,47 @@ class ArticlesPage extends \Page
             )
         );
 
+        $fields->addFieldToTab(
+            'Root.Highlighted',
+            new GridField(
+                'HighlightedArticles',
+                'Highlighted articles',
+                $this->HighlightedArticles(),
+                $this->getGridConfig()
+            )
+        );
+
+        $fields->addFieldToTab(
+            'Root.Pinned',
+            new GridField(
+                'PinnedArticles',
+                'Pinned articles',
+                $this->PinnedArticles(),
+                $this->getGridConfig()
+            )
+        );
+
         $fields->insertBefore('Articles', NumericField::create('PageLength'));
 
         return $fields;
     }
 
+    private function getGridConfig(): GridFieldConfig_RelationEditor
+    {
+        $gridfieldConfig = GridFieldConfig_RelationEditor::create();
+        $gridfieldConfig->addComponent(new GridFieldOrderableRows());
+        $autocompleter = $gridfieldConfig->getComponentByType(GridFieldAddExistingAutocompleter::class);
+        $autocompleter
+            ->setSearchList(
+                ArticlePage::get()->filter(
+                    [
+                        'ParentID' => $this->ID
+                    ]
+                )
+            );
+
+        return $gridfieldConfig;
+    }
     public function getLumberjackTitle(): string
     {
         return _t(self::class . '.ARTICLES', 'Articles');
