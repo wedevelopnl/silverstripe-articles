@@ -191,6 +191,8 @@ class ArticlesPage extends \Page
     {
         $gridfieldConfig = GridFieldConfig_RelationEditor::create();
         $gridfieldConfig->addComponent(new GridFieldOrderableRows($sortColumn));
+
+        /** @var GridFieldAddExistingAutocompleter $autocompleter */
         $autocompleter = $gridfieldConfig->getComponentByType(GridFieldAddExistingAutocompleter::class);
         $autocompleter
             ->setSearchList(

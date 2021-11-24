@@ -10,10 +10,8 @@
             <div class="col-md-8 column is-8-desktop">
                 <h2><%t TheWebmen\Articles\Pages\ArticlePage.PLURALNAME "Articles" %></h2>
                 <hr />
-
                 $Content
                 <hr />
-
                 <% if $PaginatedArticles %>
                     <ul>
                         <% loop $PaginatedArticles %>

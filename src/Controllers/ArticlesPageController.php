@@ -77,7 +77,6 @@ class ArticlesPageController extends \PageController
     private function applyFilters(): void
     {
         $URLFilters = $this->getFiltersFromURL();
-
         $filterService = new ArticleFilterService($this->articles);
 
         if ($URLFilters['themes']) {
@@ -101,7 +100,7 @@ class ArticlesPageController extends \PageController
         return $URLFilters['themes'] || $URLFilters['type'] || $URLFilters['tag'];
     }
 
-    private function getFiltersFromURL()
+    private function getFiltersFromURL(): array
     {
         return [
             'themes' => $this->getRequest()->getVar('thema'),

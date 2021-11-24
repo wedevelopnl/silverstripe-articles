@@ -100,8 +100,6 @@ class ArticlePage extends \Page
 
         $fields->removeByName('MenuTitle');
 
-        $title = $fields->dataFieldByName('Title')->setTitle(_t('Article.Title', 'Article Title'));
-
         $fields->insertAfter(
             'URLSegment',
             TextField::create('Subtitle', _t('Article.Subtitle', 'Article subtitle'))

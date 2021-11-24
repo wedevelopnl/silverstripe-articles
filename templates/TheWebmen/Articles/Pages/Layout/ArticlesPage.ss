@@ -23,7 +23,6 @@
                     </ul>
                     <hr />
                 <% end_if %>
-
                 <% if $Types %>
                     <h3>
                         <%t Type.Plural "Types" %>
@@ -73,7 +72,6 @@
                         </p>
                     <% end_if %>
                 <% end_if %>
-
                 <h3>All articles (paginated)</h3>
                 <% if $PaginatedArticles %>
                     <ul>
@@ -88,7 +86,6 @@
                         <%t Articles.NoArticlesFound "No articles found" %>
                     </p>
                 <% end_if %>
-
                 <% with $PaginatedArticles %>
                     <% if $MoreThanOnePage %>
                         <% if $NotFirstPage %>
