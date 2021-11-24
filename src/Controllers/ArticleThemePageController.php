@@ -20,11 +20,11 @@ class ArticleThemePageController extends ArticlesPageController
 
     public function getTypes(): ?DataList
     {
-        return $this->data()->getParent()->Types();
+        return $this->data()->getParent()->getTypes();
     }
 
     protected function getArticleDataList(): ?DataList
     {
-        return $this->data()->getManyManyComponents('ArticlePages');
+        return $this->data()->getManyManyComponents('Articles');
     }
 }

@@ -3,18 +3,15 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataList;
 use SilverStripe\TagField\TagField;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
-use TheWebmen\Articles\Models\Type;
 
 class ArticlePage extends \Page
 {
@@ -67,6 +64,8 @@ class ArticlePage extends \Page
         'UpdatedDate' => 'Datetime',
         'ReadingTime' => 'Int(3)',
         'TeaserText' => 'HTMLText',
+        'Pinned' => 'Boolean',
+        'Highlighted' => 'Boolean',
     ];
 
     /**
@@ -74,7 +73,7 @@ class ArticlePage extends \Page
      */
     private static $has_one = [
         'Thumbnail' => Image::class,
-        'Type' => Type::class,
+        'Type' => ArticleTypePage::class,
         'Author' => Author::class,
     ];
 
@@ -89,9 +88,11 @@ class ArticlePage extends \Page
     ];
 
     /**
-     * @var string
+     * @var array
      */
-    private static $default_sort = 'PublicationDate DESC';
+    private static $default_sort = [
+        'PublicationDate' => 'DESC',
+    ];
 
     public function getCMSFields(): FieldList
     {
@@ -126,7 +127,7 @@ class ArticlePage extends \Page
             TagField::create(
                 'Themes',
                 _t('Theme.Plural', 'Themes'),
-                ArticleThemePage::get()->filter('ParentID', $this->owner->Parent()->ID),
+                ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                 $this->Themes()
             )->setCanCreate(false)
         );
@@ -164,9 +165,9 @@ class ArticlePage extends \Page
             DropdownField::create(
                 'TypeID',
                 _t('Type.Singular', 'Type'),
-                Type::get()->filter(
+                ArticleTypePage::get()->filter(
                     [
-                        'ArticlesPageID' => $this->ParentID
+                        'ParentID' => $this->ParentID
                     ]
                 )
             )
@@ -180,15 +181,5 @@ class ArticlePage extends \Page
         );
 
         return $fields;
-    }
-
-    public function isHighlighted(array $highlightedIDs): bool
-    {
-        return in_array($this->ID, $highlightedIDs);
-    }
-
-    public function isPinned(array $pinnedIDs): bool
-    {
-        return in_array($this->ID, $pinnedIDs);
     }
 }

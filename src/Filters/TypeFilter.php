@@ -4,23 +4,27 @@ namespace TheWebmen\Articles\Filters;
 
 use SilverStripe\ORM\DataList;
 use TheWebmen\Articles\Interfaces\FilterInterface;
-use TheWebmen\Articles\Models\Type;
+use TheWebmen\Articles\Pages\ArticleTypePage;
 
 final class TypeFilter implements FilterInterface
 {
     public function apply(array $items, DataList $dataList): DataList
     {
-        $type = $this->getActiveItems($items);
+        $types = $this->getActiveItems($items);
 
-        if (!$type) {
+        if (count($types) === 0) {
             return $dataList;
         }
 
-        return $dataList->filter('Type.ID', $type->column('ID'));
+        return $dataList->filter('Type.ID', $types->column('ID'));
     }
 
-    public function getActiveItems(array $items)
+    public function getActiveItems(array $items): DataList
     {
-        return Type::get()->filter('Slug', $items);
+        if (empty($items)) {
+            return new DataList(ArticleTypePage::class);
+        }
+
+        return ArticleTypePage::get()->filter('URLSegment', $items);
     }
 }

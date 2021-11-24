@@ -5,31 +5,31 @@ namespace TheWebmen\Articles\Pages;
 use App\Pages\MealPage;
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
-use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
-use TheWebmen\Articles\Models\Type;
-use TheWebmen\PickerField\Controllers\PickerField;
 
 /**
  * Class ArticlesPage
  * @package TheWebmen\Articles\Pages
  *
  * @property int $PageLength
- * @method Type|HasManyList Types()
+ * @method ArticlePage|HasManyList Articles()
  * @method Author Authors()
+ * @method ArticlePage|ManyManyList HighlightedArticles()
+ * @method ArticlePage|ManyManyList PinnedArticles()
  */
 class ArticlesPage extends \Page
 {
@@ -57,8 +57,9 @@ class ArticlesPage extends \Page
      * @var array
      */
     private static $allowed_children = [
-        ArticlePage::class,
-        ArticleThemePage::class,
+        '*'.ArticlePage::class,
+        '*'.ArticleThemePage::class,
+        '*'.ArticleTypePage::class,
     ];
 
     /**
@@ -84,7 +85,6 @@ class ArticlesPage extends \Page
      * @var array
      */
     private static $has_many = [
-        'Types' => Type::class,
         'Tags' => Tag::class,
         'Authors' => Author::class,
     ];
@@ -95,6 +95,18 @@ class ArticlesPage extends \Page
     private static $many_many = [
         'HighlightedArticles' => ArticlePage::class,
         'PinnedArticles' => ArticlePage::class,
+    ];
+
+    /**
+     * @var array
+     */
+    private static $many_many_extraFields = [
+        'HighlightedArticles' => [
+            'HighlightedSort' => 'Int',
+        ],
+        'PinnedArticles' => [
+            'PinnedSort' => 'Int',
+        ],
     ];
 
     /**
@@ -109,20 +121,17 @@ class ArticlesPage extends \Page
             $this->createGridField(
                 'Themes',
                 _t('Theme.Plural', 'Themes'),
-                ArticleThemePage::get()->filter('ParentID', $this->owner->ID)
+                ArticleThemePage::get()->filter('ParentID', $this->ID)
             )
         );
 
-        $fields->addFieldsToTab(
+        $fields->addFieldToTab(
             'Root.Types',
-            [
-                GridField::create(
-                    'Types',
-                    _t('Type.Plural', 'Types'),
-                    $this->Types(),
-                    new GridFieldConfig_RecordEditor()
-                ),
-            ]
+            $this->createGridField(
+                'Types',
+                _t('Type.Plural', 'Types'),
+                ArticleTypePage::get()->filter('ParentID', $this->ID)
+            )
         );
 
         $fields->addFieldsToTab(
@@ -149,7 +158,7 @@ class ArticlesPage extends \Page
             $this->createGridField(
                 'Articles',
                 _t(self::class . '.ARTICLES', 'Articles'),
-                ArticlePage::get()->filter('ParentID', $this->owner->ID)
+                ArticlePage::get()->filter('ParentID', $this->ID)
             )
         );
 
@@ -159,7 +168,7 @@ class ArticlesPage extends \Page
                 'HighlightedArticles',
                 'Highlighted articles',
                 $this->HighlightedArticles(),
-                $this->getGridConfig()
+                $this->getGridConfig('HighlightedSort')
             )
         );
 
@@ -169,7 +178,7 @@ class ArticlesPage extends \Page
                 'PinnedArticles',
                 'Pinned articles',
                 $this->PinnedArticles(),
-                $this->getGridConfig()
+                $this->getGridConfig('PinnedSort')
             )
         );
 
@@ -178,10 +187,10 @@ class ArticlesPage extends \Page
         return $fields;
     }
 
-    private function getGridConfig(): GridFieldConfig_RelationEditor
+    private function getGridConfig(string $sortColumn): GridFieldConfig_RelationEditor
     {
         $gridfieldConfig = GridFieldConfig_RelationEditor::create();
-        $gridfieldConfig->addComponent(new GridFieldOrderableRows());
+        $gridfieldConfig->addComponent(new GridFieldOrderableRows($sortColumn));
         $autocompleter = $gridfieldConfig->getComponentByType(GridFieldAddExistingAutocompleter::class);
         $autocompleter
             ->setSearchList(
@@ -194,6 +203,7 @@ class ArticlesPage extends \Page
 
         return $gridfieldConfig;
     }
+
     public function getLumberjackTitle(): string
     {
         return _t(self::class . '.ARTICLES', 'Articles');
@@ -217,6 +227,15 @@ class ArticlesPage extends \Page
         );
     }
 
+    public function getTypes(): DataList
+    {
+        return ArticleTypePage::get()->filter(
+            [
+                'ParentID' => $this->ID
+            ]
+        );
+    }
+
     public function getTitle(): string
     {
         $controller = Controller::curr();
@@ -232,5 +251,45 @@ class ArticlesPage extends \Page
     public function getControllerName(): string
     {
         return ArticlesPageController::class;
+    }
+
+
+    protected function onAfterWrite()
+    {
+        $articlePages = ArticlePage::get()->filter('ParentID', $this->ID);
+
+        $articlePages->each(function (ArticlePage $articlePage) {
+            $pinned = $articlePage->Pinned;
+            $highlighted = $articlePage->Highlighted;
+
+            if (!$highlighted && in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
+                $articlePage->Highlighted = true;
+            }
+
+            if ($highlighted && !in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
+                $articlePage->Highlighted = false;
+            }
+
+            if (!$pinned && in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
+                $articlePage->Pinned = true;
+            }
+
+            if ($pinned && !in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
+                $articlePage->Pinned = false;
+            }
+
+            try {
+                $isModifiedOnDraft = $articlePage->isModifiedOnDraft();
+                $articlePage->write();
+
+                if (!$isModifiedOnDraft) {
+                    $articlePage->publishRecursive();
+                }
+            } catch (\Exception $exception) {
+                Injector::inst()->get('LoggingService')->exception($exception);
+            }
+        });
+
+        parent::onAfterWrite();
     }
 }

@@ -3,7 +3,6 @@
 namespace TheWebmen\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\Articles\ArticleFilterForm;
 use TheWebmen\Articles\Pages\ArticlePage;
@@ -30,7 +29,7 @@ class ArticlesPageController extends \PageController
 
     public function getTypes(): ?DataList
     {
-        return $this->data()->Types();
+        return $this->data()->hasMethod('getTypes') ? $this->data()->getTypes() : null;
     }
 
     public function ArticleFilterForm(): ArticleFilterForm
@@ -40,14 +39,6 @@ class ArticlesPageController extends \PageController
 
     public function index()
     {
-        if ($template = $this->extend('updateRenderWith')) {
-            return $this->customise(
-                [
-                    'Layout' => $this->renderWith([$template])
-                ]
-            )->renderWith(['Page']);
-        }
-
         return $this;
     }
 
@@ -64,7 +55,6 @@ class ArticlesPageController extends \PageController
 
         if ($this->articles) {
             $this->applyFilters();
-            $this->applySorting();
         }
 
         return $this->articles;
@@ -86,33 +76,37 @@ class ArticlesPageController extends \PageController
 
     private function applyFilters(): void
     {
-        $themes = $this->getRequest()->getVar('thema');
-        $type = $this->getRequest()->getVar('type');
-        $tag = $this->getRequest()->getVar('tag');
+        $URLFilters = $this->getFiltersFromURL();
 
         $filterService = new ArticleFilterService($this->articles);
 
-        if ($themes) {
-            $filterService->applyThemesFilter(explode(',', $themes));
+        if ($URLFilters['themes']) {
+            $filterService->applyThemesFilter(explode(',', $URLFilters['themes']));
         }
 
-        if ($type) {
-            $filterService->applyTypeFilter(explode(',', $type));
+        if ($URLFilters['type']) {
+            $filterService->applyTypeFilter(explode(',', $URLFilters['type']));
         }
 
-        if ($tag) {
-            $filterService->applyTagFilter(explode(',', $tag));
+        if ($URLFilters['tag']) {
+            $filterService->applyTagFilter(explode(',', $URLFilters['tag']));
         }
 
         $this->articles = $filterService->getArticles();
     }
 
-    private function applySorting(): void
+    public function hasActiveFilters(): bool
     {
-        $this->articles = $this->articles->sort(
-            [
-                'PublicationDate' => 'DESC'
-            ]
-        );
+        $URLFilters = $this->getFiltersFromURL();
+        return $URLFilters['themes'] || $URLFilters['type'] || $URLFilters['tag'];
+    }
+
+    private function getFiltersFromURL()
+    {
+        return [
+            'themes' => $this->getRequest()->getVar('thema'),
+            'type' => $this->getRequest()->getVar('type'),
+            'tag' => $this->getRequest()->getVar('tag'),
+        ];
     }
 }

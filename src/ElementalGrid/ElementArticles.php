@@ -11,13 +11,15 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\TagField\TagField;
 use TheWebmen\Articles\Models\Author;
-use TheWebmen\Articles\Models\Type;
 use TheWebmen\Articles\Pages\ArticlePage;
 use TheWebmen\Articles\Pages\ArticlesPage;
 use TheWebmen\Articles\Pages\ArticleThemePage;
+use TheWebmen\Articles\Pages\ArticleTypePage;
 use TheWebmen\Articles\Services\ArticleFilterService;
 
 /**
@@ -25,7 +27,7 @@ use TheWebmen\Articles\Services\ArticleFilterService;
  * @package TheWebmen\Articles\ElementalGrid
  *
  * @method ArticlesPage ArticlesPage()
- * @method Type|ManyManyList Types()
+ * @method ArticleTypePage|ManyManyList Types()
  * @method ArticleThemePage|ManyManyList Themes()
  * @method Author|ManyManyList Authors()
  */
@@ -68,7 +70,7 @@ class ElementArticles extends BaseElement
      */
     private static $belongs_many_many = [
         'Themes' => ArticleThemePage::class,
-        'Types' => Type::class,
+        'Types' => ArticleTypePage::class,
         'Authors' => Author::class,
     ];
 
@@ -76,8 +78,6 @@ class ElementArticles extends BaseElement
      * @var array
      */
     private static $db = [
-        'ShowHighlightedArticlesOnly' => 'Boolean',
-        'ShowPinnedArticlesAtTop' => 'Boolean',
         'ShowMoreArticlesButton' => 'Boolean',
         'MaxAmount' => 'Int(3)',
         'ShowMoreArticlesButtonText' => 'Varchar(255)',
@@ -87,7 +87,6 @@ class ElementArticles extends BaseElement
      * @var array
      */
     private static $defaults = [
-        'ShowPinnedArticlesAtTop' => true,
         'MaxAmount' => 10,
     ];
 
@@ -107,8 +106,6 @@ class ElementArticles extends BaseElement
                 'Themes',
                 'Types',
                 'Authors',
-                'ShowHighlightedArticlesOnly',
-                'ShowPinnedArticlesAtTop',
                 'ShowMoreArticlesButton',
                 'MaxAmount',
                 'ShowMoreArticlesButtonText',
@@ -133,10 +130,10 @@ class ElementArticles extends BaseElement
                         'Types',
                         sprintf(
                             '%s (%s)',
-                            _t('Types.Plural', 'Types'),
+                            _t('Type.Plural', 'Types'),
                             strtolower(_t('ElementArticles.Optional', 'Optional'))
                         ),
-                        $this->ArticlesPage()->Types(),
+                        ArticleThemePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
                         $this->Types()
                     )->setCanCreate(false),
                     TagField::create(
@@ -152,14 +149,6 @@ class ElementArticles extends BaseElement
                     NumericField::create(
                         'MaxAmount',
                         _t('ElementArticles.MaxAmount', 'Max. amount of articles shown')
-                    ),
-                    CheckboxField::create(
-                        'ShowHighlightedArticlesOnly',
-                        _t('ElementArticles.ShowHighlightedArticlesOnly', 'Show highlighted articles only')
-                    ),
-                    CheckboxField::create(
-                        'ShowPinnedArticlesAtTop',
-                        _t('ElementArticles.ShowPinnedArticlesAtTop', 'Show pinned articles at top')
                     ),
                     CheckboxField::create(
                         'ShowMoreArticlesButton',
@@ -186,15 +175,10 @@ class ElementArticles extends BaseElement
 
     public function getArticles(): ?DataList
     {
-        if ($this->ShowHighlightedArticlesOnly) {
-            $articles = $this->ArticlesPage()->HighlightedArticles();
-        } else {
-            $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
-        }
+        $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
 
         if ($articles) {
             $articles = $this->applyFilters($articles);
-//            $articles = $this->applySorting($articles);
             return $articles->limit($this->MaxAmount);
         }
 
@@ -210,7 +194,7 @@ class ElementArticles extends BaseElement
         }
 
         if ($this->Types()->count()) {
-            $filterService->applyTypeFilter($this->Types()->column('Slug'));
+            $filterService->applyTypeFilter($this->Types()->column('URLSegment'));
         }
 
         $articles = $filterService->getArticles();
@@ -220,13 +204,5 @@ class ElementArticles extends BaseElement
         }
 
         return $articles;
-    }
-
-    private function applySorting(DataList $articles)
-    {
-        $pinnedArticles = $this->ArticlesPage()->PinnedArticles();
-        $highlightedArticles = $this->ArticlesPage()->HighlightedArticles();
-
-        $articles->sort('isHighlighted', $highlightedArticles);
     }
 }

@@ -21,3 +21,9 @@ en:
       one: 'A theme'
       other: '{count} themes'
     SINGULARNAME: 'Theme'
+  TheWebmen\Articles\Pages\ArticleTypePage:
+    PLURALNAME: 'Types'
+    PLURALS:
+      one: 'A type'
+      other: '{count} types'
+    SINGULARNAME: 'Type'

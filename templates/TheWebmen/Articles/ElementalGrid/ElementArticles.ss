@@ -2,13 +2,15 @@
     <$TitleTag class="$TitleClass">$Title</$TitleTag>
 <% end_if %>
 <hr />
-$Articles.Count <%t Article.Plural "Articles" %>
+$ArticlesCount <%t Article.Plural "Articles" %>
 <hr /><br />
 <h3><%t ElementArticles.Results "Results" %></h3>
 <% if $Articles %>
     <ul>
         <% loop $Articles %>
             <li>
+                <% if $Pinned %>Pinned<% end_if %>
+                <% if $Highlighted %>Highlighted<% end_if %>
                 <a href="$Link">$Title</a> <% if $PublicationDate %>($PublicationDate.Nice)<% end_if %>
             </li>
         <% end_loop %>
