@@ -10,7 +10,6 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\Requirements;
-use TheWebmen\Articles\Pages\ArticlesPage;
 use TheWebmen\Articles\Pages\ArticleThemePage;
 use TheWebmen\Articles\Pages\ArticleTypePage;
 
@@ -20,21 +19,24 @@ class ArticleFilterForm extends Form
     {
         $fields = new FieldList();
 
-
-        if(!$controller->data() instanceof ArticleTypePage) {
-            $fields->push(DropdownField::create(
-                'type',
-                _t('Type.Singular', 'Type'),
-                $controller->getTypes()->map('URLSegment', 'Title')->toArray()
-            )->setHasEmptyDefault(true)->setEmptyString('Choose a type'));
+        if (!$controller->data() instanceof ArticleTypePage) {
+            $fields->push(
+                DropdownField::create(
+                    'type',
+                    _t('Type.Singular', 'Type'),
+                    $controller->getTypes()->map('URLSegment', 'Title')->toArray()
+                )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
+            );
         }
 
-        if(!$controller->data() instanceof ArticleThemePage) {
-            $fields->push(CheckboxSetField::create(
-                'thema',
-                _t('Theme.Singular', 'Theme'),
-                $controller->getThemes()->map('URLSegment', 'Title')->toArray()
-            ));
+        if (!$controller->data() instanceof ArticleThemePage) {
+            $fields->push(
+                CheckboxSetField::create(
+                    'thema',
+                    _t('Theme.Singular', 'Theme'),
+                    $controller->getThemes()->map('URLSegment', 'Title')->toArray()
+                )
+            );
         }
 
         $actions = new FieldList(

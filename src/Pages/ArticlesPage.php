@@ -2,7 +2,6 @@
 
 namespace TheWebmen\Articles\Pages;
 
-use App\Pages\MealPage;
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Injector\Injector;
@@ -57,9 +56,9 @@ class ArticlesPage extends \Page
      * @var array
      */
     private static $allowed_children = [
-        '*'.ArticlePage::class,
-        '*'.ArticleThemePage::class,
-        '*'.ArticleTypePage::class,
+        '*' . ArticlePage::class,
+        '*' . ArticleThemePage::class,
+        '*' . ArticleTypePage::class,
     ];
 
     /**
@@ -260,37 +259,39 @@ class ArticlesPage extends \Page
     {
         $articlePages = ArticlePage::get()->filter('ParentID', $this->ID);
 
-        $articlePages->each(function (ArticlePage $articlePage) {
-            $pinned = $articlePage->Pinned;
-            $highlighted = $articlePage->Highlighted;
+        $articlePages->each(
+            function (ArticlePage $articlePage) {
+                $pinned = $articlePage->Pinned;
+                $highlighted = $articlePage->Highlighted;
 
-            if (!$highlighted && in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
-                $articlePage->Highlighted = true;
-            }
-
-            if ($highlighted && !in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
-                $articlePage->Highlighted = false;
-            }
-
-            if (!$pinned && in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
-                $articlePage->Pinned = true;
-            }
-
-            if ($pinned && !in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
-                $articlePage->Pinned = false;
-            }
-
-            try {
-                $isModifiedOnDraft = $articlePage->isModifiedOnDraft();
-                $articlePage->write();
-
-                if (!$isModifiedOnDraft) {
-                    $articlePage->publishRecursive();
+                if (!$highlighted && in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
+                    $articlePage->Highlighted = true;
                 }
-            } catch (\Exception $exception) {
-                Injector::inst()->get('LoggingService')->exception($exception);
+
+                if ($highlighted && !in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
+                    $articlePage->Highlighted = false;
+                }
+
+                if (!$pinned && in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
+                    $articlePage->Pinned = true;
+                }
+
+                if ($pinned && !in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
+                    $articlePage->Pinned = false;
+                }
+
+                try {
+                    $isModifiedOnDraft = $articlePage->isModifiedOnDraft();
+                    $articlePage->write();
+
+                    if (!$isModifiedOnDraft) {
+                        $articlePage->publishRecursive();
+                    }
+                } catch (\Exception $exception) {
+                    Injector::inst()->get('LoggingService')->exception($exception);
+                }
             }
-        });
+        );
 
         parent::onAfterWrite();
     }
