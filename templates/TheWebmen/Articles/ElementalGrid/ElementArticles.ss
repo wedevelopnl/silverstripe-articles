@@ -2,7 +2,7 @@
     <$TitleTag class="$TitleClass">$Title</$TitleTag>
 <% end_if %>
 <hr />
-$ArticlesCount <%t Article.Plural "Articles" %>
+$Articles.Count <%t Article.Plural "Articles" %>
 <hr /><br />
 <h3><%t ElementArticles.Results "Results" %></h3>
 <% if $Articles %>
