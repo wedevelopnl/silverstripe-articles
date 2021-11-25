@@ -62,8 +62,14 @@ class ArticlesPageController extends \PageController
 
     public function PaginatedArticles(): ?PaginatedList
     {
+        if($this->data() instanceof ArticlesPage) {
+            $pageLength = $this->data()->PageLength;
+        } else {
+            $pageLength = $this->data()->Parent()->PageLength;
+        }
+
         $pagination = PaginatedList::create($this->articles, $this->getRequest());
-        $pagination->setPageLength($this->PageLength);
+        $pagination->setPageLength($pageLength);
         $pagination->setPaginationGetVar('p');
 
         return $pagination;

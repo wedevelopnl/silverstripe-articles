@@ -3,6 +3,7 @@
 namespace TheWebmen\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\PaginatedList;
 use TheWebmen\Articles\Pages\ArticleThemePage;
 
 /**
