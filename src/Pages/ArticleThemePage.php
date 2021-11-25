@@ -69,7 +69,6 @@ class ArticleThemePage extends \Page
         return ArticleThemePageController::class;
     }
 
-
     public function IsActive(): bool
     {
         /** @var ArticleThemePage|ArticlesPageController $controller */
