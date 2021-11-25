@@ -70,7 +70,7 @@ class ArticleThemePage extends \Page
     }
 
 
-    public function IsActive()
+    public function IsActive(): bool;
     {
         /** @var ArticleThemePage|ArticlesPageController $controller */
         $controller = Controller::curr();
