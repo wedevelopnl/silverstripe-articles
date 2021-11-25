@@ -100,7 +100,7 @@ class ArticlesPageController extends \PageController
         return $URLFilters['themes'] || $URLFilters['type'] || $URLFilters['tag'];
     }
 
-    private function getFiltersFromURL(): array
+    public function getFiltersFromURL(): array
     {
         return [
             'themes' => $this->getRequest()->getVar('thema'),

@@ -2,6 +2,8 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use SilverStripe\Control\Controller;
+use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Controllers\ArticleThemePageController;
 use TheWebmen\Articles\ElementalGrid\ElementArticles;
 
@@ -65,5 +67,20 @@ class ArticleThemePage extends \Page
     public function getControllerName(): string
     {
         return ArticleThemePageController::class;
+    }
+
+
+    public function IsActive()
+    {
+        /** @var ArticleThemePage|ArticlesPageController $controller */
+        $controller = Controller::curr();
+        $URLFilters = $controller->getFiltersFromURL();
+        $themes = $URLFilters['themes'];
+
+        if (in_array($this->data()->URLSegment, explode(',', $themes))) {
+            return true;
+        }
+
+        return false;
     }
 }
