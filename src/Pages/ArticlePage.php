@@ -9,6 +9,7 @@ use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
@@ -179,5 +180,14 @@ class ArticlePage extends \Page
         );
 
         return $fields;
+    }
+
+    protected function onBeforeWrite()
+    {
+        if (is_null($this->PublicationDate)) {
+            $this->PublicationDate = DBDatetime::now()->getValue();
+        }
+
+        parent::onBeforeWrite();
     }
 }
