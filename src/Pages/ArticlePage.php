@@ -2,6 +2,7 @@
 
 namespace TheWebmen\Articles\Pages;
 
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
@@ -76,6 +77,13 @@ class ArticlePage extends \Page
         'Thumbnail' => Image::class,
         'Type' => ArticleTypePage::class,
         'Author' => Author::class,
+    ];
+
+    /**
+     * @var array
+     */
+    private static $owns = [
+        'Thumbnail',
     ];
 
     /**
@@ -177,6 +185,12 @@ class ArticlePage extends \Page
             'TypeID',
             HTMLEditorField::create('TeaserText', _t('Article.TeaserText', 'Teaser text'))
                 ->setRows(5)
+        );
+
+        $fields->insertAfter(
+            'TeaserText',
+            UploadField::create('Thumbnail', _t('Article.Thumbnail', 'Thumbnail'))
+                ->setFolderName('Thumbnails')
         );
 
         return $fields;
