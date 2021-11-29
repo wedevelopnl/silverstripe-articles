@@ -1,6 +1,7 @@
 <section class="block section">
     <div class="container">
         <h1>$Title</h1>
+        $Thumbnail.Fill(200,200)
         <h2>$Subtitle</h2>
         <% if $TeaserText %>
             <div style="font-size: 20px;">$TeaserText</div>
