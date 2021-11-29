@@ -3,18 +3,16 @@
 namespace TheWebmen\Articles\Pages;
 
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
-use TheWebmen\Articles\Models\Type;
 
 class ArticlePage extends \Page
 {
@@ -67,8 +65,8 @@ class ArticlePage extends \Page
         'UpdatedDate' => 'Datetime',
         'ReadingTime' => 'Int(3)',
         'TeaserText' => 'HTMLText',
-        'Highlighted' => 'Boolean',
         'Pinned' => 'Boolean',
+        'Highlighted' => 'Boolean',
     ];
 
     /**
@@ -76,7 +74,7 @@ class ArticlePage extends \Page
      */
     private static $has_one = [
         'Thumbnail' => Image::class,
-        'Type' => Type::class,
+        'Type' => ArticleTypePage::class,
         'Author' => Author::class,
     ];
 
@@ -86,23 +84,22 @@ class ArticlePage extends \Page
     private static $belongs_many_many = [
         'Tags' => Tag::class,
         'Themes' => ArticleThemePage::class,
+        'HighlightedArticles' => ArticlesPage::class . '.HighlightedArticles',
+        'PinnedArticles' => ArticlesPage::class . '.PinnedArticles',
     ];
 
     /**
-     * @var string
+     * @var array
      */
-    private static $default_sort = 'PublicationDate DESC';
+    private static $default_sort = [
+        'PublicationDate' => 'DESC',
+    ];
 
-    /**
-     * @return FieldList
-     */
-    public function getCMSFields()
+    public function getCMSFields(): FieldList
     {
         $fields = parent::getCMSFields();
 
         $fields->removeByName('MenuTitle');
-
-        $title = $fields->dataFieldByName('Title')->setTitle(_t('Article.Title', 'Article Title'));
 
         $fields->insertAfter(
             'URLSegment',
@@ -118,8 +115,6 @@ class ArticlePage extends \Page
                     TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
                     DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
                     DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
-                    CheckboxField::create('Highlighted', _t('Article.HighlightArticle', 'Highlight article')),
-                    CheckboxField::create('Pinned', _t('Article.PinArticle', 'Pin this article')),
                 ]
             )
                 ->setName('ArticleMetadata')
@@ -131,7 +126,7 @@ class ArticlePage extends \Page
             TagField::create(
                 'Themes',
                 _t('Theme.Plural', 'Themes'),
-                ArticleThemePage::get()->filter('ParentID', $this->owner->Parent()->ID),
+                ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                 $this->Themes()
             )->setCanCreate(false)
         );
@@ -169,9 +164,9 @@ class ArticlePage extends \Page
             DropdownField::create(
                 'TypeID',
                 _t('Type.Singular', 'Type'),
-                Type::get()->filter(
+                ArticleTypePage::get()->filter(
                     [
-                        'ArticlesPageID' => $this->ParentID
+                        'ParentID' => $this->ParentID
                     ]
                 )
             )
@@ -185,5 +180,14 @@ class ArticlePage extends \Page
         );
 
         return $fields;
+    }
+
+    protected function onBeforeWrite()
+    {
+        if (is_null($this->PublicationDate)) {
+            $this->PublicationDate = DBDatetime::now()->getValue();
+        }
+
+        parent::onBeforeWrite();
     }
 }

@@ -2,15 +2,12 @@
 
 namespace TheWebmen\Articles\Models;
 
-use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\View\Parsers\URLSegmentFilter;
 use TheWebmen\Articles\ElementalGrid\ElementArticles;
-use TheWebmen\Articles\Pages\ArticlePage;
 use TheWebmen\Articles\Pages\ArticlesPage;
 
 class Author extends DataObject

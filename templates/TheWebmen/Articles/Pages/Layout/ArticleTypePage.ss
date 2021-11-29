@@ -1,6 +1,6 @@
 <section class="block section">
     <div class="container">
-        <h1>Theme: $Title</h1>
+        <h1>Type: $Title</h1>
         <div class="columns row">
             <div class="col-md-4 column is-4-desktop">
                 <div class="card card-body">
@@ -25,6 +25,7 @@
                         <%t Articles.NoArticlesFound "No articles found" %>
                     </p>
                 <% end_if %>
+
                 <% with $PaginatedArticles %>
                     <% if $MoreThanOnePage %>
                         <% if $NotFirstPage %>

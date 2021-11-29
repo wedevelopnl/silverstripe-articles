@@ -2,8 +2,6 @@
 
 namespace TheWebmen\Articles\Interfaces;
 
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 

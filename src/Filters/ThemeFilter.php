@@ -2,8 +2,6 @@
 
 namespace TheWebmen\Articles\Filters;
 
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use TheWebmen\Articles\Interfaces\FilterInterface;
 use TheWebmen\Articles\Pages\ArticleThemePage;

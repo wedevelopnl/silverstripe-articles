@@ -2,32 +2,30 @@
 
 namespace TheWebmen\Articles\Pages;
 
-use SilverStripe\Control\Controller;
-use TheWebmen\Articles\Controllers\ArticlesPageController;
-use TheWebmen\Articles\Controllers\ArticleThemePageController;
+use TheWebmen\Articles\Controllers\ArticleTypePageController;
 use TheWebmen\Articles\ElementalGrid\ElementArticles;
 
-class ArticleThemePage extends \Page
+class ArticleTypePage extends \Page
 {
     /**
      * @var string
      */
-    private static $table_name = 'TheWebmen_ArticleThemePage';
+    private static $table_name = 'TheWebmen_ArticleTypePage';
 
     /**
      * @var string
      */
-    private static $singular_name = 'Theme page';
+    private static $singular_name = 'Type page';
 
     /**
      * @var string
      */
-    private static $plural_name = 'Theme pages';
+    private static $plural_name = 'Type pages';
 
     /**
      * @var string
      */
-    private static $description = 'A page that will display articles that are related to a theme';
+    private static $description = 'A page that will display articles that are related to a type';
 
     /**
      * @var string
@@ -59,6 +57,13 @@ class ArticleThemePage extends \Page
     /**
      * @var array
      */
+    private static $has_many = [
+        'Articles' => ArticlePage::class,
+    ];
+
+    /**
+     * @var array
+     */
     private static $many_many = [
         'Articles' => ArticlePage::class,
         'ElementArticles' => ElementArticles::class,
@@ -66,20 +71,6 @@ class ArticleThemePage extends \Page
 
     public function getControllerName(): string
     {
-        return ArticleThemePageController::class;
-    }
-
-    public function IsActive(): bool
-    {
-        /** @var ArticleThemePage|ArticlesPageController $controller */
-        $controller = Controller::curr();
-        $URLFilters = $controller->getFiltersFromURL();
-        $themes = $URLFilters['themes'];
-
-        if (in_array($this->data()->URLSegment, explode(',', $themes))) {
-            return true;
-        }
-
-        return false;
+        return ArticleTypePageController::class;
     }
 }

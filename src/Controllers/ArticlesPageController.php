@@ -6,8 +6,15 @@ use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
 use TheWebmen\Articles\ArticleFilterForm;
 use TheWebmen\Articles\Pages\ArticlePage;
+use TheWebmen\Articles\Pages\ArticlesPage;
 use TheWebmen\Articles\Services\ArticleFilterService;
 
+/**
+ * Class ArticlesPageController
+ * @package TheWebmen\Articles\Controllers
+ *
+ * @method ArticlesPage data()
+ */
 class ArticlesPageController extends \PageController
 {
     /**
@@ -22,7 +29,7 @@ class ArticlesPageController extends \PageController
 
     public function getTypes(): ?DataList
     {
-        return $this->data()->Types();
+        return $this->data()->hasMethod('getTypes') ? $this->data()->getTypes() : null;
     }
 
     public function ArticleFilterForm(): ArticleFilterForm
@@ -30,7 +37,7 @@ class ArticlesPageController extends \PageController
         return new ArticleFilterForm($this);
     }
 
-    public function index(): self
+    public function index()
     {
         return $this;
     }
@@ -48,7 +55,6 @@ class ArticlesPageController extends \PageController
 
         if ($this->articles) {
             $this->applyFilters();
-            $this->applySorting();
         }
 
         return $this->articles;
@@ -56,48 +62,56 @@ class ArticlesPageController extends \PageController
 
     public function PaginatedArticles(): ?PaginatedList
     {
-        $pagination = PaginatedList::create($this->articles, $this->getRequest());
-        $pagination->setPageLength($this->PageLength);
-        $pagination->setPaginationGetVar('p');
-
-        if ($this->hasMethod('updatePaginatedArticles')) {
-            $pagination = $this->updatePaginatedArticles($pagination);
+        if($this->data() instanceof ArticlesPage) {
+            $pageLength = $this->data()->PageLength;
+        } else {
+            $pageLength = $this->data()->Parent()->PageLength;
         }
+
+        $pagination = PaginatedList::create($this->articles, $this->getRequest());
+        $pagination->setPageLength($pageLength);
+        $pagination->setPaginationGetVar('p');
 
         return $pagination;
     }
 
+    public function getArticles(): ?DataList
+    {
+        return $this->articles;
+    }
+
     private function applyFilters(): void
     {
-        $themes = $this->getRequest()->getVar('thema');
-        $type = $this->getRequest()->getVar('type');
-        $tag = $this->getRequest()->getVar('tag');
-
+        $URLFilters = $this->getFiltersFromURL();
         $filterService = new ArticleFilterService($this->articles);
 
-        if ($themes) {
-            $filterService->applyThemesFilter(explode(',', $themes));
+        if ($URLFilters['themes']) {
+            $filterService->applyThemesFilter(explode(',', $URLFilters['themes']));
         }
 
-        if ($type) {
-            $filterService->applyTypeFilter(explode(',', $type));
+        if ($URLFilters['type']) {
+            $filterService->applyTypeFilter(explode(',', $URLFilters['type']));
         }
 
-        if ($tag) {
-            $filterService->applyTagFilter(explode(',', $tag));
+        if ($URLFilters['tag']) {
+            $filterService->applyTagFilter(explode(',', $URLFilters['tag']));
         }
 
         $this->articles = $filterService->getArticles();
     }
 
-    private function applySorting(): void
+    public function hasActiveFilters(): bool
     {
-        $this->articles = $this->articles->sort(
-            [
-                'Pinned' => 'DESC',
-                'Highlighted' => 'DESC',
-                'PublicationDate' => 'DESC'
-            ]
-        );
+        $URLFilters = $this->getFiltersFromURL();
+        return $URLFilters['themes'] || $URLFilters['type'] || $URLFilters['tag'];
+    }
+
+    public function getFiltersFromURL(): array
+    {
+        return [
+            'themes' => $this->getRequest()->getVar('thema'),
+            'type' => $this->getRequest()->getVar('type'),
+            'tag' => $this->getRequest()->getVar('tag'),
+        ];
     }
 }

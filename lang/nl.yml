@@ -21,6 +21,12 @@ nl:
       one: 'Een thema'
       other: "{count} thema's"
     SINGULARNAME: 'Thema'
+  TheWebmen\Articles\Pages\ArticleTypePage:
+    PLURALNAME: 'Types'
+    PLURALS:
+      one: 'Een type'
+      other: '{count} types'
+    SINGULARNAME: 'Type'
   ElementArticles:
     Optional: 'Optioneel'
     ShowHighlightedArticlesOnly: 'Weergeef alleen uitgelichte artikelen'

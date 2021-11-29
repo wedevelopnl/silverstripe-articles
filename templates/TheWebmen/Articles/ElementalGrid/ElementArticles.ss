@@ -9,7 +9,8 @@ $Articles.Count <%t Article.Plural "Articles" %>
     <ul>
         <% loop $Articles %>
             <li>
-                <% if $Pinned %><strong>Pinned:</strong> <% end_if %>
+                <% if $Pinned %>Pinned<% end_if %>
+                <% if $Highlighted %>Highlighted<% end_if %>
                 <a href="$Link">$Title</a> <% if $PublicationDate %>($PublicationDate.Nice)<% end_if %>
             </li>
         <% end_loop %>
