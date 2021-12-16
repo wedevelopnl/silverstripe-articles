@@ -12,6 +12,7 @@ use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
+use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
 
@@ -194,6 +195,11 @@ class ArticlePage extends \Page
         );
 
         return $fields;
+    }
+
+    public function getControllerName(): string
+    {
+        return ArticlesPageController::class;
     }
 
     protected function onBeforeWrite()
