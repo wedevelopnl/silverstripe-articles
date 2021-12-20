@@ -6,7 +6,9 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Assets\Image;
 use TheWebmen\Articles\ElementalGrid\ElementArticles;
 use TheWebmen\Articles\Pages\ArticlesPage;
 
@@ -59,6 +61,7 @@ class Author extends DataObject
      */
     private static $has_one = [
         'ArticlesPage' => ArticlesPage::class,
+        'Image' => Image::class,
     ];
 
     /**
@@ -92,6 +95,7 @@ class Author extends DataObject
             'Root.Main',
             [
                 TextField::create('Function', 'Function'),
+                UploadField::create('Image', 'Image')->setFolderName('Authors'),
                 HTMLEditorField::create('Bio', 'Bio')->setRows(5),
                 HeaderField::create('', 'Contact details'),
                 TextField::create('Phone', 'Phone'),
