@@ -7,14 +7,17 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use TheWebmen\Articles\Controllers\ArticlesPageController;
 use TheWebmen\Articles\Models\Author;
@@ -190,6 +193,9 @@ class ArticlesPage extends \Page
     {
         $gridfieldConfig = GridFieldConfig_RelationEditor::create();
         $gridfieldConfig->addComponent(new GridFieldOrderableRows($sortColumn));
+        $gridfieldConfig->removeComponentsByType(GridFieldAddNewButton::class);
+        $gridfieldConfig->removeComponentsByType(GridFieldArchiveAction::class);
+        $gridfieldConfig->removeComponentsByType(GridFieldEditButton::class);
 
         /** @var GridFieldAddExistingAutocompleter $autocompleter */
         $autocompleter = $gridfieldConfig->getComponentByType(GridFieldAddExistingAutocompleter::class);
