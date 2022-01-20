@@ -162,6 +162,8 @@ class ElementArticles extends BaseElement
             );
         }
 
+        $this->extend('onAfterUpdateCMSFields', $fields);
+
         return $fields;
     }
 
@@ -176,6 +178,9 @@ class ElementArticles extends BaseElement
 
         if ($articles) {
             $articles = $this->applyFilters($articles);
+
+            $this->extend('updateArticles', $articles);
+
             return $articles->limit($this->MaxAmount);
         }
 

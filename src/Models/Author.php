@@ -107,6 +107,8 @@ class Author extends DataObject
             ]
         );
 
+        $this->extend('onAfterUpdateCMSFields', $fields);
+
         return $fields;
     }
 }
