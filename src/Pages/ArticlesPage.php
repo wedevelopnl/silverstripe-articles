@@ -10,16 +10,20 @@ use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\Lumberjack\Forms\GridFieldSiteTreeAddNewButton;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DB;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use TheWebmen\Articles\Controllers\ArticlesPageController;
+use TheWebmen\Articles\GridFieldActions\ArticlesGridFieldAddExistingAutocompleter;
+use TheWebmen\Articles\GridFieldActions\ArticlesGridFieldDeleteAction;
 use TheWebmen\Articles\Models\Author;
 use TheWebmen\Articles\Models\Tag;
 
@@ -199,8 +203,16 @@ class ArticlesPage extends \Page
         $gridfieldConfig->removeComponentsByType(GridFieldArchiveAction::class);
         $gridfieldConfig->removeComponentsByType(GridFieldEditButton::class);
 
+        // Custom delete action that properly reflects the pinned/highlighted property to the removed relation
+        $gridfieldConfig->removeComponentsByType(GridFieldDeleteAction::class);
+        $gridfieldConfig->addComponent(new ArticlesGridFieldDeleteAction());
+
+        // Custom add action that properly reflects the pinned/highlighted property to the added relation
+        $gridfieldConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+        $gridfieldConfig->addComponent(new ArticlesGridFieldAddExistingAutocompleter());
+
         /** @var GridFieldAddExistingAutocompleter $autocompleter */
-        $autocompleter = $gridfieldConfig->getComponentByType(GridFieldAddExistingAutocompleter::class);
+        $autocompleter = $gridfieldConfig->getComponentByType(ArticlesGridFieldAddExistingAutocompleter::class);
         $autocompleter
             ->setSearchList(
                 ArticlePage::get()->filter(
@@ -265,42 +277,63 @@ class ArticlesPage extends \Page
 
     protected function onAfterWrite()
     {
-        $articlePages = ArticlePage::get()->filter('ParentID', $this->ID);
+        $parentID = $this->ID;
 
-        $articlePages->each(
-            function (ArticlePage $articlePage) {
-                $pinned = $articlePage->Pinned;
-                $highlighted = $articlePage->Highlighted;
+        DB::query("
+            UPDATE TheWebmen_ArticlePage SET Highlighted = 1 WHERE ID IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
+        ");
 
-                if (!$highlighted && in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
-                    $articlePage->Highlighted = true;
-                }
+        DB::query("
+            UPDATE TheWebmen_ArticlePage SET Highlighted = 0 WHERE ID NOT IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
+        );
 
-                if ($highlighted && !in_array($articlePage->ID, $this->HighlightedArticles()->column('ID'))) {
-                    $articlePage->Highlighted = false;
-                }
+        DB::query("
+            UPDATE TheWebmen_ArticlePage SET Pinned = 1 WHERE ID IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
+        ");
 
-                if (!$pinned && in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
-                    $articlePage->Pinned = true;
-                }
-
-                if ($pinned && !in_array($articlePage->ID, $this->PinnedArticles()->column('ID'))) {
-                    $articlePage->Pinned = false;
-                }
-
-                try {
-                    $isModifiedOnDraft = $articlePage->isModifiedOnDraft();
-                    $articlePage->write();
-
-                    if (!$isModifiedOnDraft) {
-                        $articlePage->publishRecursive();
-                    }
-                } catch (\Exception $exception) {
-                    Injector::inst()->get('LoggingService')->exception($exception);
-                }
-            }
+        DB::query("
+            UPDATE TheWebmen_ArticlePage SET Pinned = 0 WHERE ID NOT IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
         );
 
         parent::onAfterWrite();
+    }
+
+    public function onAfterPublish()
+    {
+        $parentID = $this->ID;
+
+        DB::query("
+            UPDATE TheWebmen_ArticlePage_Live SET Highlighted = 1 WHERE ID IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
+        ");
+
+        DB::query("
+            UPDATE TheWebmen_ArticlePage_Live SET Highlighted = 0 WHERE ID NOT IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"
+        );
+
+        DB::query("
+            UPDATE TheWebmen_ArticlePage_Live SET Pinned = 1 WHERE ID IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
+        ");
+
+        DB::query("
+            UPDATE TheWebmen_ArticlePage_Live SET Pinned = 0 WHERE ID NOT IN (
+                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"
+        );
+
+        parent::onAfterPublish();
     }
 }
