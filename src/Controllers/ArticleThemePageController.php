@@ -26,6 +26,10 @@ class ArticleThemePageController extends ArticlesPageController
 
     protected function getArticleDataList(): ?DataList
     {
-        return $this->data()->getManyManyComponents('Articles');
+        $articles = $this->data()->getManyManyComponents('Articles');
+
+        $this->extend('updateArticleDataList', $articles);
+
+        return $articles;
     }
 }

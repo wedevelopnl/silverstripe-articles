@@ -44,7 +44,11 @@ class ArticlesPageController extends \PageController
 
     protected function getArticleDataList(): ?DataList
     {
-        return ArticlePage::get()->filter('ParentID', $this->data()->ID);
+        $articles = ArticlePage::get()->filter('ParentID', $this->data()->ID);
+
+        $this->extend('updateArticleDataList', $articles);
+
+        return $articles;
     }
 
     public function init(): ?DataList
@@ -56,6 +60,8 @@ class ArticlesPageController extends \PageController
         if ($this->articles) {
             $this->applyFilters();
         }
+
+        $this->extend('onAfterInit', $this);
 
         return $this->articles;
     }
@@ -71,6 +77,8 @@ class ArticlesPageController extends \PageController
         $pagination = PaginatedList::create($this->articles, $this->getRequest());
         $pagination->setPageLength($pageLength);
         $pagination->setPaginationGetVar('p');
+
+        $this->extend('updatePaginatedArticles', $pagination);
 
         return $pagination;
     }

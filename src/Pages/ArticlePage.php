@@ -194,6 +194,8 @@ class ArticlePage extends \Page
                 ->setFolderName('Thumbnails')
         );
 
+        $this->extend('onAfterUpdateCMSFields', $fields);
+
         return $fields;
     }
 

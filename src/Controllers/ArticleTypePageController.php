@@ -25,6 +25,10 @@ class ArticleTypePageController extends ArticlesPageController
 
     protected function getArticleDataList(): ?DataList
     {
-        return $this->data()->getComponents('Articles');
+        $articles = $this->data()->getComponents('Articles');
+
+        $this->extend('updateArticleDataList', $articles);
+
+        return $articles;
     }
 }

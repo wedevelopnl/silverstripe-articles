@@ -186,6 +186,8 @@ class ArticlesPage extends \Page
 
         $fields->insertBefore('Articles', NumericField::create('PageLength'));
 
+        $this->extend('onAfterUpdateCMSFields', $fields);
+
         return $fields;
     }
 
