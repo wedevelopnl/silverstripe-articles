@@ -130,7 +130,7 @@ class ElementArticles extends BaseElement
                             _t('Type.Plural', 'Types'),
                             strtolower(_t('ElementArticles.Optional', 'Optional'))
                         ),
-                        ArticleThemePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
+                        ArticleTypePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
                         $this->Types()
                     )->setCanCreate(false),
                     TagField::create(
