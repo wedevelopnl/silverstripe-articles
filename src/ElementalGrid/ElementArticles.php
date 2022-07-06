@@ -117,8 +117,8 @@ class ElementArticles extends BaseElement
                         'Themes',
                         sprintf(
                             '%s (%s)',
-                            _t('Theme.Plural', 'Themes'),
-                            strtolower(_t('ElementArticles.Optional', 'Optional'))
+                            _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                            strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         ArticleThemePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
                         $this->Themes()
@@ -127,8 +127,8 @@ class ElementArticles extends BaseElement
                         'Types',
                         sprintf(
                             '%s (%s)',
-                            _t('Type.Plural', 'Types'),
-                            strtolower(_t('ElementArticles.Optional', 'Optional'))
+                            _t('TheWebmen\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
+                            strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         ArticleTypePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
                         $this->Types()
@@ -137,23 +137,23 @@ class ElementArticles extends BaseElement
                         'Authors',
                         sprintf(
                             '%s (%s)',
-                            _t('Author.Plural', 'Authors'),
-                            strtolower(_t('ElementArticles.Optional', 'Optional'))
+                            _t('TheWebmen\Articles\Models\Author.PLURALNAME', 'Authors'),
+                            strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         $this->ArticlesPage()->Authors(),
                         $this->Authors()
                     )->setCanCreate(false),
                     NumericField::create(
                         'MaxAmount',
-                        _t('ElementArticles.MaxAmount', 'Max. amount of articles shown')
+                        _t(__CLASS__ . '.MAXAMOUNT', 'Max. amount of articles shown')
                     ),
                     CheckboxField::create(
                         'ShowMoreArticlesButton',
-                        _t('ElementArticles.ShowMoreArticlesButton', "Show 'more articles' button")
+                        _t(__CLASS__ . '.SHOWMOREBUTTON', "Show 'more articles' button")
                     ),
                     TextField::create(
                         'ShowMoreArticlesButtonText',
-                        _t('ElementArticles.ShowMoreArticlesButtonText', "Show 'more articles' button text")
+                        _t(__CLASS__ . '.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")
                     )
                         ->displayIf('ShowMoreArticlesButton')
                         ->isChecked()

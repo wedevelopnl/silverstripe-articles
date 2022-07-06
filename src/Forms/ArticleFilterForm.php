@@ -23,7 +23,7 @@ class ArticleFilterForm extends Form
             $fields->push(
                 DropdownField::create(
                     'type',
-                    _t('Type.Singular', 'Type'),
+                    _t('TheWebmen\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
                     $controller->getTypes()->map('URLSegment', 'Title')->toArray()
                 )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
             );
@@ -33,7 +33,7 @@ class ArticleFilterForm extends Form
             $fields->push(
                 CheckboxSetField::create(
                     'thema',
-                    _t('Theme.Singular', 'Theme'),
+                    _t('TheWebmen\Articles\Pages\ArticleThemePage.SINGULARNAME', 'Theme'),
                     $controller->getThemes()->map('URLSegment', 'Title')->toArray()
                 )
             );

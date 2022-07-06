@@ -126,7 +126,7 @@ class ArticlesPage extends \Page
             'Root.Themes',
             $this->createGridField(
                 'Themes',
-                _t('Theme.Plural', 'Themes'),
+                _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->ID)
             )
         );
@@ -135,7 +135,7 @@ class ArticlesPage extends \Page
             'Root.Types',
             $this->createGridField(
                 'Types',
-                _t('Type.Plural', 'Types'),
+                _t('TheWebmen\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
                 ArticleTypePage::get()->filter('ParentID', $this->ID)
             )
         );
@@ -145,7 +145,7 @@ class ArticlesPage extends \Page
             [
                 GridField::create(
                     'Authors',
-                    _t('Authors.Plural', 'Authors'),
+                    _t('TheWebmen\Articles\Models\Author.PLURALNAME', 'Authors'),
                     $this->Authors(),
                     new GridFieldConfig_RecordEditor()
                 ),
@@ -155,7 +155,7 @@ class ArticlesPage extends \Page
         $fields->addFieldsToTab(
             'Root.Tags',
             [
-                GridField::create('Tags', _t('Tag.Plural', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
+                GridField::create('Tags', _t('TheWebmen\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
             ]
         );
 
@@ -163,7 +163,7 @@ class ArticlesPage extends \Page
             'ChildPages',
             $this->createGridField(
                 'Articles',
-                _t(self::class . '.ARTICLES', 'Articles'),
+                _t(__CLASS__ . '.ARTICLES', 'Articles'),
                 ArticlePage::get()->filter('ParentID', $this->ID)
             )
         );
@@ -172,7 +172,7 @@ class ArticlesPage extends \Page
             'Root.Highlighted',
             new GridField(
                 'HighlightedArticles',
-                'Highlighted articles',
+                _t(__CLASS__ . '.HIGHLIGHTEDARTICLES', 'Highlighted articles'),
                 $this->HighlightedArticles(),
                 $this->getGridConfig('HighlightedSort')
             )
@@ -182,7 +182,7 @@ class ArticlesPage extends \Page
             'Root.Pinned',
             new GridField(
                 'PinnedArticles',
-                'Pinned articles',
+                _t(__CLASS__ . '.PINNEDARTICLES', 'Pinned articles'),
                 $this->PinnedArticles(),
                 $this->getGridConfig('PinnedSort')
             )
@@ -227,7 +227,7 @@ class ArticlesPage extends \Page
 
     public function getLumberjackTitle(): string
     {
-        return _t(self::class . '.ARTICLES', 'Articles');
+        return _t(__CLASS__ . '.ARTICLES', 'Articles');
     }
 
     private function createGridField(string $type, string $title, DataList $list): GridField

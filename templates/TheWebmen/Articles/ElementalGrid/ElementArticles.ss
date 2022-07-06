@@ -1,5 +1,5 @@
 <% if $ShowTitle %>
-    <$TitleTag class="$TitleClass">$Title</$TitleTag>
+    <$TitleTag class="$TitleSizeClass">$Title.RAW</$TitleTag>
 <% end_if %>
 <hr />
 $Articles.Count <%t Article.Plural "Articles" %>
@@ -16,7 +16,7 @@ $Articles.Count <%t Article.Plural "Articles" %>
         <% end_loop %>
     </ul>
 <% else %>
-    <p><%t Articles.NoArticlesFound "No articles found" %></p>
+    <p><%t TheWebmen\Articles\ElementalGrid\ElementArticles.NOARTICLESFOUND "No articles found" %></p>
 <% end_if %>
 <% if $ShowMoreArticlesButton %>
     <a href="$ArticlesPage.Link" class="btn button is-primary is-small btn-sm btn-primary">
