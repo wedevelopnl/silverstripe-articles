@@ -5,6 +5,13 @@ nl:
       one: 'Een artikel'
       other: '{count} artikelen'
     SINGULARNAME: 'Artikel'
+    TEASERTEXT: 'Teaser tekst'
+    THUMBNAIL: 'Voorvertoning'
+    READINGTIME: 'Leestijd (in min.)'
+    PUBLICATIONDATE: 'Publicatiedatum'
+    UPDATEDATE: 'Updatedatum'
+    METADATA: 'Metadata'
+    SUBTITLE: 'Subtitel'
   TheWebmen\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Artikelen overzicht paginas'
     PLURALS:
@@ -12,6 +19,8 @@ nl:
       other: '{count} artikelen overzicht paginas'
     SINGULARNAME: 'Artikelen overzicht pagina'
     ARTICLES: 'Artikelen'
+    HIGHLIGHTEDARTICLES: 'Gehighlighte artikelen'
+    PINNEDARTICLES: 'Gepinde artikelen'
     db_PageLength: 'Pagina lengte'
   TheWebmen\Articles\Extensions:
     has_many_Articles: 'Artikelen'
@@ -27,37 +36,26 @@ nl:
       one: 'Een type'
       other: '{count} types'
     SINGULARNAME: 'Type'
-  ElementArticles:
-    Optional: 'Optioneel'
-    ShowHighlightedArticlesOnly: 'Weergeef alleen uitgelichte artikelen'
-    ShowPinnedArticlesAtTop: 'Weergeef vastgeprikte artikelen bovenaan'
-    MaxAmount: 'Maximaal aantal weer te geven artikelen'
-    ShowMoreArticlesButton: "Weergeef 'meer artikelen' knop"
-    ShowMoreArticlesButtonText: "'Meer artikelen' knop tekst"
-    Results: 'Resultaten'
-  Articles:
-    NoArticlesFound: 'Geen artikelen gevonden'
-  Article:
-    Singular: 'Artikel'
-    Plural: 'Artikelen'
-    Title: 'Artikel titel'
-    Subtitle: 'Artikel subtitel'
-    Author:
-      Name: 'Auteur naam'
-    ReadingTime: 'Leestijd (in min.)'
-    Date:
-      Publication: 'Publicatie datum'
-      Updated: 'Publicatie datum'
-    Metadata: 'Artikel metadata'
-    TeaserText: 'Teaser tekst'
-    HighlightArticle: 'Artikel uitlichten'
-    PinArticle: 'Artikel vastpinnen'
-  Theme:
-    Singular: "Thema"
-    Plural: "Thema's"
-  Tag:
-    Singular: "Tag"
-    Plural: "Tags"
-  Type:
-    Singular: "Type"
-    Plural: "Types"
+  TheWebmen\Articles\Models\Author:
+    PLURALNAME: 'Auteurs'
+    PLURALS:
+      one: 'Een auteur'
+      other: '{count} auteurs'
+    SINGULARNAME: 'Auteur'
+  TheWebmen\Articles\Models\Tag:
+    PLURALNAME: 'Tags'
+    PLURALS:
+      one: 'Een tag'
+      other: '{count} tags'
+    SINGULARNAME: 'Tag'
+    NAME: 'Naam'
+  TheWebmen\Articles\ElementalGrid\ElementArticles:
+    OPTIONAL: 'Optioneel'
+    MAXAMOUNT: 'Max. weer te geven aantal'
+    SHOWMOREBUTTON: 'Toon meer artikelen button'
+    SHOWMOREBUTTONTEXT: 'Meer artikelen buttontekst'
+    NOARTICLESFOUND: 'Geen artikelen gevonden'
+  TheWebmen\Articles\ElementalGrid\ElementArticle:
+    ARTICLETOSHOW: 'Artikel om weer te geven'
+    NOARTICLEFOUND: 'Geen artikel gevonden'
+

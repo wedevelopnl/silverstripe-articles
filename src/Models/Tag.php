@@ -69,7 +69,7 @@ class Tag extends DataObject
 
         $fields->removeByName('ArticlesPageID');
 
-        $fields->renameField('Title', 'Name');
+        $fields->renameField('Title', _t(__CLASS__ . '.NAME', 'Name'));
 
         $this->extend('onAfterUpdateCMSFields', $fields);
 

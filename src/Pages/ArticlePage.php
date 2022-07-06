@@ -112,7 +112,7 @@ class ArticlePage extends \Page
 
         $fields->insertAfter(
             'URLSegment',
-            TextField::create('Subtitle', _t('Article.Subtitle', 'Article subtitle'))
+            TextField::create('Subtitle', _t(__CLASS__ . '.SUBTITLE', 'Subtitle'))
         );
 
         $fields->replaceField('Content', HTMLEditorField::create('Content'));
@@ -121,20 +121,20 @@ class ArticlePage extends \Page
             'Subtitle',
             FieldGroup::create(
                 [
-                    TextField::create('ReadingTime', _t('Article.ReadingTime', 'Reading time (in min.)')),
-                    DatetimeField::create('PublicationDate', _t('Article.Date.Publication', 'Publication date')),
-                    DatetimeField::create('UpdatedDate', _t('Article.Date.Updated', 'Updated date')),
+                    TextField::create('ReadingTime', _t(__CLASS__ . '.READINGTIME', 'Reading time (in min.)')),
+                    DatetimeField::create('PublicationDate', _t(__CLASS__ . '.PUBLICATIONDATE', 'Publication date')),
+                    DatetimeField::create('UpdatedDate', _t(__CLASS__ . '.UPDATEDATE', 'Update date')),
                 ]
             )
                 ->setName('ArticleMetadata')
-                ->setTitle(_t('Article.Metadata', 'Article metadata'))
+                ->setTitle(_t(__CLASS__ . '.METADATA', 'Metadata'))
         );
 
         $fields->insertAfter(
             'ArticleMetadata',
             TagField::create(
                 'Themes',
-                _t('Theme.Plural', 'Themes'),
+                _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                 $this->Themes()
             )->setCanCreate(false)
@@ -144,7 +144,7 @@ class ArticlePage extends \Page
             'Themes',
             TagField::create(
                 'Tags',
-                _t('Tag.Plural', 'Tags'),
+                _t('TheWebmen\Articles\Models\Tag.PLURALNAME', 'Tags'),
                 Tag::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID,
@@ -158,7 +158,7 @@ class ArticlePage extends \Page
             'Tags',
             DropdownField::create(
                 'AuthorID',
-                _t('Author.Singular', 'Author'),
+                _t('TheWebmen\Articles\Models\Author.SINGULARNAME', 'Author'),
                 Author::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID,
@@ -172,7 +172,7 @@ class ArticlePage extends \Page
             'AuthorID',
             DropdownField::create(
                 'TypeID',
-                _t('Type.Singular', 'Type'),
+                _t('TheWebmen\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
                 ArticleTypePage::get()->filter(
                     [
                         'ParentID' => $this->ParentID
@@ -184,13 +184,13 @@ class ArticlePage extends \Page
 
         $fields->insertAfter(
             'TypeID',
-            HTMLEditorField::create('TeaserText', _t('Article.TeaserText', 'Teaser text'))
+            HTMLEditorField::create('TeaserText', _t(__CLASS__ . '.TEASERTEXT', 'Teaser text'))
                 ->setRows(5)
         );
 
         $fields->insertAfter(
             'TeaserText',
-            UploadField::create('Thumbnail', _t('Article.Thumbnail', 'Thumbnail'))
+            UploadField::create('Thumbnail', _t(__CLASS__ . '.THUMBNAIL', 'Thumbnail'))
                 ->setFolderName('Thumbnails')
         );
 

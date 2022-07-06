@@ -27,3 +27,15 @@ en:
       one: 'A type'
       other: '{count} types'
     SINGULARNAME: 'Type'
+  TheWebmen\Articles\Models\Author:
+    PLURALNAME: 'Authors'
+    PLURALS:
+      one: 'An author'
+      other: '{count} authors'
+    SINGULARNAME: 'Author'
+  TheWebmen\Articles\Models\Tag:
+    PLURALNAME: 'Tags'
+    PLURALS:
+      one: 'A tag'
+      other: '{count} tags'
+    SINGULARNAME: 'Tag'
