@@ -65,7 +65,7 @@ class ElementArticle extends BaseElement
         $fields->addFieldsToTab(
             'Root.Main',
             [
-                TreeDropdownField::create('ArticlePageID', _t(__CLASS__ . '.ARTICLETOSHOW'), ArticlePage::class),
+                TreeDropdownField::create('ArticlePageID', _t(__CLASS__ . '.ARTICLETOSHOW', 'Article to show'), ArticlePage::class),
             ]
         );
 
