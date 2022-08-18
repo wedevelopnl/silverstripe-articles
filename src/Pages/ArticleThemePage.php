@@ -76,7 +76,7 @@ class ArticleThemePage extends \Page
         $URLFilters = $controller->getFiltersFromURL();
         $themes = $URLFilters['themes'];
 
-        if (in_array($this->data()->URLSegment, explode(',', $themes))) {
+        if (in_array($this->data()->URLSegment, explode(',', $themes ?? ''))) {
             return true;
         }
 
