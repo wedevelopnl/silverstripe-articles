@@ -98,11 +98,10 @@ class ArticlePage extends \Page
     ];
 
     /**
-     * @var array
+     * @var string
      */
-    private static $default_sort = [
-        'PublicationDate' => 'DESC',
-    ];
+    private static $default_sort = 'PublicationDate DESC';
+    
 
     public function getCMSFields(): FieldList
     {
