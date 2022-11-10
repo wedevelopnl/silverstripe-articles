@@ -7,6 +7,7 @@ use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
+use TheWebmen\WebpImages\WebpGenerator;
 
 class ArticlesPageController extends \PageController
 {
@@ -32,6 +33,10 @@ class ArticlesPageController extends \PageController
      */
     public function rss()
     {
+        if (class_exists('TheWebmen\WebpImages\WebpGenerator')) {
+            WebpGenerator::singleton()->setEnabled(false);
+        }
+
         $rss = new RSSFeed(
             $this->LatestArticles(),
             $this->Link(),
