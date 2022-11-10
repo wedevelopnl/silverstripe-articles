@@ -32,6 +32,8 @@ class ArticlesPageController extends \PageController
      */
     public function rss()
     {
+        $this->extend('beforeRss');
+
         $rss = new RSSFeed(
             $this->LatestArticles(),
             $this->Link(),
