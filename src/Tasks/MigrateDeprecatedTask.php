@@ -29,12 +29,12 @@ class MigrateDeprecatedTask extends BuildTask
     public function run($request)
     {
         $deprecatedMapping = [
-            DeprecatedAuthor::class => Author::class,
-            DeprecatedTag::class => Tag::class,
-            DeprecatedArticlePage::class => ArticlePage::class,
             DeprecatedArticlesPage::class => ArticlesPage::class,
             DeprecatedArticleThemePage::class => ArticleThemePage::class,
             DeprecatedArticleTypePage::class => ArticleTypePage::class,
+            DeprecatedArticlePage::class => ArticlePage::class,
+            DeprecatedAuthor::class => Author::class,
+            DeprecatedTag::class => Tag::class,
         ];
 
         /**
