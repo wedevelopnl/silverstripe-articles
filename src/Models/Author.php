@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\Models;
+namespace WeDevelop\Articles\Models;
 
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
@@ -9,8 +9,8 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\Image;
-use TheWebmen\Articles\ElementalGrid\ElementArticles;
-use TheWebmen\Articles\Pages\ArticlesPage;
+use WeDevelop\Articles\ElementalGrid\ElementArticles;
+use WeDevelop\Articles\Pages\ArticlesPage;
 
 class Author extends DataObject
 {

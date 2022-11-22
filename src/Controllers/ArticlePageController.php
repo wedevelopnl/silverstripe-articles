@@ -1,12 +1,12 @@
 <?php
 
-namespace TheWebmen\Articles\Controllers;
+namespace WeDevelop\Articles\Controllers;
 
-use TheWebmen\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlePage;
 
 /**
  * Class ArticlePageController
- * @package TheWebmen\Articles\Controllers
+ * @package WeDevelop\Articles\Controllers
  *
  * @method ArticlePage data()
  */

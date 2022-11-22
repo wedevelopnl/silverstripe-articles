@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\ElementalGrid;
+namespace WeDevelop\Articles\ElementalGrid;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\CMS\Model\SiteTree;
@@ -12,16 +12,16 @@ use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\TagField\TagField;
-use TheWebmen\Articles\Models\Author;
-use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Pages\ArticlesPage;
-use TheWebmen\Articles\Pages\ArticleThemePage;
-use TheWebmen\Articles\Pages\ArticleTypePage;
-use TheWebmen\Articles\Services\ArticleFilterService;
+use WeDevelop\Articles\Models\Author;
+use WeDevelop\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlesPage;
+use WeDevelop\Articles\Pages\ArticleThemePage;
+use WeDevelop\Articles\Pages\ArticleTypePage;
+use WeDevelop\Articles\Services\ArticleFilterService;
 
 /**
  * Class ElementArticles
- * @package TheWebmen\Articles\ElementalGrid
+ * @package WeDevelop\Articles\ElementalGrid
  *
  * @method ArticlesPage ArticlesPage()
  * @method ArticleTypePage|ManyManyList Types()
@@ -117,7 +117,7 @@ class ElementArticles extends BaseElement
                         'Themes',
                         sprintf(
                             '%s (%s)',
-                            _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                            _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                             strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         ArticleThemePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
@@ -127,7 +127,7 @@ class ElementArticles extends BaseElement
                         'Types',
                         sprintf(
                             '%s (%s)',
-                            _t('TheWebmen\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
+                            _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
                             strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         ArticleTypePage::get()->filter('ParentID', $this->ArticlesPage()->ID),
@@ -137,7 +137,7 @@ class ElementArticles extends BaseElement
                         'Authors',
                         sprintf(
                             '%s (%s)',
-                            _t('TheWebmen\Articles\Models\Author.PLURALNAME', 'Authors'),
+                            _t('WeDevelop\Articles\Models\Author.PLURALNAME', 'Authors'),
                             strtolower(_t(__CLASS__ . '.OPTIONAL', 'Optional'))
                         ),
                         $this->ArticlesPage()->Authors(),

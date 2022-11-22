@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\ElementalGrid;
+namespace WeDevelop\Articles\ElementalGrid;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\CMS\Model\SiteTree;
@@ -8,11 +8,11 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
-use TheWebmen\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlePage;
 
 /**
  * Class ElementArticle
- * @package TheWebmen\Articles\ElementalGrid
+ * @package WeDevelop\Articles\ElementalGrid
  *
  * @method ArticlePage ArticlePage()
  */
@@ -81,11 +81,11 @@ class ElementArticle extends BaseElement
             [
                 CheckboxField::create(
                     'ShowMoreArticlesButton',
-                    _t('TheWebmen\Articles\ElementalGrid.SHOWMOREBUTTON', "Show 'more articles' button")
+                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTON', "Show 'more articles' button")
                 ),
                 TextField::create(
                     'ShowMoreArticlesButtonText',
-                    _t('TheWebmen\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button")
+                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button")
                 )
                     ->displayIf('ShowMoreArticlesButton')
                     ->isChecked()

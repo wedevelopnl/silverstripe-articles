@@ -12,7 +12,7 @@ Article page type, can be used as news system or as a blog
 
 ## Installation
 ```
-composer require thewebmen/silverstripe-articles
+composer require wedevelopnl/silverstripe-articles
 ```
 
 After installation, run a `dev/build` with flush to complete the installation
@@ -21,7 +21,7 @@ After installation, run a `dev/build` with flush to complete the installation
 See [License](LICENSE)
 
 ## Maintainers
-* [Webmen](https://www.webmen.nl/) <development@webmen.nl>
+* [WeDevelop](https://www.wedevelop.nl/) <development@wedevelop.nl>
 
 ## Development and contribution
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.\

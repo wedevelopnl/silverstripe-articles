@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="col-md-8 column is-8-desktop">
-                <h2><%t TheWebmen\Articles\Pages\ArticlePage.PLURALNAME "Articles" %></h2>
+                <h2><%t WeDevelop\Articles\Pages\ArticlePage.PLURALNAME "Articles" %></h2>
                 <hr />
                 <% if $Themes %>
                     <h3>

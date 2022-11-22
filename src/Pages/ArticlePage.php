@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace WeDevelop\Articles\Pages;
 
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
@@ -12,16 +12,16 @@ use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
-use TheWebmen\Articles\Controllers\ArticlesPageController;
-use TheWebmen\Articles\Models\Author;
-use TheWebmen\Articles\Models\Tag;
+use WeDevelop\Articles\Controllers\ArticlesPageController;
+use WeDevelop\Articles\Models\Author;
+use WeDevelop\Articles\Models\Tag;
 
 class ArticlePage extends \Page
 {
     /**
      * @var string
      */
-    private static $table_name = 'TheWebmen_ArticlePage';
+    private static $table_name = 'WeDevelop_ArticlePage';
 
     /**
      * @var string
@@ -101,7 +101,7 @@ class ArticlePage extends \Page
      * @var string
      */
     private static $default_sort = 'PublicationDate DESC';
-    
+
 
     public function getCMSFields(): FieldList
     {
@@ -133,7 +133,7 @@ class ArticlePage extends \Page
             'ArticleMetadata',
             TagField::create(
                 'Themes',
-                _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                 $this->Themes()
             )->setCanCreate(false)
@@ -143,7 +143,7 @@ class ArticlePage extends \Page
             'Themes',
             TagField::create(
                 'Tags',
-                _t('TheWebmen\Articles\Models\Tag.PLURALNAME', 'Tags'),
+                _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'),
                 Tag::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID,
@@ -157,7 +157,7 @@ class ArticlePage extends \Page
             'Tags',
             DropdownField::create(
                 'AuthorID',
-                _t('TheWebmen\Articles\Models\Author.SINGULARNAME', 'Author'),
+                _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
                 Author::get()->filter(
                     [
                         'ArticlesPageID' => $this->ParentID,
@@ -171,7 +171,7 @@ class ArticlePage extends \Page
             'AuthorID',
             DropdownField::create(
                 'TypeID',
-                _t('TheWebmen\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
+                _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
                 ArticleTypePage::get()->filter(
                     [
                         'ParentID' => $this->ParentID

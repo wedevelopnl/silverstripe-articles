@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace WeDevelop\Articles\Pages;
 
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
@@ -21,15 +21,15 @@ use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use TheWebmen\Articles\Controllers\ArticlesPageController;
-use TheWebmen\Articles\GridFieldActions\ArticlesGridFieldAddExistingAutocompleter;
-use TheWebmen\Articles\GridFieldActions\ArticlesGridFieldDeleteAction;
-use TheWebmen\Articles\Models\Author;
-use TheWebmen\Articles\Models\Tag;
+use WeDevelop\Articles\Controllers\ArticlesPageController;
+use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldAddExistingAutocompleter;
+use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldDeleteAction;
+use WeDevelop\Articles\Models\Author;
+use WeDevelop\Articles\Models\Tag;
 
 /**
  * Class ArticlesPage
- * @package TheWebmen\Articles\Pages
+ * @package WeDevelop\Articles\Pages
  *
  * @property int $PageLength
  * @method ArticlePage|HasManyList Articles()
@@ -42,7 +42,7 @@ class ArticlesPage extends \Page
     /**
      * @var string
      */
-    private static $table_name = 'TheWebmen_ArticlesPage';
+    private static $table_name = 'WeDevelop_ArticlesPage';
 
     /**
      * @var string
@@ -126,7 +126,7 @@ class ArticlesPage extends \Page
             'Root.Themes',
             $this->createGridField(
                 'Themes',
-                _t('TheWebmen\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                 ArticleThemePage::get()->filter('ParentID', $this->ID)
             )
         );
@@ -135,7 +135,7 @@ class ArticlesPage extends \Page
             'Root.Types',
             $this->createGridField(
                 'Types',
-                _t('TheWebmen\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
+                _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
                 ArticleTypePage::get()->filter('ParentID', $this->ID)
             )
         );
@@ -145,7 +145,7 @@ class ArticlesPage extends \Page
             [
                 GridField::create(
                     'Authors',
-                    _t('TheWebmen\Articles\Models\Author.PLURALNAME', 'Authors'),
+                    _t('WeDevelop\Articles\Models\Author.PLURALNAME', 'Authors'),
                     $this->Authors(),
                     new GridFieldConfig_RecordEditor()
                 ),
@@ -155,7 +155,7 @@ class ArticlesPage extends \Page
         $fields->addFieldsToTab(
             'Root.Tags',
             [
-                GridField::create('Tags', _t('TheWebmen\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
+                GridField::create('Tags', _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
             ]
         );
 
@@ -280,26 +280,26 @@ class ArticlesPage extends \Page
         $parentID = $this->ID;
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage SET Highlighted = 1 WHERE ID IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage SET Highlighted = 1 WHERE ID IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
         ");
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage SET Highlighted = 0 WHERE ID NOT IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage SET Highlighted = 0 WHERE ID NOT IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
         );
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage SET Pinned = 1 WHERE ID IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage SET Pinned = 1 WHERE ID IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
         ");
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage SET Pinned = 0 WHERE ID NOT IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage SET Pinned = 0 WHERE ID NOT IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
         );
 
@@ -311,26 +311,26 @@ class ArticlesPage extends \Page
         $parentID = $this->ID;
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage_Live SET Highlighted = 1 WHERE ID IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage_Live SET Highlighted = 1 WHERE ID IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
         ");
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage_Live SET Highlighted = 0 WHERE ID NOT IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_HighlightedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage_Live SET Highlighted = 0 WHERE ID NOT IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"
         );
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage_Live SET Pinned = 1 WHERE ID IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage_Live SET Pinned = 1 WHERE ID IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
         ");
 
         DB::query("
-            UPDATE TheWebmen_ArticlePage_Live SET Pinned = 0 WHERE ID NOT IN (
-                SELECT TheWebmen_ArticlePageID FROM TheWebmen_ArticlesPage_PinnedArticles WHERE TheWebmen_ArticlesPageID = $parentID
+            UPDATE WeDevelop_ArticlePage_Live SET Pinned = 0 WHERE ID NOT IN (
+                SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"
         );
 

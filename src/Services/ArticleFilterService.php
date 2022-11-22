@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace TheWebmen\Articles\Services;
+namespace WeDevelop\Articles\Services;
 
 use SilverStripe\ORM\DataList;
-use TheWebmen\Articles\Filters\TagFilter;
-use TheWebmen\Articles\Filters\ThemeFilter;
-use TheWebmen\Articles\Filters\TypeFilter;
+use WeDevelop\Articles\Filters\TagFilter;
+use WeDevelop\Articles\Filters\ThemeFilter;
+use WeDevelop\Articles\Filters\TypeFilter;
 
 final class ArticleFilterService
 {

@@ -9,7 +9,7 @@
         Author: $Author.Name<br />
     <% end_with %>
 <% else %>
-    <p><%t TheWebmen\Articles\ElementalGrid\ElementArticle.NOARTICLEFOUND "No article found" %></p>
+    <p><%t WeDevelop\Articles\ElementalGrid\ElementArticle.NOARTICLEFOUND "No article found" %></p>
 <% end_if %>
 <% if $ShowMoreArticlesButton %>
     <a href="$ArticlesPage.Link" class="btn button is-primary btn-sm btn-primary">

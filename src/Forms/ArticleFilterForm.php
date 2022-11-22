@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles;
+namespace WeDevelop\Articles;
 
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\CheckboxSetField;
@@ -10,8 +10,8 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\Requirements;
-use TheWebmen\Articles\Pages\ArticleThemePage;
-use TheWebmen\Articles\Pages\ArticleTypePage;
+use WeDevelop\Articles\Pages\ArticleThemePage;
+use WeDevelop\Articles\Pages\ArticleTypePage;
 
 class ArticleFilterForm extends Form
 {
@@ -23,7 +23,7 @@ class ArticleFilterForm extends Form
             $fields->push(
                 DropdownField::create(
                     'type',
-                    _t('TheWebmen\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
+                    _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
                     $controller->getTypes()->map('URLSegment', 'Title')->toArray()
                 )->setHasEmptyDefault(true)->setEmptyString('Choose a type')
             );
@@ -33,7 +33,7 @@ class ArticleFilterForm extends Form
             $fields->push(
                 CheckboxSetField::create(
                     'thema',
-                    _t('TheWebmen\Articles\Pages\ArticleThemePage.SINGULARNAME', 'Theme'),
+                    _t('WeDevelop\Articles\Pages\ArticleThemePage.SINGULARNAME', 'Theme'),
                     $controller->getThemes()->map('URLSegment', 'Title')->toArray()
                 )
             );
@@ -66,7 +66,7 @@ class ArticleFilterForm extends Form
      */
     public function forTemplate()
     {
-        Requirements::javascript('thewebmen/silverstripe-articles:client/dist/formURLHandler.js');
+        Requirements::javascript('WeDevelop/silverstripe-articles:client/dist/formURLHandler.js');
 
         return parent::forTemplate();
     }

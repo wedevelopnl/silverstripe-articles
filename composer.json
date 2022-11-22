@@ -1,5 +1,5 @@
 {
-    "name": "thewebmen/silverstripe-articles",
+    "name": "wedevelopnl/silverstripe-articles",
     "description": "Articles module",
     "type": "silverstripe-vendormodule",
     "keywords": [
@@ -12,7 +12,7 @@
     "license": "BSD-3-Clause",
     "authors": [{
         "name": "Dennis Prins",
-        "email": "dennis@webmen.nl"
+        "email": "dennis@weevelop.nl"
     }],
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -40,7 +40,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TheWebmen\\Articles\\": "src/"
+            "WeDevelop\\Articles\\": "src/"
         }
     }
 }

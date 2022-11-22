@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\GridFieldActions;
+namespace WeDevelop\Articles\GridFieldActions;
 
 use SilverStripe\ORM\DB;
 use SilverStripe\Forms\GridField\GridField;
@@ -26,10 +26,10 @@ class ArticlesGridFieldDeleteAction extends GridFieldDeleteAction
             /** @var ArticlePage $item */
             $item = $gridField->getList()->byID($IDToUpdate);
 
-            DB::query("UPDATE TheWebmen_ArticlePage SET $fieldToUpdate = 0 WHERE ID = $IDToUpdate");
+            DB::query("UPDATE WeDevelop_ArticlePage SET $fieldToUpdate = 0 WHERE ID = $IDToUpdate");
 
             if ($item->isPublished()) {
-                DB::query("UPDATE TheWebmen_ArticlePage_Live SET $fieldToUpdate = 0 WHERE ID = $IDToUpdate");
+                DB::query("UPDATE WeDevelop_ArticlePage_Live SET $fieldToUpdate = 0 WHERE ID = $IDToUpdate");
             }
         }
 
@@ -39,10 +39,10 @@ class ArticlesGridFieldDeleteAction extends GridFieldDeleteAction
     private function getFieldToUpdate(GridField $gridField): ?string
     {
         switch ($gridField->getList()->getJoinTable()) {
-            case 'TheWebmen_ArticlesPage_PinnedArticles':
+            case 'WeDevelop_ArticlesPage_PinnedArticles':
                 return 'Pinned';
 
-            case 'TheWebmen_ArticlesPage_HighlightedArticles':
+            case 'WeDevelop_ArticlesPage_HighlightedArticles':
                 return 'Highlighted';
 
             default:

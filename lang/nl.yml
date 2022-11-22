@@ -1,5 +1,5 @@
 nl:
-  TheWebmen\Articles\Pages\ArticlePage:
+  WeDevelop\Articles\Pages\ArticlePage:
     PLURALNAME: 'Artikelen'
     PLURALS:
       one: 'Een artikel'
@@ -12,7 +12,7 @@ nl:
     UPDATEDATE: 'Updatedatum'
     METADATA: 'Metadata'
     SUBTITLE: 'Subtitel'
-  TheWebmen\Articles\Pages\ArticlesPage:
+  WeDevelop\Articles\Pages\ArticlesPage:
     PLURALNAME: 'Artikelen overzicht paginas'
     PLURALS:
       one: 'Een artikelen overzicht pagina'
@@ -22,40 +22,40 @@ nl:
     HIGHLIGHTEDARTICLES: 'Gehighlighte artikelen'
     PINNEDARTICLES: 'Gepinde artikelen'
     db_PageLength: 'Pagina lengte'
-  TheWebmen\Articles\Extensions:
+  WeDevelop\Articles\Extensions:
     has_many_Articles: 'Artikelen'
-  TheWebmen\Articles\Pages\ArticleThemePage:
+  WeDevelop\Articles\Pages\ArticleThemePage:
     PLURALNAME: "Thema's"
     PLURALS:
       one: 'Een thema'
       other: "{count} thema's"
     SINGULARNAME: 'Thema'
-  TheWebmen\Articles\Pages\ArticleTypePage:
+  WeDevelop\Articles\Pages\ArticleTypePage:
     PLURALNAME: 'Types'
     PLURALS:
       one: 'Een type'
       other: '{count} types'
     SINGULARNAME: 'Type'
-  TheWebmen\Articles\Models\Author:
+  WeDevelop\Articles\Models\Author:
     PLURALNAME: 'Auteurs'
     PLURALS:
       one: 'Een auteur'
       other: '{count} auteurs'
     SINGULARNAME: 'Auteur'
-  TheWebmen\Articles\Models\Tag:
+  WeDevelop\Articles\Models\Tag:
     PLURALNAME: 'Tags'
     PLURALS:
       one: 'Een tag'
       other: '{count} tags'
     SINGULARNAME: 'Tag'
     NAME: 'Naam'
-  TheWebmen\Articles\ElementalGrid\ElementArticles:
+  WeDevelop\Articles\ElementalGrid\ElementArticles:
     OPTIONAL: 'Optioneel'
     MAXAMOUNT: 'Max. weer te geven aantal'
     SHOWMOREBUTTON: 'Toon meer artikelen button'
     SHOWMOREBUTTONTEXT: 'Meer artikelen buttontekst'
     NOARTICLESFOUND: 'Geen artikelen gevonden'
-  TheWebmen\Articles\ElementalGrid\ElementArticle:
+  WeDevelop\Articles\ElementalGrid\ElementArticle:
     ARTICLETOSHOW: 'Artikel om weer te geven'
     NOARTICLEFOUND: 'Geen artikel gevonden'
 

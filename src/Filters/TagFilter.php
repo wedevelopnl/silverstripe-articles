@@ -1,10 +1,10 @@
 <?php
 
-namespace TheWebmen\Articles\Filters;
+namespace WeDevelop\Articles\Filters;
 
 use SilverStripe\ORM\DataList;
-use TheWebmen\Articles\Interfaces\FilterInterface;
-use TheWebmen\Articles\Models\Tag;
+use WeDevelop\Articles\Interfaces\FilterInterface;
+use WeDevelop\Articles\Models\Tag;
 
 final class TagFilter implements FilterInterface
 {

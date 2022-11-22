@@ -1,13 +1,13 @@
 <?php
 
-namespace TheWebmen\Articles\Models;
+namespace WeDevelop\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\Parsers\URLSegmentFilter;
-use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Pages\ArticlesPage;
+use WeDevelop\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlesPage;
 
 class Tag extends DataObject
 {
