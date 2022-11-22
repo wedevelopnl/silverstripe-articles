@@ -17,7 +17,7 @@ class Author extends DataObject
     /**
      * @var string
      */
-    private static $table_name = 'Webmen_Author';
+    private static $table_name = 'WeDevelop_Author';
 
     /**
      * @var string
