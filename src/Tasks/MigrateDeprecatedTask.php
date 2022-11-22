@@ -29,26 +29,30 @@ class MigrateDeprecatedTask extends BuildTask
     public function run($request)
     {
         $deprecatedMapping = [
-            DeprecatedArticlesPage::class => ArticlesPage::class,
-            DeprecatedArticleThemePage::class => ArticleThemePage::class,
-            DeprecatedArticleTypePage::class => ArticleTypePage::class,
-            DeprecatedArticlePage::class => ArticlePage::class,
-            DeprecatedAuthor::class => Author::class,
-            DeprecatedTag::class => Tag::class,
+            'pages' => [
+                DeprecatedArticlesPage::class => ArticlesPage::class,
+                DeprecatedArticleThemePage::class => ArticleThemePage::class,
+                DeprecatedArticleTypePage::class => ArticleTypePage::class,
+                DeprecatedArticlePage::class => ArticlePage::class,
+            ],
+            'models' => [
+                DeprecatedAuthor::class => Author::class,
+                DeprecatedTag::class => Tag::class,
+            ],
         ];
 
         /**
-         * @var  DataObjectInterface $oldClass
+         * @var  DataObjectInterface $oldModel
          * @var  DataObjectInterface $newClass
          */
-        foreach ($deprecatedMapping as $oldClass => $newClass) {
-            print("Move data from $oldClass to $newClass \n");
+        foreach ($deprecatedMapping['models'] as $oldModel => $newModel) {
+            print("Move data from $oldModel to $newModel \n");
 
-            $oldObjects = $oldClass::get();
+            $oldObjects = $oldModel::get();
             $ct = 0;
             /** @var DataObject $oldObject */
             foreach ($oldObjects as $oldObject) {
-                $newObject = $oldObject->newClassInstance($newClass);
+                $newObject = $oldObject->newClassInstance($newModel);
                 $newObject->write();
                 $ct++;
             }

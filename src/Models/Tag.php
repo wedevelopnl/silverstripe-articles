@@ -3,6 +3,7 @@
 namespace WeDevelop\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
+use SilverStripe\Dev\TaskRunner;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\Parsers\URLSegmentFilter;
@@ -82,11 +83,14 @@ class Tag extends DataObject
      */
     protected function onBeforeWrite(): void
     {
-        $currentPageID = CMSPageEditController::curr()->currentPageID();
-        $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);
+        $currentController = CMSPageEditController::curr();
+        if (!($currentController instanceof TaskRunner)) {
+            $currentPageID = $currentController->currentPageID();
+            $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);
 
-        if ($currentPage) {
-            $this->ArticlesPageID = $currentPage->ParentID;
+            if ($currentPage) {
+                $this->ArticlesPageID = $currentPage->ParentID;
+            }
         }
 
         $this->Slug = URLSegmentFilter::create()->filter($this->Title);
