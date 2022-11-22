@@ -1,13 +1,13 @@
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
   const articleFilterForm = document.getElementById('ArticleFilterForm');
 
   articleFilterForm.addEventListener('submit', (e) => {
-    const target = e.target;
+    const { target } = e;
     const formData = {};
 
-    for (let i = 0; i < target.length; i++) {
+    for (let i = 0; i < target.length; i += 1) {
       const element = target.elements[i];
-      let name = element.name;
+      let { name } = element;
 
       if (element.type === 'text' && element.value) {
         formData[name] = element.value;
@@ -24,13 +24,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
     }
 
-    let currentURL = location.protocol + '//' + location.host + location.pathname;
-    let newQueryParams = decodeURIComponent(new URLSearchParams(formData).toString());
+    // eslint-disable-next-line no-restricted-globals
+    const currentURL = location.protocol + '//' + location.host + location.pathname;
+    const newQueryParams = decodeURIComponent(new URLSearchParams(formData).toString());
 
     window.location.href = `${currentURL}?${newQueryParams}`;
 
     e.preventDefault();
-  })
-
+  });
 });
-
