@@ -66,7 +66,7 @@ class ArticleFilterForm extends Form
      */
     public function forTemplate()
     {
-        Requirements::javascript('WeDevelop/silverstripe-articles:client/dist/formURLHandler.js');
+        Requirements::javascript('wedevelopnl/silverstripe-articles:client/dist/main.js');
 
         return parent::forTemplate();
     }
