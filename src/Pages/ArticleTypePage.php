@@ -51,7 +51,7 @@ class ArticleTypePage extends \Page
      * @var array
      */
     private static $has_one = [
-        'ArticlesPage' => ArticlesPage::class
+        'ArticlesPage' => ArticlesPage::class,
     ];
 
     /**

@@ -68,7 +68,7 @@ class ArticlesPageController extends \PageController
 
     public function PaginatedArticles(): ?PaginatedList
     {
-        if($this->data() instanceof ArticlesPage) {
+        if ($this->data() instanceof ArticlesPage) {
             $pageLength = $this->data()->PageLength;
         } else {
             $pageLength = $this->data()->Parent()->PageLength;

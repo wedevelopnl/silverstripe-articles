@@ -12,5 +12,4 @@ use WeDevelop\Articles\Pages\ArticlePage;
  */
 class ArticlePageController extends \PageController
 {
-
 }

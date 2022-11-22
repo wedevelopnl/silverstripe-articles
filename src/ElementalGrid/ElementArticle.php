@@ -3,7 +3,6 @@
 namespace WeDevelop\Articles\ElementalGrid;
 
 use DNADesign\Elemental\Models\BaseElement;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;

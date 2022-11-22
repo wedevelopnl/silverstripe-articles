@@ -174,7 +174,7 @@ class ArticlePage extends \Page
                 _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
                 ArticleTypePage::get()->filter(
                     [
-                        'ParentID' => $this->ParentID
+                        'ParentID' => $this->ParentID,
                     ]
                 )
             )

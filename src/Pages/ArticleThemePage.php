@@ -53,7 +53,7 @@ class ArticleThemePage extends \Page
      * @var array
      */
     private static $has_one = [
-        'ArticlesPage' => ArticlesPage::class
+        'ArticlesPage' => ArticlesPage::class,
     ];
 
     /**
@@ -76,7 +76,7 @@ class ArticleThemePage extends \Page
         $URLFilters = $controller->getFiltersFromURL();
         $themes = $URLFilters['themes'];
 
-        if (in_array($this->data()->URLSegment, explode(',', $themes ?? ''))) {
+        if (in_array($this->data()->URLSegment, explode(',', $themes ?? ''), true)) {
             return true;
         }
 

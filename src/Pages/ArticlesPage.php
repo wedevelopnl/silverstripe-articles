@@ -4,7 +4,6 @@ namespace WeDevelop\Articles\Pages;
 
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
@@ -77,14 +76,14 @@ class ArticlesPage extends \Page
      * @var array
      */
     private static $db = [
-        'PageLength' => 'Int'
+        'PageLength' => 'Int',
     ];
 
     /**
      * @var array
      */
     private static $defaults = [
-        'PageLength' => 10
+        'PageLength' => 10,
     ];
 
     /**
@@ -155,7 +154,7 @@ class ArticlesPage extends \Page
         $fields->addFieldsToTab(
             'Root.Tags',
             [
-                GridField::create('Tags', _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor())
+                GridField::create('Tags', _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor()),
             ]
         );
 
@@ -217,7 +216,7 @@ class ArticlesPage extends \Page
             ->setSearchList(
                 ArticlePage::get()->filter(
                     [
-                        'ParentID' => $this->ID
+                        'ParentID' => $this->ID,
                     ]
                 )
             );
@@ -243,7 +242,7 @@ class ArticlesPage extends \Page
     {
         return ArticleThemePage::get()->filter(
             [
-                'ParentID' => $this->ID
+                'ParentID' => $this->ID,
             ]
         );
     }
@@ -252,7 +251,7 @@ class ArticlesPage extends \Page
     {
         return ArticleTypePage::get()->filter(
             [
-                'ParentID' => $this->ID
+                'ParentID' => $this->ID,
             ]
         );
     }
@@ -285,7 +284,8 @@ class ArticlesPage extends \Page
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
         ");
 
-        DB::query("
+        DB::query(
+            "
             UPDATE WeDevelop_ArticlePage SET Highlighted = 0 WHERE ID NOT IN (
                 SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
@@ -297,7 +297,8 @@ class ArticlesPage extends \Page
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)
         ");
 
-        DB::query("
+        DB::query(
+            "
             UPDATE WeDevelop_ArticlePage SET Pinned = 0 WHERE ID NOT IN (
                 SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree WHERE ParentID = $parentID)"
@@ -316,7 +317,8 @@ class ArticlesPage extends \Page
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
         ");
 
-        DB::query("
+        DB::query(
+            "
             UPDATE WeDevelop_ArticlePage_Live SET Highlighted = 0 WHERE ID NOT IN (
                 SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_HighlightedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"
@@ -328,7 +330,8 @@ class ArticlesPage extends \Page
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)
         ");
 
-        DB::query("
+        DB::query(
+            "
             UPDATE WeDevelop_ArticlePage_Live SET Pinned = 0 WHERE ID NOT IN (
                 SELECT WeDevelop_ArticlePageID FROM WeDevelop_ArticlesPage_PinnedArticles WHERE WeDevelop_ArticlesPageID = $parentID
             ) AND ID IN (SELECT ID FROM SiteTree_Live WHERE ParentID = $parentID)"

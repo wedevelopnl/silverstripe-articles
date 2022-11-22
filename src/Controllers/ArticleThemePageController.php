@@ -3,7 +3,6 @@
 namespace WeDevelop\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\PaginatedList;
 use WeDevelop\Articles\Pages\ArticleThemePage;
 
 /**
