@@ -1,14 +1,13 @@
 <?php
 
-namespace TheWebmen\Articles\Controllers;
+namespace WeDevelop\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\PaginatedList;
-use TheWebmen\Articles\Pages\ArticleThemePage;
+use WeDevelop\Articles\Pages\ArticleThemePage;
 
 /**
  * Class ArticleThemePageController
- * @package TheWebmen\Articles\Controllers
+ * @package WeDevelop\Articles\Controllers
  *
  * @method ArticleThemePage data()
  */

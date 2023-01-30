@@ -1,16 +1,16 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace WeDevelop\Articles\Pages;
 
-use TheWebmen\Articles\Controllers\ArticleTypePageController;
-use TheWebmen\Articles\ElementalGrid\ElementArticles;
+use WeDevelop\Articles\Controllers\ArticleTypePageController;
+use WeDevelop\Articles\ElementalGrid\ElementArticles;
 
 class ArticleTypePage extends \Page
 {
     /**
      * @var string
      */
-    private static $table_name = 'TheWebmen_ArticleTypePage';
+    private static $table_name = 'WeDevelop_ArticleTypePage';
 
     /**
      * @var string
@@ -51,7 +51,7 @@ class ArticleTypePage extends \Page
      * @var array
      */
     private static $has_one = [
-        'ArticlesPage' => ArticlesPage::class
+        'ArticlesPage' => ArticlesPage::class,
     ];
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace TheWebmen\Articles\GridFieldActions;
+namespace WeDevelop\Articles\GridFieldActions;
 
 use SilverStripe\ORM\DB;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
-use TheWebmen\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlePage;
 
 class ArticlesGridFieldAddExistingAutocompleter extends GridFieldAddExistingAutocompleter
 {
@@ -25,10 +25,10 @@ class ArticlesGridFieldAddExistingAutocompleter extends GridFieldAddExistingAuto
                 return parent::handleAction($gridField, $actionName, $arguments, $data);
             }
 
-            DB::query("UPDATE TheWebmen_ArticlePage SET $fieldToUpdate = 1 WHERE ID = $IDToUpdate");
+            DB::query("UPDATE WeDevelop_ArticlePage SET $fieldToUpdate = 1 WHERE ID = $IDToUpdate");
 
             if ($item->isPublished()) {
-                DB::query("UPDATE TheWebmen_ArticlePage_Live SET $fieldToUpdate = 1 WHERE ID = $IDToUpdate");
+                DB::query("UPDATE WeDevelop_ArticlePage_Live SET $fieldToUpdate = 1 WHERE ID = $IDToUpdate");
             }
         }
 
@@ -38,10 +38,10 @@ class ArticlesGridFieldAddExistingAutocompleter extends GridFieldAddExistingAuto
     private function getFieldToUpdate(GridField $gridField): ?string
     {
         switch ($gridField->getList()->getJoinTable()) {
-            case 'TheWebmen_ArticlesPage_PinnedArticles':
+            case 'WeDevelop_ArticlesPage_PinnedArticles':
                 return 'Pinned';
 
-            case 'TheWebmen_ArticlesPage_HighlightedArticles':
+            case 'WeDevelop_ArticlesPage_HighlightedArticles':
                 return 'Highlighted';
 
             default:

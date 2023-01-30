@@ -1,17 +1,17 @@
 <?php
 
-namespace TheWebmen\Articles\Controllers;
+namespace WeDevelop\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
-use TheWebmen\Articles\ArticleFilterForm;
-use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Pages\ArticlesPage;
-use TheWebmen\Articles\Services\ArticleFilterService;
+use WeDevelop\Articles\ArticleFilterForm;
+use WeDevelop\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlesPage;
+use WeDevelop\Articles\Services\ArticleFilterService;
 
 /**
  * Class ArticlesPageController
- * @package TheWebmen\Articles\Controllers
+ * @package WeDevelop\Articles\Controllers
  *
  * @method ArticlesPage data()
  */
@@ -68,7 +68,7 @@ class ArticlesPageController extends \PageController
 
     public function PaginatedArticles(): ?PaginatedList
     {
-        if($this->data() instanceof ArticlesPage) {
+        if ($this->data() instanceof ArticlesPage) {
             $pageLength = $this->data()->PageLength;
         } else {
             $pageLength = $this->data()->Parent()->PageLength;

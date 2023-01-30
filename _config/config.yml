@@ -1,6 +1,6 @@
 ---
 Name: articles
 ---
-TheWebmen\Articles\Pages\ArticlesPage:
+WeDevelop\Articles\Pages\ArticlesPage:
   extensions:
     - SilverStripe\Lumberjack\Model\LumberJack

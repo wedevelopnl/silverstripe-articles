@@ -1,13 +1,13 @@
 <?php
 
-namespace TheWebmen\Articles\Controllers;
+namespace WeDevelop\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
-use TheWebmen\Articles\Pages\ArticleTypePage;
+use WeDevelop\Articles\Pages\ArticleTypePage;
 
 /**
  * Class ArticleTypePageController
- * @package TheWebmen\Articles\Controllers
+ * @package WeDevelop\Articles\Controllers
  *
  * @method ArticleTypePage data()
  */

@@ -1,18 +1,18 @@
 <?php
 
-namespace TheWebmen\Articles\Pages;
+namespace WeDevelop\Articles\Pages;
 
 use SilverStripe\Control\Controller;
-use TheWebmen\Articles\Controllers\ArticlesPageController;
-use TheWebmen\Articles\Controllers\ArticleThemePageController;
-use TheWebmen\Articles\ElementalGrid\ElementArticles;
+use WeDevelop\Articles\Controllers\ArticlesPageController;
+use WeDevelop\Articles\Controllers\ArticleThemePageController;
+use WeDevelop\Articles\ElementalGrid\ElementArticles;
 
 class ArticleThemePage extends \Page
 {
     /**
      * @var string
      */
-    private static $table_name = 'TheWebmen_ArticleThemePage';
+    private static $table_name = 'WeDevelop_ArticleThemePage';
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class ArticleThemePage extends \Page
      * @var array
      */
     private static $has_one = [
-        'ArticlesPage' => ArticlesPage::class
+        'ArticlesPage' => ArticlesPage::class,
     ];
 
     /**
@@ -76,7 +76,7 @@ class ArticleThemePage extends \Page
         $URLFilters = $controller->getFiltersFromURL();
         $themes = $URLFilters['themes'];
 
-        if (in_array($this->data()->URLSegment, explode(',', $themes ?? ''))) {
+        if (in_array($this->data()->URLSegment, explode(',', $themes ?? ''), true)) {
             return true;
         }
 

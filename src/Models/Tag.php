@@ -1,28 +1,21 @@
 <?php
 
-namespace TheWebmen\Articles\Models;
+namespace WeDevelop\Articles\Models;
 
 use SilverStripe\CMS\Controllers\CMSPageEditController;
+use SilverStripe\Dev\TaskRunner;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\Parsers\URLSegmentFilter;
-use TheWebmen\Articles\Pages\ArticlePage;
-use TheWebmen\Articles\Pages\ArticlesPage;
+use WeDevelop\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlesPage;
 
 class Tag extends DataObject
 {
     /**
-     * @var array
-     */
-    private static $db = [
-        'Title' => 'Varchar(255)',
-        'Slug' => 'Varchar(255)',
-    ];
-
-    /**
      * @var string
      */
-    private static $table_name = 'Webmen_ArticleTag';
+    private static $table_name = 'WeDevelop_ArticleTag';
 
     /**
      * @var string
@@ -44,6 +37,14 @@ class Tag extends DataObject
      */
     private static $summary_fields = [
         'Title' => 'Tag name',
+    ];
+
+    /**
+     * @var array
+     */
+    private static $db = [
+        'Title' => 'Varchar(255)',
+        'Slug' => 'Varchar(255)',
     ];
 
     /**
@@ -78,15 +79,18 @@ class Tag extends DataObject
 
     /**
      * This sets the ArticlesPageID in case the Tag is created within
-     * an article {@see ArticlePage}, in stead of via the article overview page {@see ArticlesPage}
+     * an article {@see ArticlePage}, instead of via the article overview page {@see ArticlesPage}
      */
     protected function onBeforeWrite(): void
     {
-        $currentPageID = CMSPageEditController::curr()->currentPageID();
-        $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);
+        $currentController = CMSPageEditController::curr();
+        if (!($currentController instanceof TaskRunner)) {
+            $currentPageID = $currentController->currentPageID();
+            $currentPage = \Page::get_by_id(ArticlePage::class, $currentPageID);
 
-        if ($currentPage) {
-            $this->ArticlesPageID = $currentPage->ParentID;
+            if ($currentPage) {
+                $this->ArticlesPageID = $currentPage->ParentID;
+            }
         }
 
         $this->Slug = URLSegmentFilter::create()->filter($this->Title);

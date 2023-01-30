@@ -1,6 +1,6 @@
 <?php
 
-namespace TheWebmen\Articles\Interfaces;
+namespace WeDevelop\Articles\Interfaces;
 
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;

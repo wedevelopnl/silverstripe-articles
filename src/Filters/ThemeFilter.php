@@ -1,10 +1,10 @@
 <?php
 
-namespace TheWebmen\Articles\Filters;
+namespace WeDevelop\Articles\Filters;
 
 use SilverStripe\ORM\DataList;
-use TheWebmen\Articles\Interfaces\FilterInterface;
-use TheWebmen\Articles\Pages\ArticleThemePage;
+use WeDevelop\Articles\Interfaces\FilterInterface;
+use WeDevelop\Articles\Pages\ArticleThemePage;
 
 final class ThemeFilter implements FilterInterface
 {
