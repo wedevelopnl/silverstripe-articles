@@ -29,7 +29,7 @@
     "extra": {
         "installer-name": "silverstripe-articles",
         "branch-alias": {
-            "dev-main": "3.x-dev"
+            "dev-main": "4.x-dev"
         },
         "expose": [
             "client/dist"
