@@ -71,6 +71,13 @@ class Author extends DataObject
         'ElementArticles' => ElementArticles::class,
     ];
 
+    /**
+     * @var array
+     */
+    private static $owns = [
+        'Image',
+    ];
+
     public function getCMSFields(): FieldList
     {
         $fields = parent::getCMSFields();
