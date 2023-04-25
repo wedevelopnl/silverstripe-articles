@@ -51,7 +51,7 @@ class ArticlesPageController extends \PageController
         return $articles;
     }
 
-    public function init(): ?DataList
+    public function init(): void
     {
         parent::init();
 
@@ -62,8 +62,6 @@ class ArticlesPageController extends \PageController
         }
 
         $this->extend('onAfterInit', $this);
-
-        return $this->articles;
     }
 
     public function PaginatedArticles(): ?PaginatedList
