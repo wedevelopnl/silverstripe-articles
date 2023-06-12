@@ -84,7 +84,7 @@ class ElementArticle extends BaseElement
                 ),
                 TextField::create(
                     'ShowMoreArticlesButtonText',
-                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button")
+                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")
                 )
                     ->displayIf('ShowMoreArticlesButton')
                     ->isChecked()
