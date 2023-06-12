@@ -54,7 +54,7 @@ class ElementArticles extends BaseElement
     /**
      * @var string
      */
-    private static $icon = 'font-icon-p-list';
+    private static $icon = 'font-icon-menu-campaigns';
 
     /**
      * @var array
@@ -169,7 +169,7 @@ class ElementArticles extends BaseElement
 
     public function getType(): string
     {
-        return 'Articles list';
+        return 'Articles overview';
     }
 
     public function getArticles(): ?DataList
