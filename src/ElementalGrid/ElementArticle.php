@@ -47,6 +47,7 @@ class ElementArticle extends BaseElement
      */
     private static $has_one = [
         'ArticlePage' => ArticlePage::class,
+        'ArticlesPage' => ArticlesPage::class,
     ];
 
     /**
@@ -71,6 +72,7 @@ class ElementArticle extends BaseElement
         $fields->removeByName(
             [
                 'ShowMoreArticlesButton',
+                'ArticlesPageID',
                 'ShowMoreArticlesButtonText',
             ]
         );
@@ -82,6 +84,7 @@ class ElementArticle extends BaseElement
                     'ShowMoreArticlesButton',
                     _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTON', "Show 'more articles' button")
                 ),
+                TreeDropdownField::create('ArticlesPageID', 'Articles page', ArticlesPage::class),
                 TextField::create(
                     'ShowMoreArticlesButtonText',
                     _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button")
