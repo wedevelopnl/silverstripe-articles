@@ -55,7 +55,9 @@ nl:
     SHOWMOREBUTTON: 'Toon meer artikelen button'
     SHOWMOREBUTTONTEXT: 'Meer artikelen buttontekst'
     NOARTICLESFOUND: 'Geen artikelen gevonden'
+    ARTICLESPAGE: 'Artikelen overzicht pagina'
   WeDevelop\Articles\ElementalGrid\ElementArticle:
+    ARTICLESPAGE: 'Artikelen overzicht pagina'
     ARTICLETOSHOW: 'Artikel om weer te geven'
     NOARTICLEFOUND: 'Geen artikel gevonden'
 
