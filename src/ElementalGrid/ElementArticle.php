@@ -8,6 +8,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
 use WeDevelop\Articles\Pages\ArticlePage;
+use WeDevelop\Articles\Pages\ArticlesPage;
 
 /**
  * Class ElementArticle
@@ -87,7 +88,7 @@ class ElementArticle extends BaseElement
                 TreeDropdownField::create('ArticlesPageID', 'Articles page', ArticlesPage::class),
                 TextField::create(
                     'ShowMoreArticlesButtonText',
-                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button")
+                    _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")
                 )
                     ->displayIf('ShowMoreArticlesButton')
                     ->isChecked()
