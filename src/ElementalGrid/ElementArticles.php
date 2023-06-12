@@ -12,6 +12,7 @@ use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
 use SilverStripe\TagField\TagField;
+use UncleCheese\DisplayLogic\Forms\Wrapper;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Pages\ArticlePage;
 use WeDevelop\Articles\Pages\ArticlesPage;
@@ -53,7 +54,7 @@ class ElementArticles extends BaseElement
     /**
      * @var string
      */
-    private static $icon = 'font-icon-p-list';
+    private static $icon = 'font-icon-menu-campaigns';
 
     /**
      * @var array
@@ -91,12 +92,9 @@ class ElementArticles extends BaseElement
     {
         $fields = parent::getCMSFields();
 
-        $fields->addFieldsToTab(
-            'Root.Main',
-            [
-                TreeDropdownField::create('ArticlesPageID', 'Articles page', SiteTree::class),
-            ]
-        );
+        $fields->addFieldsToTab('Root.Main', [
+            TreeDropdownField::create('ArticlesPageID', _t(__CLASS__ . '.ARTICLESPAGE', 'Articles overview page'), SiteTree::class),
+        ]);
 
         $fields->removeByName(
             [
@@ -151,10 +149,12 @@ class ElementArticles extends BaseElement
                         'ShowMoreArticlesButton',
                         _t(__CLASS__ . '.SHOWMOREBUTTON', "Show 'more articles' button")
                     ),
-                    TextField::create(
-                        'ShowMoreArticlesButtonText',
-                        _t(__CLASS__ . '.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")
-                    )
+                    Wrapper::create([
+                        TextField::create(
+                            'ShowMoreArticlesButtonText',
+                            _t(__CLASS__ . '.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")
+                        ),
+                    ])
                         ->displayIf('ShowMoreArticlesButton')
                         ->isChecked()
                         ->end(),
@@ -169,7 +169,7 @@ class ElementArticles extends BaseElement
 
     public function getType(): string
     {
-        return 'Articles list';
+        return 'Articles overview';
     }
 
     public function getArticles(): ?DataList
