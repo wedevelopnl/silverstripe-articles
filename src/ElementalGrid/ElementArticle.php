@@ -81,7 +81,8 @@ class ElementArticle extends BaseElement
                 TreeDropdownField::create(
                     'ArticlePageID',
                     _t(__CLASS__ . '.ARTICLETOSHOW', 'Article to show'),
-                    ArticlePage::class),
+                    ArticlePage::class
+                ),
                 CheckboxField::create(
                     'ShowMoreArticlesButton',
                     _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTON', "Show 'more articles' button")
@@ -90,7 +91,8 @@ class ElementArticle extends BaseElement
                     TreeDropdownField::create(
                         'ArticlesPageID',
                         _t(__CLASS__ . '.ARTICLESPAGE', 'Articles overview page'),
-                        SiteTree::class),
+                        SiteTree::class
+                    ),
                     TextField::create(
                         'ShowMoreArticlesButtonText',
                         _t('WeDevelop\Articles\ElementalGrid.SHOWMOREBUTTONTEXT', "Show 'more articles' button text")

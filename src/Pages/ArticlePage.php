@@ -105,97 +105,103 @@ class ArticlePage extends \Page
 
     public function getCMSFields(): FieldList
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->removeByName('MenuTitle');
 
-        $fields->removeByName('MenuTitle');
+            $fields->insertAfter(
+                'URLSegment',
+                TextField::create('Subtitle', _t(__CLASS__ . '.SUBTITLE', 'Subtitle'))
+            );
 
-        $fields->insertAfter(
-            'URLSegment',
-            TextField::create('Subtitle', _t(__CLASS__ . '.SUBTITLE', 'Subtitle'))
-        );
+            $fields->replaceField('Content', HTMLEditorField::create('Content'));
 
-        $fields->replaceField('Content', HTMLEditorField::create('Content'));
-
-        $fields->insertAfter(
-            'Subtitle',
-            FieldGroup::create(
-                [
-                    TextField::create('ReadingTime', _t(__CLASS__ . '.READINGTIME', 'Reading time (in min.)')),
-                    DatetimeField::create('PublicationDate', _t(__CLASS__ . '.PUBLICATIONDATE', 'Publication date')),
-                    DatetimeField::create('UpdatedDate', _t(__CLASS__ . '.UPDATEDATE', 'Update date')),
-                ]
-            )
+            $fields->insertAfter(
+                'Subtitle',
+                FieldGroup::create(
+                    [
+                        TextField::create('ReadingTime', _t(__CLASS__ . '.READINGTIME', 'Reading time (in min.)')),
+                        DatetimeField::create('PublicationDate', _t(__CLASS__ . '.PUBLICATIONDATE', 'Publication date')),
+                        DatetimeField::create('UpdatedDate', _t(__CLASS__ . '.UPDATEDATE', 'Update date')),
+                    ]
+                )
                 ->setName('ArticleMetadata')
                 ->setTitle(_t(__CLASS__ . '.METADATA', 'Metadata'))
-        );
+            );
 
-        $fields->insertAfter(
-            'ArticleMetadata',
-            TagField::create(
+            $fields->insertAfter(
+                'ArticleMetadata',
+                TagField::create(
+                        'Themes',
+                        _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                        ArticleThemePage::get()->filter('ParentID', $this->ParentID),
+                        $this->Themes()
+                    )->setCanCreate(false)
+            );
+
+            $fields->insertAfter(
                 'Themes',
-                _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
-                ArticleThemePage::get()->filter('ParentID', $this->ParentID),
-                $this->Themes()
-            )->setCanCreate(false)
-        );
+                TagField::create(
+                    'Tags',
+                    _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'),
+                    Tag::get()->filter(
+                        [
+                            'ArticlesPageID' => $this->ParentID,
+                        ]
+                    ),
+                    $this->Tags()
+                )
+            );
 
-        $fields->insertAfter(
-            'Themes',
-            TagField::create(
+            $fields->insertAfter(
                 'Tags',
-                _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'),
-                Tag::get()->filter(
-                    [
-                        'ArticlesPageID' => $this->ParentID,
-                    ]
-                ),
-                $this->Tags()
-            )
-        );
+                DropdownField::create(
+                    'AuthorID',
+                    _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
+                    Author::get()->filter(
+                        [
+                            'ArticlesPageID' => $this->ParentID,
+                        ]
+                    )
+                )
+                ->setHasEmptyDefault(true)
+            );
 
-        $fields->insertAfter(
-            'Tags',
-            DropdownField::create(
+            $fields->insertAfter(
                 'AuthorID',
-                _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
-                Author::get()->filter(
-                    [
-                        'ArticlesPageID' => $this->ParentID,
-                    ]
+                DropdownField::create(
+                    'TypeID',
+                    _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
+                    ArticleTypePage::get()->filter(
+                        [
+                            'ParentID' => $this->ParentID,
+                        ]
+                    )
                 )
-            )
                 ->setHasEmptyDefault(true)
-        );
+            );
 
-        $fields->insertAfter(
-            'AuthorID',
-            DropdownField::create(
+            $fields->insertAfter(
                 'TypeID',
-                _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
-                ArticleTypePage::get()->filter(
-                    [
-                        'ParentID' => $this->ParentID,
-                    ]
+                HTMLEditorField::create(
+                    'TeaserText',
+                    _t(__CLASS__ . '.TEASERTEXT', 'Teaser text')
                 )
-            )
-                ->setHasEmptyDefault(true)
-        );
-
-        $fields->insertAfter(
-            'TypeID',
-            HTMLEditorField::create('TeaserText', _t(__CLASS__ . '.TEASERTEXT', 'Teaser text'))
                 ->setRows(5)
-        );
+            );
 
-        $fields->insertAfter(
-            'TeaserText',
-            UploadField::create('Thumbnail', _t(__CLASS__ . '.THUMBNAIL', 'Thumbnail'))
+            $fields->insertAfter(
+                'TeaserText',
+                UploadField::create(
+                    'Thumbnail',
+                    _t(__CLASS__ . '.THUMBNAIL', 'Thumbnail')
+                )
                 ->setFolderName('Thumbnails')
-        );
+            );
+        });
 
         $this->extend('onAfterUpdateCMSFields', $fields);
 
-        return $fields;
+        return parent::getCMSFields();
     }
 
     public function getControllerName(): string

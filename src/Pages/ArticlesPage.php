@@ -119,79 +119,79 @@ class ArticlesPage extends \Page
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->addFieldToTab(
+                'Root.Themes',
+                $this->createGridField(
+                    'Themes',
+                    _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                    ArticleThemePage::get()->filter('ParentID', $this->ID)
+                )
+            );
 
-        $fields->addFieldToTab(
-            'Root.Themes',
-            $this->createGridField(
-                'Themes',
-                _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
-                ArticleThemePage::get()->filter('ParentID', $this->ID)
-            )
-        );
+            $fields->addFieldToTab(
+                'Root.Types',
+                $this->createGridField(
+                    'Types',
+                    _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
+                    ArticleTypePage::get()->filter('ParentID', $this->ID)
+                )
+            );
 
-        $fields->addFieldToTab(
-            'Root.Types',
-            $this->createGridField(
-                'Types',
-                _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
-                ArticleTypePage::get()->filter('ParentID', $this->ID)
-            )
-        );
+            $fields->addFieldsToTab(
+                'Root.Authors',
+                [
+                    GridField::create(
+                        'Authors',
+                        _t('WeDevelop\Articles\Models\Author.PLURALNAME', 'Authors'),
+                        $this->Authors(),
+                        new GridFieldConfig_RecordEditor()
+                    ),
+                ]
+            );
 
-        $fields->addFieldsToTab(
-            'Root.Authors',
-            [
-                GridField::create(
-                    'Authors',
-                    _t('WeDevelop\Articles\Models\Author.PLURALNAME', 'Authors'),
-                    $this->Authors(),
-                    new GridFieldConfig_RecordEditor()
-                ),
-            ]
-        );
+            $fields->addFieldsToTab(
+                'Root.Tags',
+                [
+                    GridField::create('Tags', _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor()),
+                ]
+            );
 
-        $fields->addFieldsToTab(
-            'Root.Tags',
-            [
-                GridField::create('Tags', _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'), $this->Tags(), new GridFieldConfig_RecordEditor()),
-            ]
-        );
+            $fields->replaceField(
+                'ChildPages',
+                $this->createGridField(
+                    'Articles',
+                    _t(__CLASS__ . '.ARTICLES', 'Articles'),
+                    ArticlePage::get()->filter('ParentID', $this->ID)
+                )
+            );
 
-        $fields->replaceField(
-            'ChildPages',
-            $this->createGridField(
-                'Articles',
-                _t(__CLASS__ . '.ARTICLES', 'Articles'),
-                ArticlePage::get()->filter('ParentID', $this->ID)
-            )
-        );
+            $fields->addFieldToTab(
+                'Root.Highlighted',
+                new GridField(
+                    'HighlightedArticles',
+                    _t(__CLASS__ . '.HIGHLIGHTEDARTICLES', 'Highlighted articles'),
+                    $this->HighlightedArticles(),
+                    $this->getGridConfig('HighlightedSort')
+                )
+            );
 
-        $fields->addFieldToTab(
-            'Root.Highlighted',
-            new GridField(
-                'HighlightedArticles',
-                _t(__CLASS__ . '.HIGHLIGHTEDARTICLES', 'Highlighted articles'),
-                $this->HighlightedArticles(),
-                $this->getGridConfig('HighlightedSort')
-            )
-        );
+            $fields->addFieldToTab(
+                'Root.Pinned',
+                new GridField(
+                    'PinnedArticles',
+                    _t(__CLASS__ . '.PINNEDARTICLES', 'Pinned articles'),
+                    $this->PinnedArticles(),
+                    $this->getGridConfig('PinnedSort')
+                )
+            );
 
-        $fields->addFieldToTab(
-            'Root.Pinned',
-            new GridField(
-                'PinnedArticles',
-                _t(__CLASS__ . '.PINNEDARTICLES', 'Pinned articles'),
-                $this->PinnedArticles(),
-                $this->getGridConfig('PinnedSort')
-            )
-        );
-
-        $fields->insertBefore('Articles', NumericField::create('PageLength'));
+            $fields->insertBefore('Articles', NumericField::create('PageLength'));
+        });
 
         $this->extend('onAfterUpdateCMSFields', $fields);
 
-        return $fields;
+        return parent::getCMSFields();
     }
 
     private function getGridConfig(string $sortColumn): GridFieldConfig_RelationEditor
