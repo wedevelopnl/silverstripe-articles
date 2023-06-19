@@ -199,9 +199,9 @@ class ArticlePage extends \Page
             );
         });
 
+        $fields = parent::getCMSFields();
         $this->extend('onAfterUpdateCMSFields', $fields);
-
-        return parent::getCMSFields();
+        return  $fields;
     }
 
     public function getControllerName(): string

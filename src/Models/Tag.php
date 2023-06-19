@@ -71,9 +71,9 @@ class Tag extends DataObject
             $fields->renameField('Title', _t(__CLASS__ . '.NAME', 'Name'));
         });
 
+        $fields = parent::getCMSFields();
         $this->extend('onAfterUpdateCMSFields', $fields);
-
-        return parent::getCMSFields();
+        return  $fields;
     }
 
     /**

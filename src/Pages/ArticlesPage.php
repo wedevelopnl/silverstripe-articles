@@ -189,9 +189,9 @@ class ArticlesPage extends \Page
             $fields->insertBefore('Articles', NumericField::create('PageLength'));
         });
 
+        $fields = parent::getCMSFields();
         $this->extend('onAfterUpdateCMSFields', $fields);
-
-        return parent::getCMSFields();
+        return  $fields;
     }
 
     private function getGridConfig(string $sortColumn): GridFieldConfig_RelationEditor
