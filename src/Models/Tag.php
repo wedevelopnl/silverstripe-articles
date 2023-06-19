@@ -66,15 +66,14 @@ class Tag extends DataObject
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
-
-        $fields->removeByName('ArticlesPageID');
-
-        $fields->renameField('Title', _t(__CLASS__ . '.NAME', 'Name'));
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->removeByName('ArticlesPageID');
+            $fields->renameField('Title', _t(__CLASS__ . '.NAME', 'Name'));
+        });
 
         $this->extend('onAfterUpdateCMSFields', $fields);
 
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**

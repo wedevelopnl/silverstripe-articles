@@ -80,42 +80,42 @@ class Author extends DataObject
 
     public function getCMSFields(): FieldList
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->removeByName(
+                [
+                    'ArticlesPageID',
+                    'Slug',
+                    'Function',
+                    'Bio',
+                    'Phone',
+                    'Email',
+                    'FacebookURL',
+                    'TwitterURL',
+                    'LinkedInURL',
+                ]
+            );
 
-        $fields->removeByName(
-            [
-                'ArticlesPageID',
-                'Slug',
-                'Function',
-                'Bio',
-                'Phone',
-                'Email',
-                'FacebookURL',
-                'TwitterURL',
-                'LinkedInURL',
-            ]
-        );
+            $fields->renameField('Title', 'Name');
 
-        $fields->renameField('Title', 'Name');
-
-        $fields->addFieldsToTab(
-            'Root.Main',
-            [
-                TextField::create('Function', 'Function'),
-                UploadField::create('Image', 'Image')->setFolderName('Authors'),
-                HTMLEditorField::create('Bio', 'Bio')->setRows(5),
-                HeaderField::create('', 'Contact details'),
-                TextField::create('Phone', 'Phone'),
-                TextField::create('Email', 'E-mailaddress'),
-                HeaderField::create('', 'Social media'),
-                TextField::create('FacebookURL', 'Facebook URL'),
-                TextField::create('TwitterURL', 'Twitter URL'),
-                TextField::create('LinkedInURL', 'LinkedIn URL'),
-            ]
-        );
+            $fields->addFieldsToTab(
+                'Root.Main',
+                [
+                    TextField::create('Function', 'Function'),
+                    UploadField::create('Image', 'Image')->setFolderName('Authors'),
+                    HTMLEditorField::create('Bio', 'Bio')->setRows(5),
+                    HeaderField::create('', 'Contact details'),
+                    TextField::create('Phone', 'Phone'),
+                    TextField::create('Email', 'E-mailaddress'),
+                    HeaderField::create('', 'Social media'),
+                    TextField::create('FacebookURL', 'Facebook URL'),
+                    TextField::create('TwitterURL', 'Twitter URL'),
+                    TextField::create('LinkedInURL', 'LinkedIn URL'),
+                ]
+            );
+        });
 
         $this->extend('onAfterUpdateCMSFields', $fields);
 
-        return $fields;
+        return parent::getCMSFields();
     }
 }
