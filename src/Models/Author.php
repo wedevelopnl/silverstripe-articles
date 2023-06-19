@@ -114,8 +114,8 @@ class Author extends DataObject
             );
         });
 
+        $fields = parent::getCMSFields();
         $this->extend('onAfterUpdateCMSFields', $fields);
-
-        return parent::getCMSFields();
+        return  $fields;
     }
 }
