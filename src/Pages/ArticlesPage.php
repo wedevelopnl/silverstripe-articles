@@ -4,6 +4,7 @@ namespace WeDevelop\Articles\Pages;
 
 use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
@@ -114,10 +115,7 @@ class ArticlesPage extends \Page
         ],
     ];
 
-    /**
-     * @return \SilverStripe\Forms\FieldList
-     */
-    public function getCMSFields()
+    public function getCMSFields(): FieldList
     {
         $this->beforeUpdateCMSFields(function (FieldList $fields) {
             $fields->addFieldToTab(

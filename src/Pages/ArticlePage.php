@@ -131,11 +131,11 @@ class ArticlePage extends \Page
             $fields->insertAfter(
                 'ArticleMetadata',
                 TagField::create(
-                        'Themes',
-                        _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
-                        ArticleThemePage::get()->filter('ParentID', $this->ParentID),
-                        $this->Themes()
-                    )->setCanCreate(false)
+                    'Themes',
+                    _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
+                    ArticleThemePage::get()->filter('ParentID', $this->ParentID),
+                    $this->Themes()
+                )->setCanCreate(false)
             );
 
             $fields->insertAfter(
