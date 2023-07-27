@@ -338,10 +338,14 @@ class ArticlesPage extends \Page
         parent::onAfterPublish();
     }
 
-    public function getLumberjackPagesForGridfield(): DataList
+    /**
+     * @var array<string> $excluded
+     */
+    public function getLumberjackPagesForGridfield(array $excluded = []): DataList
     {
         return ArticlePage::get()->filter([
             'ParentID' => $this->ID,
+            'ClassName' => $excluded,
         ]);
     }
 }
