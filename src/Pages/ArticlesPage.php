@@ -337,4 +337,11 @@ class ArticlesPage extends \Page
 
         parent::onAfterPublish();
     }
+
+    public function getLumberjackPagesForGridfield(): DataList
+    {
+        return ArticlePage::get()->filter([
+            'ParentID' => $this->ID,
+        ]);
+    }
 }
