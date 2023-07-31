@@ -2,7 +2,6 @@
 
 namespace WeDevelop\Articles\Pages;
 
-use Restruct\Silverstripe\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
@@ -118,6 +117,11 @@ class ArticlesPage extends \Page
     public function getCMSFields(): FieldList
     {
         $this->beforeUpdateCMSFields(function (FieldList $fields) {
+
+            $fields->removeByName([
+                'PageLength',
+            ]);
+
             $fields->addFieldToTab(
                 'Root.Themes',
                 $this->createGridField(
@@ -155,15 +159,6 @@ class ArticlesPage extends \Page
                 ]
             );
 
-            $fields->replaceField(
-                'ChildPages',
-                $this->createGridField(
-                    'Articles',
-                    _t(__CLASS__ . '.ARTICLES', 'Articles'),
-                    ArticlePage::get()->filter('ParentID', $this->ID)
-                )
-            );
-
             $fields->addFieldToTab(
                 'Root.Highlighted',
                 new GridField(
@@ -183,13 +178,15 @@ class ArticlesPage extends \Page
                     $this->getGridConfig('PinnedSort')
                 )
             );
-
-            $fields->insertBefore('Articles', NumericField::create('PageLength'));
         });
 
         $fields = parent::getCMSFields();
-        $this->extend('onAfterUpdateCMSFields', $fields);
-        return  $fields;
+
+        $fields->removeByName(['PageLength']);
+
+        $fields->addFieldsToTab('Root.ChildPages', NumericField::create('PageLength'), 'ChildPages');
+
+        return $fields;
     }
 
     private function getGridConfig(string $sortColumn): GridFieldConfig_RelationEditor
@@ -229,11 +226,7 @@ class ArticlesPage extends \Page
 
     private function createGridField(string $type, string $title, DataList $list): GridField
     {
-        $config = GridFieldConfig_Lumberjack::create()
-            ->removeComponentsByType(GridFieldSiteTreeAddNewButton::class)
-            ->addComponent(new GridFieldAddNewSiteTreeItemButton('buttons-before-left'));
-
-        return GridField::create($type, $title, $list, $config);
+        return GridField::create($type, $title, $list, GridFieldConfig_Lumberjack::create());
     }
 
     public function getThemes(): DataList
