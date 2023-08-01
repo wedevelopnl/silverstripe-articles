@@ -20,7 +20,8 @@
         "silverstripe/vendor-plugin": "^2.0",
         "silverstripe/lumberjack": "^3.0",
         "silverstripe/tagfield": "^3.0",
-        "unclecheese/display-logic": "^3.0"
+        "unclecheese/display-logic": "^3.0",
+        "wedevelopnl/silverstripe-gridfieldsitetreebuttons": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.20"
