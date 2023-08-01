@@ -8,60 +8,38 @@ use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
+use SilverStripe\Versioned\GridFieldArchiveAction;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WeDevelop\Articles\Controllers\ArticlesPageController;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\Tag;
 
 class ArticlePage extends \Page
 {
-    /**
-     * @var string
-     */
-    private static $table_name = 'WeDevelop_ArticlePage';
+    private static string $table_name = 'WeDevelop_ArticlePage';
 
-    /**
-     * @var string
-     */
-    private static $singular_name = 'Article page';
+    private static string $singular_name = 'Article page';
 
-    /**
-     * @var string
-     */
-    private static $description = 'A page that represents an article';
+    private static string $description = 'A page that represents an article';
 
-    /**
-     * @var string
-     */
-    private static $plural_name = 'Articles page';
+    private static string $plural_name = 'Articles page';
 
-    /**
-     * @var string
-     */
-    private static $icon_class = 'font-icon-p-article';
+    private static string $icon_class = 'font-icon-p-article';
 
-    /**
-     * @var bool
-     */
-    private static $show_in_sitetree = false;
+    private static bool $show_in_sitetree = false;
 
-    /**
-     * @var bool
-     */
-    private static $can_be_root = false;
+    private static bool $can_be_root = false;
 
-    /**
-     * @var array
-     */
-    private static $allowed_children = [];
+    private static array $allowed_children = [];
 
-    /**
-     * @var array
-     */
-    private static $db = [
+    private static array $db = [
         'Subtitle' => 'Varchar(255)',
         'PublicationDate' => 'Datetime',
         'UpdatedDate' => 'Datetime',
@@ -71,42 +49,45 @@ class ArticlePage extends \Page
         'Highlighted' => 'Boolean',
     ];
 
-    /**
-     * @var array
-     */
-    private static $has_one = [
+    private static array $has_one = [
         'Thumbnail' => Image::class,
         'Type' => ArticleTypePage::class,
         'Author' => Author::class,
     ];
 
-    /**
-     * @var array
-     */
-    private static $owns = [
+    private static array $many_many = [
+        'RelatedArticles' => ArticlePage::class,
+    ];
+
+    private static array $owns = [
         'Thumbnail',
     ];
 
-    /**
-     * @var array
-     */
-    private static $belongs_many_many = [
+    private static array $belongs_many_many = [
         'Tags' => Tag::class,
         'Themes' => ArticleThemePage::class,
         'HighlightedArticles' => ArticlesPage::class . '.HighlightedArticles',
         'PinnedArticles' => ArticlesPage::class . '.PinnedArticles',
     ];
 
-    /**
-     * @var string
-     */
-    private static $default_sort = 'PublicationDate DESC';
-
+    private static string $default_sort = 'PublicationDate DESC';
 
     public function getCMSFields(): FieldList
     {
         $this->beforeUpdateCMSFields(function (FieldList $fields) {
             $fields->removeByName('MenuTitle');
+
+            $fields->addFieldsToTab('Root.RelatedArticles', [
+                GridField::create(
+                    'RelatedArticles',
+                    _t(__CLASS__ . '.RELATED_ARTICLES', 'Related articles'),
+                    $this->owner->RelatedArticles(),
+                    GridFieldConfig_RelationEditor::create()
+                        ->addComponent(new GridFieldOrderableRows())
+                        ->removeComponentsByType(GridFieldArchiveAction::class)
+                        ->removeComponentsByType(GridFieldEditButton::class)
+                ),
+            ]);
 
             $fields->insertAfter(
                 'URLSegment',
@@ -209,7 +190,7 @@ class ArticlePage extends \Page
         return ArticlesPageController::class;
     }
 
-    protected function onBeforeWrite()
+    protected function onBeforeWrite(): void
     {
         if (is_null($this->PublicationDate)) {
             $this->PublicationDate = DBDatetime::now()->getValue();
