@@ -78,7 +78,10 @@ class ArticlePage extends \Page
             $fields->removeByName('MenuTitle');
 
             $fields->addFieldsToTab('Root.RelatedArticles', [
-                GridField::create('RelatedArticles', _t(__CLASS__ . '.RELATED_ARTICLES', 'Related articles'), $this->owner->RelatedArticles(),
+                GridField::create(
+                    'RelatedArticles',
+                    _t(__CLASS__ . '.RELATED_ARTICLES', 'Related articles'),
+                    $this->owner->RelatedArticles(),
                     GridFieldConfig_RelationEditor::create()
                         ->addComponent(new GridFieldOrderableRows())
                         ->removeComponentsByType(GridFieldArchiveAction::class)
