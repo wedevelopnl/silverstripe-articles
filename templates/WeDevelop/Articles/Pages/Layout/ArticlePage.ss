@@ -44,3 +44,19 @@
         </ul>
     </div>
 </section>
+<% if $RelatedArticles %>
+    <section>
+        <div class="container">
+            <ul>
+                <% loop $RelatedArticles %>
+                    <li>
+                        $Title <a href="$Link">Go to</a>
+                    </li>
+                <% end_loop %>
+            </ul>
+            <% if $Parent %>
+                <a href="$Parent.Link">All articles</a>
+            <% end_if %>
+        </div>
+    </section>
+<% end_if %>

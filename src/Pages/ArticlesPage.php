@@ -2,11 +2,14 @@
 
 namespace WeDevelop\Articles\Pages;
 
+use SilverStripe\Forms\TextField;
+use WeDevelop\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -38,74 +41,42 @@ use WeDevelop\Articles\Models\Tag;
  */
 class ArticlesPage extends \Page
 {
-    /**
-     * @var string
-     */
-    private static $table_name = 'WeDevelop_ArticlesPage';
+    private static string $table_name = 'WeDevelop_ArticlesPage';
 
-    /**
-     * @var string
-     */
-    private static $singular_name = 'Articles overview page';
+    private static string $singular_name = 'Articles overview page';
 
-    /**
-     * @var string
-     */
-    private static $plural_name = 'Articles overview pages';
+    private static string $plural_name = 'Articles overview pages';
 
-    /**
-     * @var string
-     */
-    private static $icon_class = 'font-icon-p-article';
+    private static string $icon_class = 'font-icon-p-article';
 
-    /**
-     * @var array
-     */
-    private static $allowed_children = [
-        '*' . ArticlePage::class,
-        '*' . ArticleThemePage::class,
-        '*' . ArticleTypePage::class,
+    private static array $allowed_children = [
+        ArticlePage::class,
+        ArticleThemePage::class,
+        ArticleTypePage::class,
     ];
 
-    /**
-     * @var string
-     */
-    private static $default_child = ArticlePage::class;
+    private static string $default_child = ArticlePage::class;
 
-    /**
-     * @var array
-     */
-    private static $db = [
+    private static array $db = [
+        'RelatedArticlesTitle' => 'Varchar',
         'PageLength' => 'Int',
     ];
 
-    /**
-     * @var array
-     */
-    private static $defaults = [
+    private static array $defaults = [
         'PageLength' => 10,
     ];
 
-    /**
-     * @var array
-     */
-    private static $has_many = [
+    private static array $has_many = [
         'Tags' => Tag::class,
         'Authors' => Author::class,
     ];
 
-    /**
-     * @var array
-     */
-    private static $many_many = [
+    private static array $many_many = [
         'HighlightedArticles' => ArticlePage::class,
         'PinnedArticles' => ArticlePage::class,
     ];
 
-    /**
-     * @var array
-     */
-    private static $many_many_extraFields = [
+    private static array $many_many_extraFields = [
         'HighlightedArticles' => [
             'HighlightedSort' => 'Int',
         ],
@@ -124,20 +95,26 @@ class ArticlesPage extends \Page
 
             $fields->addFieldToTab(
                 'Root.Themes',
-                $this->createGridField(
+                GridField::create(
                     'Themes',
                     _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
-                    ArticleThemePage::get()->filter('ParentID', $this->ID)
-                )
+                    ArticleThemePage::get()->filter('ParentID', $this->ID),
+                    GridFieldConfig_RecordEditor::create()
+                        ->removeComponentsByType(GridFieldAddNewButton::class)
+                        ->addComponent(new GridFieldAddNewSiteTreeItemButton())
+                ),
             );
 
             $fields->addFieldToTab(
                 'Root.Types',
-                $this->createGridField(
+                GridField::create(
                     'Types',
                     _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
-                    ArticleTypePage::get()->filter('ParentID', $this->ID)
-                )
+                    ArticleTypePage::get()->filter('ParentID', $this->ID),
+                    GridFieldConfig_RecordEditor::create()
+                        ->removeComponentsByType(GridFieldAddNewButton::class)
+                        ->addComponent(new GridFieldAddNewSiteTreeItemButton())
+                ),
             );
 
             $fields->addFieldsToTab(
@@ -147,7 +124,7 @@ class ArticlesPage extends \Page
                         'Authors',
                         _t('WeDevelop\Articles\Models\Author.PLURALNAME', 'Authors'),
                         $this->Authors(),
-                        new GridFieldConfig_RecordEditor()
+                        GridFieldConfig_RecordEditor::create()
                     ),
                 ]
             );
@@ -177,6 +154,13 @@ class ArticlesPage extends \Page
                     $this->PinnedArticles(),
                     $this->getGridConfig('PinnedSort')
                 )
+            );
+
+            $fields->addFieldsToTab(
+                'Root.Settings',
+                [
+                    TextField::create('RelatedArticlesTitle', 'Title above related articles'),
+                ]
             );
         });
 
