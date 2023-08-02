@@ -82,4 +82,9 @@ class ArticleThemePage extends \Page
 
         return false;
     }
+
+    public function getFilterSlug(): string
+    {
+        return $this->URLSegment;
+    }
 }

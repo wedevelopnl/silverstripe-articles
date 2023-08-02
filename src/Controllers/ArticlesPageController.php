@@ -4,6 +4,7 @@ namespace WeDevelop\Articles\Controllers;
 
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\View\Requirements;
 use WeDevelop\Articles\ArticleFilterForm;
 use WeDevelop\Articles\Pages\ArticlePage;
 use WeDevelop\Articles\Pages\ArticlesPage;
@@ -54,6 +55,8 @@ class ArticlesPageController extends \PageController
     public function init(): void
     {
         parent::init();
+
+        Requirements::javascript('wedevelopnl/silverstripe-articles:client/dist/main.js');
 
         $this->articles = $this->getArticleDataList();
 
