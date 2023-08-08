@@ -73,4 +73,9 @@ class ArticleTypePage extends \Page
     {
         return ArticleTypePageController::class;
     }
+
+    public function getFilterSlug(): string
+    {
+        return $this->URLSegment;
+    }
 }
