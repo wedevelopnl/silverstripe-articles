@@ -92,7 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const articleFilterForm = document.getElementById('ArticleFilterForm');
 
-  articleFilterForm.addEventListener('submit', (e) => {
+  articleFilterForm?.addEventListener('submit', (e) => {
     const { target } = e;
     const formData = {};
 
