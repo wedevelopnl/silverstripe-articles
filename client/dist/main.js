@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', function () {
     });
   }
   var articleFilterForm = document.getElementById('ArticleFilterForm');
-  articleFilterForm.addEventListener('submit', function (e) {
+  articleFilterForm?.addEventListener('submit', function (e) {
     var target = e.target;
     var formData = {};
     for (var i = 0; i < target.length; i += 1) {
