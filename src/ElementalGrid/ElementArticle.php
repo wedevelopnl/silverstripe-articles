@@ -81,7 +81,7 @@ class ElementArticle extends BaseElement
                 TreeDropdownField::create(
                     'ArticlePageID',
                     _t(__CLASS__ . '.ARTICLETOSHOW', 'Article to show'),
-                    ArticlePage::class
+                    SiteTree::class
                 ),
                 CheckboxField::create(
                     'ShowMoreArticlesButton',
