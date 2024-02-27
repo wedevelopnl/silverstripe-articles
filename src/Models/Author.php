@@ -2,49 +2,43 @@
 
 namespace WeDevelop\Articles\Models;
 
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\Assets\Image;
 use WeDevelop\Articles\ElementalGrid\ElementArticles;
 use WeDevelop\Articles\Pages\ArticlesPage;
 
 class Author extends DataObject
 {
-    /**
-     * @var string
-     */
-    private static $table_name = 'WeDevelop_Author';
+    /** @config */
+    private static string $table_name = 'WeDevelop_Author';
+
+    /** @config */
+    private static string $singular_name = 'Author';
+
+    /** @config */
+    private static string $plural_name = 'Authors';
+
+    /** @config */
+    private static string $icon_class = 'font-icon-block-user';
 
     /**
-     * @var string
+     * @config
+     * @var array<string, string>
      */
-    private static $singular_name = 'Author';
-
-    /**
-     * @var string
-     */
-    private static $plural_name = 'Authors';
-
-    /**
-     * @var string
-     */
-    private static $icon_class = 'font-icon-block-user';
-
-    /**
-     * @var array
-     */
-    private static $summary_fields = [
+    private static array $summary_fields = [
         'Title' => 'Name',
     ];
 
     /**
-     * @var array
+     * @config
+     * @var array<string, string>
      */
-    private static $db = [
+    private static array $db = [
         'Title' => 'Varchar(255)',
         'Slug' => 'Varchar(255)',
         'Function' => 'Varchar',
@@ -57,24 +51,27 @@ class Author extends DataObject
     ];
 
     /**
-     * @var array
+     * @config
+     * @var array<string, class-string>
      */
-    private static $has_one = [
+    private static array $has_one = [
         'ArticlesPage' => ArticlesPage::class,
         'Image' => Image::class,
     ];
 
     /**
-     * @var array
+     * @config
+     * @var array<string, class-string>
      */
-    private static $many_many = [
+    private static array $many_many = [
         'ElementArticles' => ElementArticles::class,
     ];
 
     /**
-     * @var array
+     * @config
+     * @var array<string>
      */
-    private static $owns = [
+    private static array $owns = [
         'Image',
     ];
 
@@ -103,10 +100,10 @@ class Author extends DataObject
                     TextField::create('Function', 'Function'),
                     UploadField::create('Image', 'Image')->setFolderName('Authors'),
                     HTMLEditorField::create('Bio', 'Bio')->setRows(5),
-                    HeaderField::create('', 'Contact details'),
+                    HeaderField::create('ContactDetails', 'Contact details'),
                     TextField::create('Phone', 'Phone'),
                     TextField::create('Email', 'E-mailaddress'),
-                    HeaderField::create('', 'Social media'),
+                    HeaderField::create('SocialMedia', 'Social media'),
                     TextField::create('FacebookURL', 'Facebook URL'),
                     TextField::create('TwitterURL', 'Twitter URL'),
                     TextField::create('LinkedInURL', 'LinkedIn URL'),
