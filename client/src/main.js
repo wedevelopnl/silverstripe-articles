@@ -28,6 +28,11 @@ window.addEventListener('DOMContentLoaded', () => {
         params.set(keyName, query[keyName].join(','));
       }
     });
+
+    if (params.has('p')) {
+      params.delete('p');
+    }
+
     const queryString = params.toString();
 
     if (queryString) {
