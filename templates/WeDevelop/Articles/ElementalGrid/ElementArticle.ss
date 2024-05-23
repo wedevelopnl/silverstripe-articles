@@ -5,8 +5,8 @@
 <% if $ArticlePage %>
     <% with $ArticlePage %>
         <h4>$Title</h4>
-        Reading Time: $Author.ReadingTime<br />
-        Author: $Author.Name<br />
+        Reading Time: $ArticleAuthor.ReadingTime<br />
+        Author: $ArticleAuthor.Name<br />
     <% end_with %>
 <% else %>
     <p><%t WeDevelop\Articles\ElementalGrid\ElementArticle.NOARTICLEFOUND "No article found" %></p>
