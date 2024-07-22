@@ -70,7 +70,7 @@ class ArticlePage extends \Page
         'PinnedArticles' => ArticlesPage::class . '.PinnedArticles',
     ];
 
-    private static string $default_sort = 'PublicationDate DESC';
+//    private static string $default_sort = 'PublicationDate DESC';
 
     public function getCMSFields(): FieldList
     {
@@ -90,14 +90,13 @@ class ArticlePage extends \Page
             ]);
 
             $fields->insertAfter(
-                'URLSegment',
+                'Title',
                 TextField::create('Subtitle', _t(__CLASS__ . '.SUBTITLE', 'Subtitle'))
             );
 
             $fields->replaceField('Content', HTMLEditorField::create('Content'));
 
-            $fields->insertAfter(
-                'Subtitle',
+            $fields->addFieldsToTab('Root.Metadata', [
                 FieldGroup::create(
                     [
                         TextField::create('ReadingTime', _t(__CLASS__ . '.READINGTIME', 'Reading time (in min.)')),
@@ -105,22 +104,14 @@ class ArticlePage extends \Page
                         DatetimeField::create('UpdatedDate', _t(__CLASS__ . '.UPDATEDATE', 'Update date')),
                     ]
                 )
-                ->setName('ArticleMetadata')
-                ->setTitle(_t(__CLASS__ . '.METADATA', 'Metadata'))
-            );
-
-            $fields->insertAfter(
-                'ArticleMetadata',
+                    ->setName('ArticleMetadata')
+                    ->setTitle(_t(__CLASS__ . '.METADATA', 'Metadata')),
                 TagField::create(
                     'Themes',
                     _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                     ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                     $this->Themes()
-                )->setCanCreate(false)
-            );
-
-            $fields->insertAfter(
-                'Themes',
+                )->setCanCreate(false),
                 TagField::create(
                     'Tags',
                     _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'),
@@ -130,11 +121,7 @@ class ArticlePage extends \Page
                         ]
                     ),
                     $this->Tags()
-                )
-            );
-
-            $fields->insertAfter(
-                'Tags',
+                ),
                 DropdownField::create(
                     'AuthorID',
                     _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
@@ -144,11 +131,7 @@ class ArticlePage extends \Page
                         ]
                     )
                 )
-                ->setHasEmptyDefault(true)
-            );
-
-            $fields->insertAfter(
-                'AuthorID',
+                    ->setHasEmptyDefault(true),
                 DropdownField::create(
                     'TypeID',
                     _t('WeDevelop\Articles\Pages\ArticleTypePage.SINGULARNAME', 'Type'),
@@ -158,17 +141,13 @@ class ArticlePage extends \Page
                         ]
                     )
                 )
-                ->setHasEmptyDefault(true)
-            );
-
-            $fields->insertAfter(
-                'TypeID',
+                    ->setHasEmptyDefault(true),
                 HTMLEditorField::create(
                     'TeaserText',
                     _t(__CLASS__ . '.TEASERTEXT', 'Teaser text')
                 )
-                ->setRows(5)
-            );
+                    ->setRows(5),
+            ]);
 
             $fields->insertAfter(
                 'TeaserText',
@@ -181,8 +160,10 @@ class ArticlePage extends \Page
         });
 
         $fields = parent::getCMSFields();
+        
         $this->extend('onAfterUpdateCMSFields', $fields);
-        return  $fields;
+        
+        return $fields;
     }
 
     public function getControllerName(): string
