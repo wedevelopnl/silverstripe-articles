@@ -17,6 +17,7 @@ use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\TagField\TagField;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use WeDevelop\Articles\Controllers\ArticlePageController;
 use WeDevelop\Articles\Controllers\ArticlesPageController;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\Tag;
@@ -112,6 +113,7 @@ class ArticlePage extends \Page
                     ArticleThemePage::get()->filter('ParentID', $this->ParentID),
                     $this->Themes()
                 )->setCanCreate(false),
+
                 TagField::create(
                     'Tags',
                     _t('WeDevelop\Articles\Models\Tag.PLURALNAME', 'Tags'),
@@ -122,6 +124,7 @@ class ArticlePage extends \Page
                     ),
                     $this->Tags()
                 ),
+
                 DropdownField::create(
                     'AuthorID',
                     _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
@@ -160,15 +163,13 @@ class ArticlePage extends \Page
         });
 
         $fields = parent::getCMSFields();
-        
         $this->extend('onAfterUpdateCMSFields', $fields);
-        
-        return $fields;
+        return  $fields;
     }
 
     public function getControllerName(): string
     {
-        return ArticlesPageController::class;
+        return ArticlePageController::class;
     }
 
     protected function onBeforeWrite(): void
