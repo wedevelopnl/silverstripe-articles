@@ -56,7 +56,6 @@ class ArticlesPage extends \Page
     private static string $default_child = ArticlePage::class;
 
     private static array $db = [
-        'RelatedArticlesTitle' => 'Varchar',
         'PageLength' => 'Int',
     ];
 
@@ -152,13 +151,6 @@ class ArticlesPage extends \Page
                     $this->PinnedArticles(),
                     $this->getGridConfig('PinnedSort')
                 )
-            );
-
-            $fields->addFieldsToTab(
-                'Root.Settings',
-                [
-                    TextField::create('RelatedArticlesTitle', 'Title above related articles'),
-                ]
             );
         });
 
