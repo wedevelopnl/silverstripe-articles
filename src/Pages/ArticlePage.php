@@ -71,7 +71,7 @@ class ArticlePage extends \Page
     private static array $has_one = [
         'Thumbnail' => Image::class,
         'Type' => ArticleTypePage::class,
-        'Author' => Author::class,
+        'ArticleAuthor' => Author::class,
     ];
 
     /**
@@ -157,7 +157,7 @@ class ArticlePage extends \Page
                 ),
 
                 DropdownField::create(
-                    'AuthorID',
+                    'ArticleAuthorID',
                     _t('WeDevelop\Articles\Models\Author.SINGULARNAME', 'Author'),
                     Author::get()->filter(
                         [
