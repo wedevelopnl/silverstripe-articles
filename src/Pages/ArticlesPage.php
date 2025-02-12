@@ -2,8 +2,6 @@
 
 namespace WeDevelop\Articles\Pages;
 
-use SilverStripe\Forms\TextField;
-use WeDevelop\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
@@ -26,6 +24,7 @@ use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldAddExistingAutocomplete
 use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldDeleteAction;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\Tag;
+use WeDevelop\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 
 /**
  * Class ArticlesPage
@@ -39,40 +38,72 @@ use WeDevelop\Articles\Models\Tag;
  */
 class ArticlesPage extends \Page
 {
+    /** @config */
     private static string $table_name = 'WeDevelop_ArticlesPage';
 
+    /** @config */
     private static string $singular_name = 'Articles overview page';
 
+    /** @config */
     private static string $plural_name = 'Articles overview pages';
 
+    /** @config */
     private static string $icon_class = 'font-icon-p-article';
 
+    /**
+     * @config
+     * @var array<class-string>
+     */
     private static array $allowed_children = [
         ArticlePage::class,
         ArticleThemePage::class,
         ArticleTypePage::class,
     ];
 
+    /**
+     * @config
+     * @var class-string
+     */
     private static string $default_child = ArticlePage::class;
 
+    /**
+     * @config
+     * @var array<string, string>
+     */
     private static array $db = [
         'PageLength' => 'Int',
     ];
 
+    /**
+     * @config
+     * @var array<string, mixed>
+     */
     private static array $defaults = [
         'PageLength' => 10,
     ];
 
+    /**
+     * @config
+     * @var array<string, class-string>
+     */
     private static array $has_many = [
         'Tags' => Tag::class,
         'Authors' => Author::class,
     ];
 
+    /**
+     * @config
+     * @var array<string, class-string>
+     */
     private static array $many_many = [
         'HighlightedArticles' => ArticlePage::class,
         'PinnedArticles' => ArticlePage::class,
     ];
 
+    /**
+     * @config
+     * @var array<string, array<string, string>>
+     */
     private static array $many_many_extraFields = [
         'HighlightedArticles' => [
             'HighlightedSort' => 'Int',

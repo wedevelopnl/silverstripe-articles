@@ -18,28 +18,42 @@ use SilverStripe\TagField\TagField;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WeDevelop\Articles\Controllers\ArticlePageController;
-use WeDevelop\Articles\Controllers\ArticlesPageController;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\Tag;
 
 class ArticlePage extends \Page
 {
+    /** @config */
     private static string $table_name = 'WeDevelop_ArticlePage';
 
+    /** @config */
     private static string $singular_name = 'Article page';
 
+    /** @config */
     private static string $description = 'A page that represents an article';
 
+    /** @config */
     private static string $plural_name = 'Articles page';
 
+    /** @config */
     private static string $icon_class = 'font-icon-p-article';
 
+    /** @config */
     private static bool $show_in_sitetree = false;
 
+    /** @config */
     private static bool $can_be_root = false;
 
+    /**
+     * @config
+     * @var array<class-string>
+     */
     private static array $allowed_children = [];
 
+    /**
+     * @config
+     * @var array<string, string>
+     */
     private static array $db = [
         'Subtitle' => 'Varchar(255)',
         'PublicationDate' => 'Datetime',
@@ -50,20 +64,36 @@ class ArticlePage extends \Page
         'Highlighted' => 'Boolean',
     ];
 
+    /**
+     * @config
+     * @var array<string, class-string>
+     */
     private static array $has_one = [
         'Thumbnail' => Image::class,
         'Type' => ArticleTypePage::class,
         'Author' => Author::class,
     ];
 
+    /**
+     * @config
+     * @var array<string, class-string>
+     */
     private static array $many_many = [
         'RelatedArticles' => ArticlePage::class,
     ];
 
+    /**
+     * @config
+     * @var array<string>
+     */
     private static array $owns = [
         'Thumbnail',
     ];
 
+    /**
+     * @config
+     * @var array<string, class-string|string>
+     */
     private static array $belongs_many_many = [
         'Tags' => Tag::class,
         'Themes' => ArticleThemePage::class,
@@ -71,7 +101,8 @@ class ArticlePage extends \Page
         'PinnedArticles' => ArticlesPage::class . '.PinnedArticles',
     ];
 
-//    private static string $default_sort = 'PublicationDate DESC';
+    /** @config */
+    private static string $default_sort = 'PublicationDate DESC';
 
     public function getCMSFields(): FieldList
     {
