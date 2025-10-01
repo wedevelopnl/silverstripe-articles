@@ -2,8 +2,8 @@
 
 namespace WeDevelop\Articles\Controllers;
 
-use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\View\Requirements;
 use WeDevelop\Articles\ArticleFilterForm;
 use WeDevelop\Articles\Pages\ArticlePage;
@@ -19,16 +19,16 @@ use WeDevelop\Articles\Services\ArticleFilterService;
 class ArticlesPageController extends \PageController
 {
     /**
-     * @var DataList
+     * @var SS_List
      */
     protected $articles;
 
-    public function getThemes(): ?DataList
+    public function getThemes(): ?SS_List
     {
         return $this->data()->hasMethod('getThemes') ? $this->data()->getThemes() : null;
     }
 
-    public function getTypes(): ?DataList
+    public function getTypes(): ?SS_List
     {
         return $this->data()->hasMethod('getTypes') ? $this->data()->getTypes() : null;
     }
@@ -43,7 +43,7 @@ class ArticlesPageController extends \PageController
         return $this;
     }
 
-    protected function getArticleDataList(): ?DataList
+    protected function getArticleDataList(): ?SS_List
     {
         $articles = ArticlePage::get()->filter('ParentID', $this->data()->ID);
 
@@ -84,7 +84,7 @@ class ArticlesPageController extends \PageController
         return $pagination;
     }
 
-    public function getArticles(): ?DataList
+    public function getArticles(): ?SS_List
     {
         return $this->articles;
     }

@@ -2,7 +2,7 @@
 
 namespace WeDevelop\Articles\Controllers;
 
-use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\SS_List;
 use WeDevelop\Articles\Pages\ArticleTypePage;
 
 /**
@@ -18,12 +18,12 @@ class ArticleTypePageController extends ArticlesPageController
         return $this;
     }
 
-    public function getThemes(): ?DataList
+    public function getThemes(): ?SS_List
     {
         return $this->data()->getParent()->getThemes();
     }
 
-    protected function getArticleDataList(): ?DataList
+    protected function getArticleDataList(): ?SS_List
     {
         $articles = $this->data()->getComponents('Articles');
 

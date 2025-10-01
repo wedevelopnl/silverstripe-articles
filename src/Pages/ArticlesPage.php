@@ -13,10 +13,10 @@ use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
-use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WeDevelop\Articles\Controllers\ArticlesPageController;
@@ -229,12 +229,12 @@ class ArticlesPage extends \Page
         return _t(__CLASS__ . '.ARTICLES', 'Articles');
     }
 
-    private function createGridField(string $type, string $title, DataList $list): GridField
+    private function createGridField(string $type, string $title, SS_List $list): GridField
     {
         return GridField::create($type, $title, $list, GridFieldConfig_Lumberjack::create());
     }
 
-    public function getThemes(): DataList
+    public function getThemes(): SS_List
     {
         return ArticleThemePage::get()->filter(
             [
@@ -243,7 +243,7 @@ class ArticlesPage extends \Page
         );
     }
 
-    public function getTypes(): DataList
+    public function getTypes(): SS_List
     {
         return ArticleTypePage::get()->filter(
             [
