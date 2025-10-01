@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WeDevelop\Articles\Services;
 
-use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\SS_List;
 use WeDevelop\Articles\Filters\TagFilter;
 use WeDevelop\Articles\Filters\ThemeFilter;
 use WeDevelop\Articles\Filters\TypeFilter;
@@ -12,11 +12,11 @@ use WeDevelop\Articles\Filters\TypeFilter;
 final class ArticleFilterService
 {
     /**
-     * @var DataList
+     * @var SS_List
      */
     private $articles;
 
-    public function __construct(DataList $articles)
+    public function __construct(SS_List $articles)
     {
         $this->articles = $articles;
     }
@@ -39,7 +39,7 @@ final class ArticleFilterService
         $this->articles = $typeFilter->apply($types, $this->articles);
     }
 
-    public function getArticles(): DataList
+    public function getArticles(): SS_List
     {
         return $this->articles;
     }

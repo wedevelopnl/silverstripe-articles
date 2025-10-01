@@ -9,8 +9,8 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
-use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\TagField\TagField;
 use UncleCheese\DisplayLogic\Forms\Wrapper;
 use WeDevelop\Articles\Models\Author;
@@ -172,7 +172,7 @@ class ElementArticles extends BaseElement
         return 'Articles overview';
     }
 
-    public function getArticles(): ?DataList
+    public function getArticles(): ?SS_List
     {
         $articles = ArticlePage::get()->filter('ParentID', $this->ArticlesPage()->ID);
 
@@ -187,7 +187,7 @@ class ElementArticles extends BaseElement
         return null;
     }
 
-    private function applyFilters(DataList $articles): DataList
+    private function applyFilters(SS_List $articles): SS_List
     {
         $filterService = new ArticleFilterService($articles);
 

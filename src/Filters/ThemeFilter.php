@@ -3,12 +3,13 @@
 namespace WeDevelop\Articles\Filters;
 
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\SS_List;
 use WeDevelop\Articles\Interfaces\FilterInterface;
 use WeDevelop\Articles\Pages\ArticleThemePage;
 
 final class ThemeFilter implements FilterInterface
 {
-    public function apply(array $items, DataList $dataList): DataList
+    public function apply(array $items, SS_List $dataList): SS_List
     {
         $themes = $this->getActiveItems($items);
 
@@ -19,7 +20,7 @@ final class ThemeFilter implements FilterInterface
         return $dataList->filter('Themes.ID', $themes->column('ID'));
     }
 
-    public function getActiveItems(array $items): DataList
+    public function getActiveItems(array $items): SS_List
     {
         if (empty($items)) {
             return new DataList(ArticleThemePage::class);
