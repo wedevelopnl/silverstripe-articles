@@ -1,6 +1,7 @@
 {
     "name": "wedevelopnl/silverstripe-articles",
     "description": "Articles module",
+    "type": "silverstripe-vendormodule",
     "keywords": [
         "silverstripe",
         "articles",
