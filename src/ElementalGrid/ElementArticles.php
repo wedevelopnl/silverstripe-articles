@@ -202,7 +202,7 @@ class ElementArticles extends BaseElement
         $articles = $filterService->getArticles();
 
         if ($this->Authors()->count()) {
-            $articles = $articles->filter('Author.Slug', $this->Authors()->column('Slug'));
+            $articles = $articles->filter('ArticleAuthor.Slug', $this->Authors()->column('Slug'));
         }
 
         return $articles;

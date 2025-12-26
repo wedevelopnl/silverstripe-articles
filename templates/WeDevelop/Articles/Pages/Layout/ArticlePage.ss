@@ -20,8 +20,8 @@
                 <li><%t Type.Singular "Type" %>: $Type.Title</li>
             <% end_if %>
         </ul>
-        <% if $AuthorName %>
-            <span>$AuthorName</span><br/>
+        <% if $ArticleAuthor.Title %>
+            <span>$ArticleAuthor.Title</span><br/>
         <% end_if %>
         <hr />
         $Content
