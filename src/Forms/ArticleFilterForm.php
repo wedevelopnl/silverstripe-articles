@@ -61,10 +61,7 @@ class ArticleFilterForm extends Form
         $this->disableSecurityToken();
     }
 
-    /**
-     * @return DBHTMLText
-     */
-    public function forTemplate()
+    public function forTemplate(): string
     {
         Requirements::javascript('wedevelopnl/silverstripe-articles:client/dist/main.js');
 

@@ -16,7 +16,7 @@ use SilverStripe\Lumberjack\Forms\GridFieldConfig_Lumberjack;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\Versioned\GridFieldArchiveAction;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WeDevelop\Articles\Controllers\ArticlesPageController;

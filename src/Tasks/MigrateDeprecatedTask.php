@@ -5,6 +5,9 @@ namespace WeDevelop\Articles\Tasks;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectInterface;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\DeprecatedAuthor;
 use WeDevelop\Articles\Models\DeprecatedTag;
@@ -20,13 +23,13 @@ use WeDevelop\Articles\Pages\DeprecatedArticleTypePage;
 
 class MigrateDeprecatedTask extends BuildTask
 {
-    protected $title = 'Migrate data after changing namespace';
+    protected string $title = 'Migrate data after changing namespace';
 
-    private static string $segment = 'migrate-deprecated';
+    protected static string $commandName = 'migrate-deprecated';
 
-    protected $description = 'Migrate data from (The)Webmen_ to WeDevelop_ tables';
+    protected static string $description = 'Migrate data from (The)Webmen_ to WeDevelop_ tables';
 
-    public function run($request)
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $deprecatedMapping = [
             'pages' => [
@@ -58,5 +61,7 @@ class MigrateDeprecatedTask extends BuildTask
             }
             print("{$ct} records updated.\n");
         }
+
+        return Command::SUCCESS;
     }
 }

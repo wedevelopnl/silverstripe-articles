@@ -2,8 +2,8 @@
 
 namespace WeDevelop\Articles\Controllers;
 
-use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\PaginatedList;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\View\Requirements;
 use WeDevelop\Articles\ArticleFilterForm;
 use WeDevelop\Articles\Pages\ArticlePage;

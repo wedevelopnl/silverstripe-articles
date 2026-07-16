@@ -2,7 +2,7 @@
 
 namespace WeDevelop\Articles\Filters;
 
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use WeDevelop\Articles\Interfaces\FilterInterface;
 use WeDevelop\Articles\Models\Tag;
 

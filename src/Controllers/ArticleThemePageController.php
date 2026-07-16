@@ -2,7 +2,7 @@
 
 namespace WeDevelop\Articles\Controllers;
 
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use WeDevelop\Articles\Pages\ArticleThemePage;
 
 /**

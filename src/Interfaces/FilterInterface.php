@@ -3,7 +3,7 @@
 namespace WeDevelop\Articles\Interfaces;
 
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 
 interface FilterInterface
 {

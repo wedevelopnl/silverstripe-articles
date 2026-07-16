@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WeDevelop\Articles\Services;
 
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\SS_List;
 use WeDevelop\Articles\Filters\TagFilter;
 use WeDevelop\Articles\Filters\ThemeFilter;
 use WeDevelop\Articles\Filters\TypeFilter;
