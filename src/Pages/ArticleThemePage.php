@@ -5,7 +5,6 @@ namespace WeDevelop\Articles\Pages;
 use SilverStripe\Control\Controller;
 use WeDevelop\Articles\Controllers\ArticlesPageController;
 use WeDevelop\Articles\Controllers\ArticleThemePageController;
-use WeDevelop\Articles\ElementalGrid\ElementArticles;
 
 class ArticleThemePage extends \Page
 {
@@ -61,7 +60,6 @@ class ArticleThemePage extends \Page
      */
     private static $many_many = [
         'Articles' => ArticlePage::class,
-        'ElementArticles' => ElementArticles::class,
     ];
 
     public function getControllerName(): string

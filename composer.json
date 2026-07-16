@@ -16,13 +16,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
-        "silverstripe/framework": "^5.0",
-        "silverstripe/vendor-plugin": "^2.0",
-        "silverstripe/lumberjack": "^3.0",
-        "silverstripe/tagfield": "^3.0",
-        "unclecheese/display-logic": "^3.0",
-        "wedevelopnl/silverstripe-gridfieldsitetreebuttons": "^1.0"
+        "php": "^8.3",
+        "silverstripe/framework": "^6.0",
+        "silverstripe/vendor-plugin": "^3.0",
+        "silverstripe/lumberjack": "^4.1",
+        "silverstripe/tagfield": "^4.1",
+        "unclecheese/display-logic": "^4.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.20"

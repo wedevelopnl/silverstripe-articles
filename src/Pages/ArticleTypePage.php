@@ -3,7 +3,6 @@
 namespace WeDevelop\Articles\Pages;
 
 use WeDevelop\Articles\Controllers\ArticleTypePageController;
-use WeDevelop\Articles\ElementalGrid\ElementArticles;
 
 class ArticleTypePage extends \Page
 {
@@ -66,7 +65,6 @@ class ArticleTypePage extends \Page
      */
     private static $many_many = [
         'Articles' => ArticlePage::class,
-        'ElementArticles' => ElementArticles::class,
     ];
 
     public function getControllerName(): string

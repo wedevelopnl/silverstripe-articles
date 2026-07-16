@@ -9,7 +9,6 @@ use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
-use WeDevelop\Articles\ElementalGrid\ElementArticles;
 use WeDevelop\Articles\Pages\ArticlesPage;
 
 class Author extends DataObject
@@ -57,14 +56,6 @@ class Author extends DataObject
     private static array $has_one = [
         'ArticlesPage' => ArticlesPage::class,
         'Image' => Image::class,
-    ];
-
-    /**
-     * @config
-     * @var array<string, class-string>
-     */
-    private static array $many_many = [
-        'ElementArticles' => ElementArticles::class,
     ];
 
     /**
