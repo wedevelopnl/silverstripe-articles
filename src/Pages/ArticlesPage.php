@@ -250,8 +250,9 @@ class ArticlesPage extends \Page
     public function getTitle(): string
     {
         $controller = Controller::curr();
-        $activeTagFilter = $controller->getRequest()->getVar('tag');
+        $activeTagFilter = $controller ? $controller->getRequest()->getVar('tag') : null;
 
+        $tag = null;
         if ($activeTagFilter) {
             $tag = Tag::get()->filter('Slug', $activeTagFilter)->first();
         }
