@@ -24,7 +24,6 @@ use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldAddExistingAutocomplete
 use WeDevelop\Articles\GridFieldActions\ArticlesGridFieldDeleteAction;
 use WeDevelop\Articles\Models\Author;
 use WeDevelop\Articles\Models\Tag;
-use WeDevelop\SiteTreeButtons\GridFieldAddNewSiteTreeItemButton;
 
 /**
  * Class ArticlesPage
@@ -128,8 +127,6 @@ class ArticlesPage extends \Page
                     _t('WeDevelop\Articles\Pages\ArticleThemePage.PLURALNAME', 'Themes'),
                     ArticleThemePage::get()->filter('ParentID', $this->ID),
                     GridFieldConfig_RecordEditor::create()
-                        ->removeComponentsByType(GridFieldAddNewButton::class)
-                        ->addComponent(new GridFieldAddNewSiteTreeItemButton())
                 ),
             );
 
@@ -140,8 +137,6 @@ class ArticlesPage extends \Page
                     _t('WeDevelop\Articles\Pages\ArticleTypePage.PLURALNAME', 'Types'),
                     ArticleTypePage::get()->filter('ParentID', $this->ID),
                     GridFieldConfig_RecordEditor::create()
-                        ->removeComponentsByType(GridFieldAddNewButton::class)
-                        ->addComponent(new GridFieldAddNewSiteTreeItemButton())
                 ),
             );
 
