@@ -184,7 +184,7 @@ class ArticlesPage extends \Page
 
         $fields->removeByName(['PageLength']);
 
-        $fields->addFieldsToTab('Root.ChildPages', NumericField::create('PageLength'), 'ChildPages');
+        $fields->addFieldsToTab('Root.ChildPages', [NumericField::create('PageLength')], 'ChildPages');
 
         return $fields;
     }
